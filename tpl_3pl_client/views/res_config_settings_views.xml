@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_tpl3pl" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.tpl3pl</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="3PL Integration" string="3PL Integration"
+                     name="tpl_3pl_client" groups="base.group_system">
+                    <block title="3PL Server Connection">
+                        <setting string="Server URL"
+                                 help="Base URL of the 3PL server, e.g. http://192.168.1.65:8069">
+                            <field name="tpl3pl_server_url"
+                                   placeholder="http://192.168.1.65:8069"/>
+                        </setting>
+                        <setting string="API Key"
+                                 help="API key issued by 3PL for this client">
+                            <field name="tpl3pl_api_key" password="True"/>
+                        </setting>
+                        <setting string="Webhook Secret"
+                                 help="Secret for verifying incoming webhooks from 3PL">
+                            <field name="tpl3pl_webhook_secret" password="True"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

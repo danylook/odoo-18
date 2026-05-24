@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="payment_provider_mercado_pago_uy" model="payment.provider">
+        <field name="name">Mercado Pago Uruguay</field>
+        <field name="image_128"
+               type="base64"
+               file="payment_mercado_pago_uruguay/static/description/icon.png"/>
+        <field name="module_id" ref="base.module_payment_mercado_pago_uruguay"/>
+
+         <!-- Payment methods must be fetched from the API. See
+            https://www.mercadopago.com.ar/developers/en/reference/payment_methods/_payment_methods/
+        -->
+        <field name="payment_method_ids"
+               eval="[Command.set([
+                         ref('payment.payment_method_card'),
+                         ref('payment.payment_method_bank_transfer'),
+                         ref('payment.payment_method_paypal'),
+                     ])]"
+        />
+    </record>
+    <record id="payment_provider_mercado_pago_uy" model="payment.provider">
+        <field name="code">mercado_pago_uy</field>
+        <field name="redirect_form_view_id" ref="redirect_form"/>
+    </record>
+    
+
+</odoo>

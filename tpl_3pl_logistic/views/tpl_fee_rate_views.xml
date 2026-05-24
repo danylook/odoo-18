@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tpl_fee_rate_form" model="ir.ui.view">
+        <field name="name">tpl.fee.rate.form</field>
+        <field name="model">tpl.fee.rate</field>
+        <field name="arch" type="xml">
+            <form string="Fee Rate">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Cat 1: Ground"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="daily_rate"/>
+                            <field name="monthly_rate"/>
+                            <field name="currency_id"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Locations">
+                            <field name="location_ids" readonly="1">
+                                <list>
+                                    <field name="complete_name"/>
+                                    <field name="usage"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tpl_fee_rate_list" model="ir.ui.view">
+        <field name="name">tpl.fee.rate.list</field>
+        <field name="model">tpl.fee.rate</field>
+        <field name="arch" type="xml">
+            <list string="Fee Rates">
+                <field name="name"/>
+                <field name="daily_rate"/>
+                <field name="monthly_rate"/>
+                <field name="currency_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tpl_fee_rate" model="ir.actions.act_window">
+        <field name="name">Fee Rates</field>
+        <field name="res_model">tpl.fee.rate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

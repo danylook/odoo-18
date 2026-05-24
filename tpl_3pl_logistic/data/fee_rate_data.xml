@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="fee_rate_ground" model="tpl.fee.rate">
+        <field name="name">Cat 1: Ground</field>
+        <field name="daily_rate">0.35</field>
+        <field name="monthly_rate">10.50</field>
+    </record>
+    <record id="fee_rate_highbay" model="tpl.fee.rate">
+        <field name="name">Cat 2: High-Bay</field>
+        <field name="daily_rate">0.55</field>
+        <field name="monthly_rate">16.50</field>
+    </record>
+</odoo>

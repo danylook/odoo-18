@@ -1,0 +1,11 @@
+3PL Operator Portal — https://3pl.ecolight.com.uy database 3pl
+User	Type	Login	Password
+ecoprueba sa Portal	Portal	ecoprueba.portal@3pl.com	ecoprueba123
+
+3PL Backend — https://3pl.ecolight.com.uy database 3pl
+User	Type	Login
+Administrator	Internal	admin Admin@1234
+
+Ecolight Client — https://3pl-cliente.ecolight.com.uy database 3pl-cliente
+User	Type	Login	Password
+Administrator	Internal	admin	Admin@1234

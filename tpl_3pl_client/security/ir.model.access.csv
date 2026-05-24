@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tpl_3pl_stock_manager,tpl.3pl.stock manager,model_tpl_3pl_stock,base.group_system,1,1,1,1
+access_tpl_3pl_stock_user,tpl.3pl.stock user,model_tpl_3pl_stock,base.group_user,1,0,0,0
+access_tpl_3pl_order_push_user,tpl.3pl.order.push user,model_tpl_3pl_order_push,base.group_user,1,1,1,1
+access_tpl_3pl_order_push_line_user,tpl.3pl.order.push.line user,model_tpl_3pl_order_push_line,base.group_user,1,1,1,1

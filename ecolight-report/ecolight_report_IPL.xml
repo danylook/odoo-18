@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_package_label_TXT" >
+                <t t-foreach="docs" t-as="o">
+                    <t t-translation="off">
+                        <t t-if="o.has_packages" name="has_packages">
+                            <t t-set="packages" t-value="o.move_line_ids.mapped('result_package_id')"/>
+                            <t t-set="counter" t-value="0"/>
+                            <t t-foreach="packages" t-as="package">
+                                <t t-set="counter" t-value="counter + 1"/>
+                                <t t-set="package_move_lines" t-value="o.move_line_ids.filtered(lambda l: l.result_package_id == package)"/>
+
+&lt;STX&gt;&lt;ESC&gt;C&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;P&lt;ETX&gt;
+&lt;STX&gt;E4;F4;&lt;ETX&gt;
+&lt;STX&gt;L1;o11,609;f0;l1157;w4;&lt;ETX&gt;
+&lt;STX&gt;L2;o11,385;f0;l1157;w4;&lt;ETX&gt;
+&lt;STX&gt;W3;o11,71;f0;l1157;h738;w4;&lt;ETX&gt;
+&lt;STX&gt;H4;o970,728;f0;h1;w2;c21;r0;b0;d0,6;&lt;ETX&gt;
+&lt;STX&gt;B5;o658,620;f0;h103;w2;c6,0;i1;r1;d0,13;&lt;ETX&gt;
+&lt;STX&gt;I5;o658,728;f0;h2;w2;c20;r0;b0;&lt;ETX&gt;
+&lt;STX&gt;B6;o87,620;f0;h103;w2;c6,0;i1;r1;d0,13;&lt;ETX&gt;
+&lt;STX&gt;I6;o87,728;f0;h2;w2;c20;r0;b0;&lt;ETX&gt;
+&lt;STX&gt;H7;o34,213;f0;h1;w2;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H8;o34,253;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H9;o34,293;f0;h1;w1;c21;r0;b0;d0,37;&lt;ETX&gt;
+&lt;STX&gt;H10;o855,293;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H11;o855,333;f0;h1;w1;c21;r0;b0;d0,17;;&lt;ETX&gt;
+&lt;STX&gt;H12;o34,333;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H13;o34,173;f0;h1;w1;c21;r0;b0;d3,Remitente:;&lt;ETX&gt;
+&lt;STX&gt;H14;o559,150;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H15;o559,110;f0;h1;w1;c21;r0;b0;d3,Agencia:;&lt;ETX&gt;
+&lt;STX&gt;H16;o34,433;f0;h1;w2;c21;r0;b0;d0,25;&lt;ETX&gt;
+&lt;STX&gt;H17;o34,473;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H18;o34,513;f0;h1;w1;c21;r0;b0;d0,37;&lt;ETX&gt;
+&lt;STX&gt;H19;o34,553;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H20;o855,513;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H21;o855,553;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H22;o34,383;f0;h1;w1;c21;r0;b0;d3,Destinatario:;&lt;ETX&gt;
+&lt;STX&gt;H23;o21,83;f0;h31;w20;c25;r0;b3;d3, ETIQUETA DE ENVIO ;&lt;ETX&gt;
+&lt;STX&gt;L24;o11,609;f0;l1157;w4;&lt;ETX&gt;
+&lt;STX&gt;R&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;E4&lt;CAN&gt;&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F4&lt;LF&gt;<t t-esc="counter"/>(<t t-esc="len(packages)"/>)&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F5&lt;LF&gt;<t t-esc="package.name"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F6&lt;LF&gt;<t t-esc="o.name"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F7&lt;LF&gt;<t t-esc="o.company_id.partner_id.name"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F8&lt;LF&gt;RUT <t t-esc="o.company_id.partner_id.vat"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F9&lt;LF&gt;DIR: <t t-esc="o.company_id.partner_id.street"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F10&lt;LF&gt;<t t-esc="o.company_id.partner_id.city"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F11&lt;LF&gt;<t t-esc="o.company_id.partner_id.state_id.display_name"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F12&lt;LF&gt;TEL: <t t-esc="o.company_id.partner_id.phone"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F14&lt;LF&gt;<t t-esc="o.partner_id.street2"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F16&lt;LF&gt;<t t-esc="o.partner_id.name"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F17&lt;LF&gt;RUT <t t-esc="o.partner_id.vat" />&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F18&lt;LF&gt;DIR: <t t-esc="o.partner_id.street" /> &lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F19&lt;LF&gt;TEL: <t t-esc="o.partner_id.phone"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F20&lt;LF&gt;<t t-esc="o.partner_id.city"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F21&lt;LF&gt;<t t-esc="o.partner_id.state_id.display_name"/> &lt;ETX&gt;
+&lt;STX&gt;&lt;ETB&gt;&lt;ETX&gt;
+                            </t>
+                        </t>
+                    </t>
+       	        </t>
+        </template>
+        <template id="report_delivery_label_TXT" >
+            <t t-foreach="docs" t-as="o">
+                    <t t-translation="off">
+&lt;STX&gt;&lt;ESC&gt;C&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;P&lt;ETX&gt;
+&lt;STX&gt;E4;F4;&lt;ETX&gt;
+&lt;STX&gt;L1;o11,609;f0;l1157;w4;&lt;ETX&gt;
+&lt;STX&gt;L2;o11,385;f0;l1157;w4;&lt;ETX&gt;
+&lt;STX&gt;W3;o11,71;f0;l1157;h738;w4;&lt;ETX&gt;
+&lt;STX&gt;B4;o658,620;f0;h103;w2;c6,0;i1;r1;d0,13;&lt;ETX&gt;
+&lt;STX&gt;I4;o658,728;f0;h2;w2;c20;r0;b0;&lt;ETX&gt;
+&lt;STX&gt;B5;o87,620;f0;h103;w2;c6,0;i1;r1;d0,13;&lt;ETX&gt;
+&lt;STX&gt;I5;o87,728;f0;h2;w2;c20;r0;b0;&lt;ETX&gt;
+&lt;STX&gt;H6;o34,213;f0;h1;w2;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H7;o34,253;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H8;o34,293;f0;h1;w1;c21;r0;b0;d0,37;&lt;ETX&gt;
+&lt;STX&gt;H9;o855,293;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H10;o855,333;f0;h1;w1;c21;r0;b0;d0,17;;&lt;ETX&gt;
+&lt;STX&gt;H11;o34,333;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H12;o34,173;f0;h1;w1;c21;r0;b0;d3,Remitente:;&lt;ETX&gt;
+&lt;STX&gt;H13;o559,150;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H14;o559,110;f0;h1;w1;c21;r0;b0;d3,Agencia:;&lt;ETX&gt;
+&lt;STX&gt;H15;o34,433;f0;h1;w2;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H16;o34,473;f0;h1;w1;c21;r0;b0;d0,25;&lt;ETX&gt;
+&lt;STX&gt;H17;o34,513;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H18;o34,553;f0;h1;w1;c21;r0;b0;d0,37;&lt;ETX&gt;
+&lt;STX&gt;H19;o855,513;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H20;o855,553;f0;h1;w1;c21;r0;b0;d0,17;&lt;ETX&gt;
+&lt;STX&gt;H21;o34,383;f0;h1;w1;c21;r0;b0;d3,Destinatario:;&lt;ETX&gt;
+&lt;STX&gt;H23;o21,83;f0;h31;w20;c25;r0;b3;d3, ETIQUETA DE ENVIO ;&lt;ETX&gt;
+&lt;STX&gt;L22;o11,609;f0;l1157;w4;&lt;ETX&gt;
+&lt;STX&gt;R&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;E4&lt;CAN&gt;&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F4&lt;LF&gt;Paquete&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F5&lt;LF&gt;Pedido&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F6&lt;LF&gt;<t t-esc="o.company_id.name"/>&lt;ETX&gt;<!--t t-esc="report_company_id.name"/>&lt;ETX&gt;-->
+&lt;STX&gt;&lt;ESC&gt;F7&lt;LF&gt;RUT <t t-esc="o.company_id.vat"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F8&lt;LF&gt;DIR: <t t-esc="o.company_id.street"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F9&lt;LF&gt;<t t-esc="o.company_id.city"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F10&lt;LF&gt;<t t-esc="o.company_id.state_id.display_name"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F11&lt;LF&gt;TEL: <t t-esc="o.company_id.phone"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F13&lt;LF&gt;<t t-esc="o.street2"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F15&lt;LF&gt;<t t-esc="o.name"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F16&lt;LF&gt;RUT <t t-esc="o.vat" />&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F17&lt;LF&gt;DIR: <t t-esc="o.street" /> &lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F18&lt;LF&gt;TEL: <t t-esc="o.phone"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F19&lt;LF&gt;<t t-esc="o.city"/>&lt;ETX&gt;
+&lt;STX&gt;&lt;ESC&gt;F20&lt;LF&gt;<t t-esc="o.state_id.display_name"/> &lt;ETX&gt;
+&lt;STX&gt;&lt;ETB&gt;&lt;ETX&gt;
+                    </t>
+       	        </t>
+        </template>
+        <record id="action_report_package_label_TXT" model="ir.actions.report">
+            <field name="name">Etiqueta para envio</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-text</field>
+            <field name="report_name">ecolight-report.report_package_label_TXT</field>
+            <field name="report_file">ecolight-report.report_package_label_TXT</field>
+	    	<field name="print_report_name">'paquete - %s' % (object.name)</field>
+			<field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="action_report_delivery_label_TXT" model="ir.actions.report">
+            <field name="name">Etiqueta para envio </field>
+            <field name="model">res.partner</field>
+            <field name="report_type">qweb-text</field>
+            <field name="report_name">ecolight-report.report_delivery_label_TXT</field>
+            <field name="report_file">ecolight-report.report_delivery_label_TXT</field>
+	    	<field name="print_report_name">'Etiqueta de envio'</field>
+			<field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

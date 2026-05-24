@@ -1,0 +1,134 @@
+ <?xml version="1.0" encoding="utf-8"?>
+<odoo:16.0>
+
+    <record id="l10n_uy_fe_view_move_form" model="ir.ui.view">
+        <field name="name">l10n_uy_fe.view.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="mode">extension</field>
+        <field name="arch" type="xml">
+            <field name="to_check" position="after">
+                <field name="forma_pago"
+                       attrs="{'readonly': [('state','!=','draft')],'invisible': [('move_type','not in',['out_invoice','out_refund'])]}"/>
+            </field>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='account_internal_group']" position="after">
+                <field name="indicador_facturacion"
+                       optional="hide"
+                       attrs="{'readonly': [('parent.state','!=','draft')],'invisible': [('parent.move_type','not in',['out_invoice','out_refund'])]}"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='currency_id']" position="after">
+                <field name="indicador_facturacion"
+                       attrs="{'readonly': [('parent.state','!=','draft')],'invisible': [('parent.move_type','not in',['out_invoice','out_refund'])]}"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="DGI" attrs="{'invisible': [('move_type','not in',['out_invoice','out_refund'])]}">
+                    <group string="Documentos relacionados" attrs="{'invisible': [('move_type','!=','out_refund')]}">
+                        <field name="related_invoices_ids"
+                               domain="['|',('move_type','=','out_invoice'),('move_type','=','entry'),('amount_residual','!=',0)]"
+                               widget="many2many" />
+                    </group>
+                    <group string="Web Service">
+                        <field name="token" readonly="1"/>
+                        <field name="payload" readonly="1"/>
+                        <field name="biller_id" readonly="1"/>
+                        <field name="serie" readonly="1"/>
+                        <field name="numero" readonly="1"/>
+                        <field name="biller_hash" readonly="1"/>
+                        <field name="fe_qr_url" readonly="1"/>
+                        <field name="comprobante_dgi_pdf" widget="binary" readonly="1"/>
+                        <field name="qr_code" readonly="1"/>
+                    </group>
+                    <group string="CAE">
+                        <field name="tot_iva_tasa_min" readonly="1" />
+                        <field name="tot_iva_tasa_base" readonly="1" />
+                        <field name="tot_iva_tasa_otra" readonly="1" />
+                        <field name="es_nota_ajuste" readonly="1" />
+                        <field name="cae_nro" readonly="1" />
+                        <field name="cae_inicio" readonly="1" />
+                        <field name="cae_fin" readonly="1" />
+                        <field name="cae_fecha_expiracion" readonly="1" />
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="btn_pull_pdf" type="object"
+                        string="Obtener PDF"
+                        attrs="{'invisible': [('biller_id','=',False)]}" />
+                <button name="update_qr_code" type="object"
+                        string="Update QR Code" />
+            </xpath>
+        </field>
+    </record>
+
+    <template id="qr_fe_uy_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@class='page']/h2" position="replace">
+            <h5>
+                <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Factura Crédito</span>
+                <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">Factura Borrador</span>
+                <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">Factura Cancelada</span>
+                <span t-if="o.move_type == 'out_refund'">Nota de Crédito</span>
+                <span t-if="o.move_type == 'in_refund'">Nota de Crédito de Proveedor</span>
+                <span t-if="o.move_type == 'in_invoice'">Factura de Crédito</span>
+                <span t-if="o               <span t-if="o.name != '/'" t-field="o.name"/>
+            </h5>
+        </xpath>
+        <xpath expr="//address" position="attributes">
+            <attribute name="style">font-size: 10px;</attribute>
+        </xpath>
+        <xpath expr="//div[@t-if='o.partner_id.vat']" position="attributes">
+            <attribute name="style">font-size: 10px;</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='page']" position="attributes">
+            <attribute name="style">font-size: 10px;</attribute>
+        </xpath>
+        <xpath expr="//div[@id='total']" position="attributes">
+            <attribute name="style">font-size: 10px;</attribute>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']" position="attributes">
+            <attribute name="style">font-size: 10px; padding: 0; margin-top: 1px; margin-bottom: 1px;</attribute>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/tbody/t/tr" position="attributes">
+            <attribute name="style">margin-top: 1px; margin-bottom: 1px;padding: 0;</attribute>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div class="col-auto col-3 mw-100 mb-2" t-if="o.currency_id" name="moneda">
+                <strong>Moneda:</strong>
+                <p class="m-0" t-field="o.currency_id.name"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='qrcode']" position="replace">
+            <div class="row" style="font-size: 10px;">
+                <div class="col-md-5">
+                    <div id="qrcode" style="display: 100%;">
+                        <!-- img class="border border-dark rounded"
+                            align="left" height="120" width="120" style='margin: 0px;padding-top:0px; display: 100%;'
+                            t-att-src="'data:image/png;base64,%s' % to_text(o.qr_code)"/ -->
+                        <img class="border border-dark rounded"
+                            height="120" width="120"
+                            align="right" style='margin: 0px;padding-top:0px; backgound-color: gray;'
+                            t-att-src="'data:image/png;base64,%s' % to_text(o.qr_code)"/>
+                        <span t-field="o.footer_line"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="extra_footer_line" style="font-size: 10px;">
+                <div class="col-md-12">
+                    <span t-field="o.extra_footer_line"></span>
+                </div>
+            </div>
+        </xpath>
+        <!-- xpath expr="//div[@id='qrcode']" position="after">
+            <br />
+            <div class="row" style="font-size: 10px;">
+                <div class="col-md-12" t-if="o.extra_footer_line">
+                    <span t-field="o.extra_footer_line"></span>
+                </div>
+            </div>
+        </xpath -->
+        <xpath expr="//p[@name='payment_communication']" position="replace">
+            <p />
+        </xpath>
+    </template>
+
+</odoo:16.0>

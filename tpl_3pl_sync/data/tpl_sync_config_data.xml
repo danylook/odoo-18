@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="tpl_sync_config_default" model="tpl.sync.config">
+        <field name="name">3PL Warehouse Backend</field>
+        <field name="backend_url">http://192.168.1.65:8069</field>
+        <field name="backend_db">3pl</field>
+        <field name="backend_user">admin</field>
+        <field name="backend_password">Admin@1234</field>
+        <field name="backend_owner_id">16</field>
+        <field name="enabled_sale_confirm">True</field>
+        <field name="enabled_pick">True</field>
+        <field name="enabled_pack">True</field>
+        <field name="enabled_out">True</field>
+    </record>
+</odoo>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="tpl_3pl_logistic.WarehouseMap">
+  <div class="tpl-warehouse-map o_view_controller h-100 d-flex flex-column">
+
+    <!-- Toolbar -->
+    <div class="tpl-wh-toolbar d-flex align-items-center p-2 border-bottom gap-3">
+      <h4 class="mb-0">Warehouse Map</h4>
+      <button class="btn btn-primary btn-sm" t-on-click="() => this.refresh()">
+        <i class="fa fa-refresh me-1"/>Refresh
+      </button>
+      <span t-if="!state.loading" class="text-muted small">
+        <t t-esc="state.locations.length"/> location(s) on map
+      </span>
+    </div>
+
+    <!-- Loading -->
+    <t t-if="state.loading">
+      <div class="d-flex justify-content-center align-items-center flex-grow-1">
+        <div class="spinner-border text-primary me-2" role="status"/>
+        <span>Loading map…</span>
+      </div>
+    </t>
+
+    <!-- Empty -->
+    <t t-elif="state.locations.length === 0">
+      <div class="alert alert-info m-3">
+        No locations configured for the map.
+        Open a <strong>Stock Location</strong>, enable
+        <strong>Show on Map</strong> and set its <strong>Column (X)</strong> /
+        <strong>Row (Y)</strong> coordinates.
+      </div>
+    </t>
+
+    <!-- Map -->
+    <t t-else="">
+      <div class="tpl-wh-map-body d-flex gap-3 p-3 flex-grow-1 overflow-auto">
+
+        <!-- Grid -->
+        <div class="tpl-wh-grid-wrap overflow-auto flex-shrink-0">
+
+          <!-- Column headers -->
+          <div class="d-flex">
+            <div class="tpl-wh-axis-cell"/>
+            <t t-foreach="colRange" t-as="cx" t-key="cx">
+              <div class="tpl-wh-col-header">Col <t t-esc="cx"/></div>
+            </t>
+          </div>
+
+          <!-- Rows -->
+          <t t-foreach="grid" t-as="row" t-key="row.y">
+            <div class="d-flex">
+              <div class="tpl-wh-row-header">Row <t t-esc="row.y"/></div>
+              <t t-foreach="row.cols" t-as="cell" t-key="cell.x">
+                <div t-att-class="getCellClass(cell)"
+                     t-on-click="() => selectCell(cell)">
+                  <t t-if="cell.loc">
+                    <div class="tpl-cell-name"><t t-esc="cell.loc.name"/></div>
+                    <t t-if="cell.quants.length">
+                      <div class="badge bg-warning text-dark mt-1">
+                        <t t-esc="cell.quants.length"/>
+                        <t t-if="cell.quants.length === 1"> box</t>
+                        <t t-else=""> boxes</t>
+                      </div>
+                    </t>
+                    <t t-else="">
+                      <div class="tpl-cell-empty">free</div>
+                    </t>
+                  </t>
+                </div>
+              </t>
+            </div>
+          </t>
+
+        </div><!-- /grid -->
+
+        <!-- Detail panel -->
+        <t t-if="state.selectedCell">
+          <div class="tpl-wh-detail card align-self-start">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span class="fw-bold">
+                <i class="fa fa-map-marker me-1 text-primary"/>
+                <t t-esc="state.selectedCell.loc.complete_name"/>
+              </span>
+              <span t-att-class="'badge ms-2 ' + (state.selectedCell.quants.length ? 'bg-warning text-dark' : 'bg-success')">
+                <t t-if="state.selectedCell.quants.length">
+                  <t t-esc="state.selectedCell.quants.length"/> box(es)
+                </t>
+                <t t-else="">empty</t>
+              </span>
+            </div>
+
+            <div class="card-body p-0">
+              <t t-if="state.selectedCell.quants.length === 0">
+                <p class="text-muted p-3 mb-0">No stock in this location.</p>
+              </t>
+              <t t-else="">
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover mb-0">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Product</th>
+                        <th>Lot / Serial</th>
+                        <th>Package</th>
+                        <th>Owner</th>
+                        <th class="text-end">Qty</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <t t-foreach="state.selectedCell.quants" t-as="q" t-key="q.id">
+                        <tr>
+                          <td><t t-esc="q.product_id[1]"/></td>
+                          <td><t t-esc="q.lot_id ? q.lot_id[1] : '—'"/></td>
+                          <td>
+                            <t t-if="q.package_id">
+                              <span class="badge bg-secondary">
+                                <i class="fa fa-cube me-1"/>
+                                <t t-esc="q.package_id[1]"/>
+                              </span>
+                            </t>
+                            <t t-else="">—</t>
+                          </td>
+                          <td><t t-esc="q.owner_id ? q.owner_id[1] : '—'"/></td>
+                          <td class="text-end fw-bold"><t t-esc="q.quantity"/></td>
+                        </tr>
+                      </t>
+                    </tbody>
+                  </table>
+                </div>
+              </t>
+            </div><!-- /card-body -->
+          </div><!-- /detail -->
+        </t>
+
+      </div><!-- /map-body -->
+    </t>
+
+  </div>
+</t>
+
+</templates>

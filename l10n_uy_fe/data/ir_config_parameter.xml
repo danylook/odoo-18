@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<data noupdate="1">
+
+    <record model='ir.config_parameter' id='biller_uy_url'>
+        <field name='key'>biller_uy_url</field>
+        <field name='value'>https://biller.uy</field>
+    </record>
+
+</data>
+</odoo>

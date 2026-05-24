@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_product_attribute_measure_form" model="ir.ui.view">
+            <field name="name">product.attribute.measure.form</field>
+            <field name="model">product.attribute</field>
+            <field name="inherit_id" ref="product.product_attribute_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale_main_fields']/field[@name='create_variant']" position="after">
+                    <field name="uom_category_id" options="{'no_create': True}"/>
+                </xpath>
+                <xpath expr="//field[@name='value_ids']//list/field[@name='name']" position="after">
+                    <field name="uom_id"
+                           domain="[('category_id', '=', parent.uom_category_id)]"
+                           options="{'no_create': True}"
+                           attrs="{'required': [('parent.uom_category_id', '!=', False)], 'column_invisible': [('parent.uom_category_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_product_attribute_line_measure_form" model="ir.ui.view">
+            <field name="name">product.template.attribute.line.measure.form</field>
+            <field name="model">product.template.attribute.line</field>
+            <field name="inherit_id" ref="product.product_template_attribute_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='value_ids']//list/field[@name='name']" position="before">
+                    <field name="attribute_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='value_ids']//list/field[@name='name']" position="after">
+                    <field name="uom_id"
+                           readonly="1"
+                           optional="show"
+                           attrs="{'column_invisible': [('attribute_id.uom_category_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_product_attribute_measure_tree" model="ir.ui.view">
+            <field name="name">product.attribute.measure.tree</field>
+            <field name="model">product.attribute</field>
+            <field name="inherit_id" ref="product.attribute_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//list/field[@name='create_variant']" position="after">
+                    <field name="uom_category_id" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

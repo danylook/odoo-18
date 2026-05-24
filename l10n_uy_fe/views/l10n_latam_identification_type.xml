@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <record id="l10n_uy_latam_identification_type_tree" model="ir.ui.view">
+	<field name="name">l10n_uy_fe.latam.identification.type.tree</field>
+        <field name="model">l10n_latam.identification.type</field>
+        <field name="inherit_id" ref="l10n_latam_base.view_l10n_latam_identification_type_tree"/>
+        <field name="arch" type="xml">
+		<field name="country_id" position="after">
+			<field name="l10n_uy_dgi_code" />
+        	</field>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_document_type_uruguay">
+        <field name="name">Tipos de Documento</field>
+        <field name="res_model">l10n_latam.document.type</field>
+        <field name="context">{'search_default_localization': 1}</field>
+    </record>
+
+    <menuitem action="action_document_type_uruguay" id="menu_document_type_uruguay" sequence="5" parent="menu_dgi_config"/>
+
+
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_tpl_ai_forecast_root"
+              name="AI Forecast"
+              parent="stock.menu_stock_root"
+              sequence="90"/>
+
+    <menuitem id="menu_tpl_ai_forecast_runs"
+              name="Forecast Runs"
+              parent="menu_tpl_ai_forecast_root"
+              action="tpl_ai_forecast.action_tpl_ai_forecast"
+              sequence="10"/>
+
+    <menuitem id="menu_tpl_ai_forecast_dashboard"
+              name="Dashboard"
+              parent="menu_tpl_ai_forecast_root"
+              action="tpl_ai_forecast.action_tpl_ai_forecast_dashboard"
+              sequence="20"/>
+
+</odoo>

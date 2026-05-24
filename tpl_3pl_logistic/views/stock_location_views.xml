@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_location_form_tpl" model="ir.ui.view">
+        <field name="name">stock.location.form.tpl.inherit</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='replenish_location']" position="after">
+                <field name="fee_rate_id" options="{'no_create': False}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,37 @@
+<h2>Product Variant Measure</h2>
+<p>
+    Este módulo extiende la gestión de variantes de producto permitiendo definir longitudes, anchos u otras
+    magnitudes numéricas como valores de atributos, valiéndose de las unidades de medida estándar de Odoo.
+</p>
+
+<img src="icon.svg" alt="Product Variant Measure" style="max-width: 160px; margin: 16px 0;">
+
+<h3>Características principales</h3>
+<ul>
+    <li>Permite asociar una <strong>categoría de unidad de medida</strong> a cada atributo.</li>
+    <li>Cada valor de atributo incluye la <strong>unidad de medida</strong> correspondiente.</li>
+    <li>Al ingresar solo la magnitud numérica, el sistema completa automáticamente el nombre (por ejemplo, “10” ⇒ “10 ft”).</li>
+    <li>Valida que los valores respeten la <strong>unidad, magnitud positiva y redondeo</strong> configurado.</li>
+    <li>Muestra la unidad tanto en formularios como en listas de variantes de producto.</li>
+</ul>
+
+<h3>Casos de uso</h3>
+<ul>
+    <li>Gestionar variantes por largo/ancho en muebles o piezas de construcción.</li>
+    <li>Controlar atributos dimensionales de textiles, cables o perfiles metálicos.</li>
+    <li>Crear variantes con medidas expresadas en pies, metros u otras unidades de Odoo.</li>
+</ul>
+
+<h3>Cómo empezar</h3>
+<ol>
+    <li>Instale el módulo y abra <em>Inventario ▸ Configuración ▸ Atributos</em>.</li>
+    <li>Seleccione un atributo y defina su <strong>categoría de unidad</strong>.</li>
+    <li>Agregue valores indicando solo la magnitud numérica y elija la unidad; el nombre se autocompleta.</li>
+    <li>Asocie el atributo a las plantillas de producto para generar variantes según las medidas configuradas.</li>
+</ol>
+
+<h3>Notas</h3>
+<ul>
+    <li>Durante la instalación se eliminan las restricciones originales que impedían repetir una unidad dentro del mismo atributo.</li>
+    <li>Si necesita desactivar la validación temporalmente, puede usar el contexto <code>skip_variant_measure_validation</code> en acciones específicas.</li>
+</ul>

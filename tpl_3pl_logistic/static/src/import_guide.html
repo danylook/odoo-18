@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>3PL Portal — CSV Import Guide</title>
+<style>
+  :root { --navy:#0f2540; --navy2:#1a3a5c; --green:#1e6b3e; --orange:#c87c00; --light:#f0f4f8; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Segoe UI',Arial,sans-serif; color:#1a2e44; background:#fff; }
+  @media print { .no-print { display:none; } body { font-size:11pt; } }
+
+  /* Cover strip */
+  .cover { background:var(--navy); color:#fff; padding:40px 48px 32px; }
+  .cover h1 { font-size:28px; font-weight:800; margin-bottom:6px; }
+  .cover p { color:#90b0cc; font-size:14px; }
+  .cover .badge { display:inline-block; background:var(--navy2); color:#c8e0f8;
+    padding:3px 12px; border-radius:20px; font-size:12px; margin-top:8px; }
+
+  /* Main content */
+  .container { max-width:900px; margin:0 auto; padding:40px 32px; }
+
+  h2 { font-size:20px; font-weight:700; color:var(--navy); margin:36px 0 14px;
+       padding-bottom:6px; border-bottom:2px solid var(--light); }
+  h3 { font-size:15px; font-weight:700; color:var(--navy2); margin:22px 0 10px; }
+  p  { font-size:14px; line-height:1.65; margin-bottom:10px; color:#2a3e54; }
+  ul { padding-left:20px; margin-bottom:10px; }
+  li { font-size:14px; line-height:1.7; color:#2a3e54; }
+
+  /* Tables */
+  table { width:100%; border-collapse:collapse; margin-bottom:20px; font-size:13px; }
+  thead tr { background:var(--navy); color:#d0e4f8; }
+  thead th { padding:10px 12px; font-weight:600; text-align:left; }
+  tbody tr { border-bottom:1px solid #e8edf4; }
+  tbody tr:nth-child(even) { background:#f7fafc; }
+  td { padding:9px 12px; }
+  td code { background:#edf2f7; padding:2px 6px; border-radius:4px; font-size:12px; }
+
+  /* Badges */
+  .req-yes { background:#d4edda; color:#155724; padding:2px 8px; border-radius:12px;
+             font-size:11px; font-weight:700; }
+  .req-no  { background:#e8edf4; color:#5a7090; padding:2px 8px; border-radius:12px;
+             font-size:11px; }
+  .req-one { background:#fff3cd; color:#856404; padding:2px 8px; border-radius:12px;
+             font-size:11px; font-weight:700; }
+
+  /* Code blocks */
+  pre { background:#f0f4f8; border:1px solid #dde4ec; border-radius:8px; padding:14px 16px;
+        font-size:12.5px; line-height:1.55; overflow-x:auto; margin-bottom:16px; color:#1a2e44; }
+
+  /* Callout boxes */
+  .note { background:#d1ecf1; border-left:4px solid #0c5460; padding:12px 16px;
+          border-radius:0 8px 8px 0; margin-bottom:16px; font-size:13.5px; color:#0c5460; }
+  .warn { background:#fff3cd; border-left:4px solid #c87c00; padding:12px 16px;
+          border-radius:0 8px 8px 0; margin-bottom:16px; font-size:13.5px; color:#856404; }
+  .tip  { background:#d4edda; border-left:4px solid #1e6b3e; padding:12px 16px;
+          border-radius:0 8px 8px 0; margin-bottom:16px; font-size:13.5px; color:#155724; }
+
+  /* Section accent */
+  .section-in  { border-left:4px solid var(--green); padding-left:14px; }
+  .section-out { border-left:4px solid var(--orange); padding-left:14px; }
+  .section-prod { border-left:4px solid var(--navy2); padding-left:14px; }
+
+  /* Print button */
+  .print-btn { display:inline-block; background:var(--navy); color:#fff; padding:10px 22px;
+               border-radius:7px; text-decoration:none; font-size:14px; font-weight:600;
+               margin-bottom:24px; }
+  .print-btn:hover { background:var(--navy2); }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>3PL Portal — CSV Import Guide</h1>
+  <p>Step-by-step instructions for bulk importing Products, Inbound Orders, and Outbound Orders</p>
+  <span class="badge">Version 1.0 — May 2026</span>
+</div>
+
+<div class="container">
+
+  <a href="javascript:window.print()" class="print-btn no-print">🖨 Print / Save as PDF</a>
+
+  <!-- ── OVERVIEW ───────────────────────────────────────────── -->
+  <h2>1. Overview</h2>
+  <p>The 3PL portal supports bulk import via CSV files for three data types:</p>
+  <ul>
+    <li><strong>Products</strong> — add new products to your catalogue</li>
+    <li><strong>Inbound Orders</strong> — create warehouse receiving operations in bulk</li>
+    <li><strong>Outbound Orders</strong> — create delivery/dispatch operations in bulk</li>
+  </ul>
+  <p>All three imports are accessed from the <strong>Import</strong> section in the sidebar, or from the
+     dashboard <em>Bulk Import</em> tile grid.</p>
+
+  <div class="note">
+    <strong>Format:</strong> All files must be <strong>CSV</strong> (comma-separated values) with
+    <strong>UTF-8</strong> encoding. The first row must be the header row with exact column names as
+    documented below. Column names are case-insensitive.
+  </div>
+
+  <!-- ── HOW TO CREATE A CSV ─────────────────────────────────── -->
+  <h2>2. How to Create a CSV File</h2>
+  <h3>Using Microsoft Excel / LibreOffice Calc</h3>
+  <ol style="padding-left:20px;margin-bottom:12px;">
+    <li style="margin-bottom:6px;">Open Excel or LibreOffice Calc.</li>
+    <li style="margin-bottom:6px;">Enter the column headers in row 1 (exact names from this guide).</li>
+    <li style="margin-bottom:6px;">Fill in your data from row 2 onward.</li>
+    <li style="margin-bottom:6px;">Click <em>File → Save As</em> and choose <strong>CSV (Comma delimited)</strong>.</li>
+    <li style="margin-bottom:6px;">Encoding should be <strong>UTF-8</strong>. In Excel choose "CSV UTF-8 (Comma delimited)".</li>
+  </ol>
+  <div class="tip">
+    <strong>Tip:</strong> Download the sample file from each import page. It already has the correct
+    headers — just replace the example rows with your real data.
+  </div>
+
+  <!-- ── PRODUCTS ────────────────────────────────────────────── -->
+  <h2>3. Import Products</h2>
+  <div class="section-prod">
+    <p>Use this import to create new storable products in your 3PL catalogue.
+       Each row creates one product. Products will be assigned to your account automatically.</p>
+    <p><strong>Import URL:</strong> <code>/my/3pl/import/products</code></p>
+  </div>
+
+  <h3>Column Reference</h3>
+  <table>
+    <thead><tr><th>Column Name</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>name</code></td>
+        <td><span class="req-yes">Required</span></td>
+        <td>Text</td>
+        <td>Product display name. Must be unique in the system.</td>
+        <td>Widget A Blue</td>
+      </tr>
+      <tr>
+        <td><code>internal_reference</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Text</td>
+        <td>Internal SKU or reference code. Used when creating orders by reference.</td>
+        <td>WGT-001-BLU</td>
+      </tr>
+      <tr>
+        <td><code>sales_price</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Decimal</td>
+        <td>Unit sales price. Use a dot as decimal separator (e.g. 12.50).</td>
+        <td>12.50</td>
+      </tr>
+      <tr>
+        <td><code>weight</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Decimal</td>
+        <td>Unit weight in kilograms. Used for shipping cost calculations.</td>
+        <td>0.75</td>
+      </tr>
+      <tr>
+        <td><code>barcode</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Text</td>
+        <td>EAN-13, UPC, or any barcode number. Must be unique if provided.</td>
+        <td>1234567890128</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Sample File</h3>
+  <pre>name,internal_reference,sales_price,weight,barcode
+Widget A Blue,WGT-001-BLU,12.50,0.75,1234567890128
+Box Medium,BOX-MED,3.00,1.20,
+Pallet Wrap,PLT-WRAP,8.99,0.30,9876543210012</pre>
+
+  <div class="warn">
+    <strong>Note:</strong> If a product with the same name already exists, a duplicate will be created
+    with the same name. Check your catalogue before importing to avoid duplicates.
+  </div>
+
+  <!-- ── INBOUND ORDERS ──────────────────────────────────────── -->
+  <h2>4. Import Inbound Orders</h2>
+  <div class="section-in">
+    <p>Use this import to create bulk receiving (inbound) operations. Each unique <code>order_ref</code>
+       creates one warehouse receipt. Multiple rows with the same <code>order_ref</code> are
+       combined into a single order with multiple product lines.</p>
+    <p><strong>Import URL:</strong> <code>/my/3pl/import/inbound</code></p>
+  </div>
+
+  <h3>Column Reference</h3>
+  <table>
+    <thead><tr><th>Column Name</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>order_ref</code></td>
+        <td><span class="req-yes">Required</span></td>
+        <td>Text</td>
+        <td>Your purchase order number or reference. Rows with the <em>same</em> order_ref are grouped into one picking.</td>
+        <td>PO-2026-001</td>
+      </tr>
+      <tr>
+        <td><code>product_ref</code></td>
+        <td><span class="req-one">One of *</span></td>
+        <td>Text</td>
+        <td>Internal reference (SKU) of the product. Takes priority over product_name if both are provided.</td>
+        <td>WGT-001-BLU</td>
+      </tr>
+      <tr>
+        <td><code>product_name</code></td>
+        <td><span class="req-one">One of *</span></td>
+        <td>Text</td>
+        <td>Product name (partial match). Used as fallback when product_ref is empty or not found.</td>
+        <td>Widget A Blue</td>
+      </tr>
+      <tr>
+        <td><code>quantity</code></td>
+        <td><span class="req-yes">Required</span></td>
+        <td>Decimal</td>
+        <td>Number of units to receive. Must be greater than 0.</td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td><code>scheduled_date</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Date</td>
+        <td>Expected arrival date in <strong>YYYY-MM-DD</strong> format. Applied to all lines of the same order_ref.</td>
+        <td>2026-05-20</td>
+      </tr>
+      <tr>
+        <td><code>note</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Text</td>
+        <td>Special handling instructions. Applied at order level.</td>
+        <td>Handle with care — fragile</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>* Either <code>product_ref</code> or <code>product_name</code> must be provided per row.</strong>
+     Rows where neither resolves to a known product are skipped with an error message.</p>
+
+  <h3>Sample File</h3>
+  <pre>order_ref,product_ref,product_name,quantity,scheduled_date,note
+PO-2026-001,WGT-001-BLU,,100,2026-05-20,Handle with care
+PO-2026-001,BOX-MED,,50,2026-05-20,
+PO-2026-002,,Pallet Wrap,200,2026-05-21,
+PO-2026-003,PLT-WRAP,,75,2026-05-22,Urgent delivery</pre>
+
+  <div class="note">
+    <strong>Result:</strong> The sample above creates <strong>3 inbound orders</strong>:
+    PO-2026-001 with 2 product lines (100 × Widget + 50 × Box),
+    PO-2026-002 with 1 line (200 × Pallet Wrap), and
+    PO-2026-003 with 1 line (75 × Pallet Wrap).
+  </div>
+
+  <!-- ── OUTBOUND ORDERS ─────────────────────────────────────── -->
+  <h2>5. Import Outbound Orders</h2>
+  <div class="section-out">
+    <p>Use this import to create bulk delivery (outbound) operations. The same grouping rule applies:
+       rows with the same <code>order_ref</code> become one outbound picking with multiple lines.</p>
+    <p><strong>Import URL:</strong> <code>/my/3pl/import/outbound</code></p>
+  </div>
+
+  <h3>Column Reference</h3>
+  <table>
+    <thead><tr><th>Column Name</th><th>Required</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>order_ref</code></td>
+        <td><span class="req-yes">Required</span></td>
+        <td>Text</td>
+        <td>Your sales order number or reference. Rows sharing an order_ref are grouped.</td>
+        <td>SO-2026-001</td>
+      </tr>
+      <tr>
+        <td><code>product_ref</code></td>
+        <td><span class="req-one">One of *</span></td>
+        <td>Text</td>
+        <td>Internal reference (SKU) of the product.</td>
+        <td>WGT-001-BLU</td>
+      </tr>
+      <tr>
+        <td><code>product_name</code></td>
+        <td><span class="req-one">One of *</span></td>
+        <td>Text</td>
+        <td>Product name (partial match fallback).</td>
+        <td>Widget A Blue</td>
+      </tr>
+      <tr>
+        <td><code>quantity</code></td>
+        <td><span class="req-yes">Required</span></td>
+        <td>Decimal</td>
+        <td>Number of units to dispatch. Must be greater than 0.</td>
+        <td>30</td>
+      </tr>
+      <tr>
+        <td><code>scheduled_date</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Date</td>
+        <td>Target dispatch date in <strong>YYYY-MM-DD</strong> format.</td>
+        <td>2026-05-22</td>
+      </tr>
+      <tr>
+        <td><code>delivery_address</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Text</td>
+        <td>Full delivery address as plain text. Stored in the order notes. Applies to the whole order (first row wins).</td>
+        <td>123 Main St, Springfield, 12345</td>
+      </tr>
+      <tr>
+        <td><code>note</code></td>
+        <td><span class="req-no">Optional</span></td>
+        <td>Text</td>
+        <td>Special delivery instructions.</td>
+        <td>Fragile — do not stack</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>* Either <code>product_ref</code> or <code>product_name</code> must be provided per row.</strong></p>
+
+  <h3>Sample File</h3>
+  <pre>order_ref,product_ref,product_name,quantity,scheduled_date,delivery_address,note
+SO-2026-001,WGT-001-BLU,,30,2026-05-22,123 Main St Springfield 12345,
+SO-2026-001,BOX-MED,,10,2026-05-22,,
+SO-2026-002,,Pallet Wrap,5,2026-05-23,456 Oak Ave Town 67890,Fragile</pre>
+
+  <!-- ── COMMON RULES ─────────────────────────────────────────── -->
+  <h2>6. Common Rules &amp; Tips</h2>
+
+  <h3>File encoding</h3>
+  <p>Always save as <strong>UTF-8</strong>. If you use special characters (accents, ñ, etc.) and the
+     file is saved in Windows-1252 or Latin-1, those characters will appear garbled. In Excel use
+     <em>File → Save As → CSV UTF-8 (Comma delimited)</em>.</p>
+
+  <h3>Decimal numbers</h3>
+  <p>Use a <strong>dot</strong> as the decimal separator (e.g. <code>12.50</code> not <code>12,50</code>).
+     Comma-separated numbers will cause an import error on that row.</p>
+
+  <h3>Dates</h3>
+  <p>Use <strong>YYYY-MM-DD</strong> format (e.g. <code>2026-05-20</code>). Other formats are not
+     guaranteed to parse correctly.</p>
+
+  <h3>Empty columns</h3>
+  <p>Leave optional cells blank — do not fill them with dashes or N/A. An empty cell is safe; a
+     non-numeric value in a numeric field will cause an error on that row.</p>
+
+  <h3>Error handling</h3>
+  <p>The importer processes all rows. Rows with errors are <strong>skipped</strong> and listed in the
+     error summary shown after upload. Valid rows are imported even when some rows fail. You can fix
+     the problem rows and re-import just those rows.</p>
+
+  <h3>Duplicate orders</h3>
+  <p>There is no duplicate-detection for orders. If you import the same file twice, you will get
+     duplicate pickings. Always verify the result in <em>My Orders</em> after import.</p>
+
+  <h3>Product must exist</h3>
+  <p>For order imports, the product must already exist in the system (either created manually or
+     imported via the Products import). If a product cannot be found the row is skipped.</p>
+
+  <!-- ── WORKFLOW ─────────────────────────────────────────────── -->
+  <h2>7. Recommended Workflow</h2>
+  <ol style="padding-left:20px;">
+    <li style="margin-bottom:8px;"><strong>Import Products first</strong> — ensure all products exist with their
+        internal references (SKU codes) before importing orders.</li>
+    <li style="margin-bottom:8px;"><strong>Download the sample CSV</strong> for the import type you need and use it as
+        a template.</li>
+    <li style="margin-bottom:8px;"><strong>Fill in your data</strong> in the spreadsheet, then save as CSV UTF-8.</li>
+    <li style="margin-bottom:8px;"><strong>Upload on the import page</strong> and review the success/error message.</li>
+    <li style="margin-bottom:8px;"><strong>Check My Orders</strong> (Inbound or Outbound) to confirm the created
+        pickings look correct.</li>
+    <li style="margin-bottom:8px;">Contact your 3PL account manager to confirm scheduling and any special requirements.</li>
+  </ol>
+
+  <div class="tip" style="margin-top:20px;">
+    <strong>Need help?</strong> Contact our operations team or refer to the inline format table
+    shown on each import page. You can also download the sample CSV directly from those pages.
+  </div>
+
+  <hr style="margin:40px 0; border-color:#dde4ec;"/>
+  <p style="color:#8090a0; font-size:12px; text-align:center;">
+    3PL Warehouse Portal — CSV Import Guide v1.0 — Generated May 2026
+  </p>
+
+</div>
+</body>
+</html>

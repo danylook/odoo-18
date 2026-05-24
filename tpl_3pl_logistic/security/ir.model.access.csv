@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tpl_fee_rate_manager,tpl.fee.rate manager,model_tpl_fee_rate,base.group_system,1,1,1,1
+access_tpl_fee_rate_user,tpl.fee.rate user,model_tpl_fee_rate,base.group_user,1,0,0,0
+access_tpl_stock_history_manager,tpl.stock.history manager,model_tpl_stock_history,base.group_system,1,1,1,1
+access_tpl_stock_history_user,tpl.stock.history user,model_tpl_stock_history,base.group_user,1,0,0,0
+access_tpl_delivery_rate_manager,tpl.delivery.rate manager,model_tpl_delivery_rate,base.group_system,1,1,1,1
+access_tpl_delivery_rate_user,tpl.delivery.rate user,model_tpl_delivery_rate,base.group_user,1,0,0,0
+access_tpl_3pl_client_rate_manager,tpl.3pl.client.rate manager,model_tpl_3pl_client_rate,base.group_system,1,1,1,1
+access_tpl_3pl_client_rate_user,tpl.3pl.client.rate user,model_tpl_3pl_client_rate,base.group_user,1,0,0,0
+access_tpl_stock_age_user,tpl.stock.age user,model_tpl_stock_age,base.group_user,1,0,0,0
+access_tpl_3pl_api_key_manager,tpl.3pl.api.key manager,model_tpl_3pl_api_key,base.group_system,1,1,1,1
+access_tpl_3pl_api_key_user,tpl.3pl.api.key user,model_tpl_3pl_api_key,base.group_user,1,0,0,0

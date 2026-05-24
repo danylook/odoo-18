@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//table//tr/th[1]" position="after">
+            <t t-if="o.is_image_true">
+                <th><strong>Image</strong></th>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-foreach='lines_to_report']//td[@name='td_name']" position="after">
+            <t t-if="o.is_image_true">
+                <td>
+                    <img t-att-src="image_data_uri(line.order_line_image)"
+                         style="max-height:45pt;max-width:90%"
+                         alt="Product Image"/>
+                </td>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360">
+    <style>
+        .title { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 600; font-size: 28px; }
+        .label { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 600; font-size: 22px; }
+        .value { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 400; font-size: 22px; }
+        .row { fill: #222; }
+        .bg { fill: #f9f9f9; stroke: #444; stroke-width: 1; }
+    </style>
+    <rect class="bg" x="10" y="10" width="880" height="340" rx="12" ry="12" />
+    <text class="title" x="40" y="40">Panel Metadata</text>
+    <text class="row" x="40" y="102"><tspan class="label">Job: </tspan><tspan class="value">Emp-Cal3-Lot-32-27-07-A-REV</tspan></text>
+    <text class="row" x="40" y="142"><tspan class="label">Model: </tspan><tspan class="value">Calderwood ph3</tspan></text>
+    <text class="row" x="40" y="182"><tspan class="label">Designer: </tspan><tspan class="value">S.R</tspan></text>
+    <text class="row" x="40" y="222"><tspan class="label">Site Address: </tspan><tspan class="value">Thorold, On</tspan></text>
+    <text class="row" x="40" y="262"><tspan class="label">Date: </tspan><tspan class="value">07/12/2024 10:03:24</tspan></text>
+    <text class="row" x="40" y="302"><tspan class="label">Level: </tspan><tspan class="value">1st Floor</tspan></text>
+    <text class="row" x="40" y="342"><tspan class="label">Bundle: </tspan><tspan class="value">1/6 1ST FLR GAR</tspan></text>
+</svg>

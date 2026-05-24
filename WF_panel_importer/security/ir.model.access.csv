@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wf_panel_user,access.wf.panel.user,model_wf_panel,,1,1,1,1
+access_wf_panel_manager,access.wf.panel.manager,model_wf_panel,mrp.group_mrp_manager,1,1,1,1
+access_wf_panel_line_user,access.wf.panel.line.user,model_wf_panel_line,,1,1,1,1
+access_wf_panel_line_manager,access.wf.panel.line.manager,model_wf_panel_line,mrp.group_mrp_manager,1,1,1,1
+access_wf_panel_import_wizard_user,access.wf.panel.import.wizard.user,model_wf_panel_import_wizard,,1,1,1,1
+access_wf_panel_section_user,access.wf.panel.section.user,model_wf_panel_section,,1,1,1,1
+access_wf_panel_section_manager,access.wf.panel.section.manager,model_wf_panel_section,mrp.group_mrp_manager,1,1,1,1
+access_wf_panel_component_user,access.wf.panel.component.user,model_wf_panel_component,,1,1,1,1
+access_wf_panel_component_manager,access.wf.panel.component.manager,model_wf_panel_component,mrp.group_mrp_manager,1,1,1,1
+access_wf_ros_bridge_wizard_user,access.wf.ros.bridge.wizard.user,model_wf_ros_bridge_wizard,,1,1,1,1
+access_wf_ros_bridge_wizard_manager,access.wf.ros.bridge.wizard.manager,model_wf_ros_bridge_wizard,mrp.group_mrp_manager,1,1,1,1
+access_panel_mrp_dictionary_wizard_user,access.panel.mrp.dictionary.wizard.user,model_panel_mrp_dictionary_wizard,,1,1,1,1
+access_panel_mrp_dictionary_line_user,access.panel.mrp.dictionary.line.user,model_panel_mrp_dictionary_line,,1,1,1,1

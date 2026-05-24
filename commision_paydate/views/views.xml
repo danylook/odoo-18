@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_custom_commission_settlement_line" model="ir.ui.view">
+            <field name="name">custom.commission.settlement.line</field>
+            <field name="model">commission.settlement.line</field>
+            <field name="inherit_id" ref="commission_oca.view_settlement_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="agent_id" position="after">
+                    <field name="payment_date"/>
+                </field>
+            </field>
+        </record>
+        <record id="custom_view_settlement_line_tree_inherit" model="ir.ui.view">
+            <field name="name">Custom Settlement lines</field>
+            <field name="model">commission.settlement.line</field>
+            <field name="inherit_id" ref="commission_oca.view_settlement_line_tree" />
+            <field name="arch" type="xml">
+            <xpath expr="field[@name='agent_id']" position="after">
+                <field name="payment_date" />
+            </xpath>
+            </field>
+        </record>
+        <record id="view_custom_account_invoice_tree" model="ir.ui.view">
+            <field name="name">custom.account.invoice.tree</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="invoice_date_due" position="after">
+                    <field name="payment_date"/>
+                </field>
+		<field name="name" position="after">
+                    <field name="numero" />
+                </field>
+            </field>
+        </record>
+<!-- view_custom_account_payment_tree removed: ref field not in Odoo 18 -->
+    </data>
+</odoo>
+
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="commision_paydate.list">
+      <field name="name">commision_paydate list</field>
+      <field name="model">commision_paydate.commision_paydate</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="commision_paydate.action_window">
+      <field name="name">commision_paydate window</field>
+      <field name="res_model">commision_paydate.commision_paydate</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="commision_paydate.action_server">
+      <field name="name">commision_paydate server</field>
+      <field name="model_id" ref="model_commision_paydate_commision_paydate"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="commision_paydate" id="commision_paydate.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="commision_paydate.menu_1" parent="commision_paydate.menu_root"/>
+    <menuitem name="Menu 2" id="commision_paydate.menu_2" parent="commision_paydate.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="commision_paydate.menu_1_list" parent="commision_paydate.menu_1"
+              action="commision_paydate.action_window"/>
+    <menuitem name="Server to list" id="commision_paydate" parent="commision_paydate.menu_2"
+              action="commision_paydate.action_server"/>
+-->

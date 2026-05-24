@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tpl_stock_history_list" model="ir.ui.view">
+        <field name="name">tpl.stock.history.list</field>
+        <field name="model">tpl.stock.history</field>
+        <field name="arch" type="xml">
+            <list string="Stock History" decoration-muted="invoiced == True">
+                <field name="date"/>
+                <field name="owner_id"/>
+                <field name="product_id"/>
+                <field name="lot_id"/>
+                <field name="package_id"/>
+                <field name="package_type"/>
+                <field name="location_id"/>
+                <field name="fee_rate_id"/>
+                <field name="quantity"/>
+                <field name="uom_id"/>
+                <field name="invoiced"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tpl_stock_history_form" model="ir.ui.view">
+        <field name="name">tpl.stock.history.form</field>
+        <field name="model">tpl.stock.history</field>
+        <field name="arch" type="xml">
+            <form string="Stock History">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="owner_id"/>
+                            <field name="product_id"/>
+                            <field name="lot_id"/>
+                        </group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="fee_rate_id"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                        </group>
+                    </group>
+                    <group string="Package">
+                        <field name="package_id"/>
+                        <field name="package_type"/>
+                    </group>
+                    <group string="Billing">
+                        <field name="invoiced"/>
+                        <field name="invoice_line_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tpl_stock_history_search" model="ir.ui.view">
+        <field name="name">tpl.stock.history.search</field>
+        <field name="model">tpl.stock.history</field>
+        <field name="arch" type="xml">
+            <search string="Stock History">
+                <field name="owner_id"/>
+                <field name="product_id"/>
+                <field name="date"/>
+                <filter string="Not Invoiced" name="not_invoiced" domain="[('invoiced','=',False)]"/>
+                <filter string="Invoiced" name="invoiced" domain="[('invoiced','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client" name="group_owner" context="{'group_by': 'owner_id'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tpl_stock_history" model="ir.actions.act_window">
+        <field name="name">Stock History</field>
+        <field name="res_model">tpl.stock.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_not_invoiced': 1}</field>
+    </record>
+</odoo>

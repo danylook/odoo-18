@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_commision_paydate_commision_paydate,commision_paydate.commision_paydate,model_commision_paydate_commision_paydate,base.group_user,1,1,1,1

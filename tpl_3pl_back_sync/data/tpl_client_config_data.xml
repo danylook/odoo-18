@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+  <record id="tpl_client_config_default" model="tpl.client.config">
+    <field name="name">Ecolight (3pl-cliente)</field>
+    <field name="client_url">https://3pl-cliente.ecolight.com.uy</field>
+    <field name="client_db">3pl-cliente</field>
+    <field name="client_user">admin</field>
+    <field name="client_password">Admin@1234</field>
+    <field name="active">True</field>
+  </record>
+</odoo>

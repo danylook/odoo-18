@@ -1,0 +1,22 @@
+id,sequence,code,name,report_name,internal_type,country_id/id,l10n_uy_doc_type
+doc_101_eticket,101,101,eTicket,eTicket,invoice,base.uy,3
+doc_102_nc_eticket,102,102,Nota de crédito eTicket,NC eTicket,credit_note,base.uy,3
+doc_103_nd_eticket,103,103,Nota de débito eTicket,ND eTicket,debit_note,base.uy,3
+doc_111_efactura,1,111,eFactura,eFactura,invoice,base.uy,2
+doc_112_nc_efactura,2,112,Nota de crédito eFactura,NC eFactura,credit_note,base.uy,2
+doc_113_nd_efactura,3,113,Nota de débito eFactura,ND eFactura,debit_note,base.uy,2
+doc_121_efactura_expo,121,121,eFactura Exportación,eFactura Exportación,invoice,base.uy,4
+doc_122_nc_efactura_expo,122,122,Nota de crédito eFactura Exportación,NC eFactura Exportación,credit_note,base.uy,4
+doc_123_nd_efactura_expo,123,123,Nota de débito eFactura Exportación,ND eFactura Exportación,debit_note,base.uy,4
+doc_124_eremito_expo,124,124,eRemito Exportación,eRemito Exportación,invoice,base.uy,5
+doc_131_eticket_cuenta_ajena,131,131,eTicket Cuenta Ajena,eTicket Cuenta Ajena,invoice,base.uy,6
+doc_132_nc_eticket_cuenta_ajena,132,132,Nota de crédito eTicket Cuenta Ajena,NC eTicket Cuenta Ajena,credit_note,base.uy,6
+doc_133_nd_eticket_cuenta_ajena,133,133,Nota de débito eTicket Cuenta Ajena,ND eTicket Cuenta Ajena,debit_note,base.uy,6
+doc_141_efactura_cuenta_ajena,141,141,eFactura Cuenta Ajena,eFactura Cuenta Ajena,invoice,base.uy,7
+doc_142_nc_efactura_cuenta_ajena,142,142,Nota de crédito eFactura Cuenta Ajena,NC eFactura Cuenta Ajena,credit_note,base.uy,7
+doc_143_nd_efactura_cuenta_ajena,143,143,Nota de débito eFactura Cuenta Ajena,ND eFactura Cuenta Ajena,debit_note,base.uy,7
+doc_151_eboleta,151,151,eBoleta de Entrada,eBoleta de Entrada,invoice,base.uy,7
+doc_152_nc_eboleta,152,152,Nota de crédito eBoleta de Entrada,NC eBoleta de Entrada,credit_note,base.uy,7
+doc_153_nd_eboleta,153,153,Nota de débito eBoleta de Entrada,ND eBoleta de Entrada,debit_note,base.uy,7
+doc_181_eremito,181,181,eRemito,eRemito,invoice,base.uy,7
+doc_182_eresguardo,182,182,eResguardo,eResguardo,invoice,base.uy,7

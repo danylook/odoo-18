@@ -1,0 +1,1504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- ================================================================== -->
+<!-- Shared layout: dark sidebar + topbar                                -->
+<!-- ================================================================== -->
+<template id="tpl_portal_layout" name="3PL Portal Layout">
+    <t t-call="web.layout">
+        <t t-set="head">
+            <t t-call-assets="tpl_3pl_logistic.assets_portal_css" t-js="false"/>
+            <t t-out="head"/>
+        </t>
+        <div class="tpl-portal-wrapper">
+            <!-- ── Sidebar ──────────────────────────────────────── -->
+            <aside class="tpl-sidebar">
+                <div class="tpl-sidebar-logo">
+                    <a href="/my/3pl/dashboard">
+                        <img t-att-src="'/web/image?model=res.company&amp;id=%s&amp;field=logo' % request.env.company.id"
+                             alt="Logo" class="tpl-logo-img"/>
+                    </a>
+                    <span class="tpl-sidebar-title">3PL Portal</span>
+                </div>
+                <nav class="tpl-nav">
+                    <a t-attf-class="tpl-nav-link #{'active' if page_name == 'tpl_dashboard' else ''}"
+                       href="/my/3pl/dashboard">
+                        <i class="fa fa-th-large"/> Dashboard
+                    </a>
+
+                    <div class="tpl-nav-section">Stock</div>
+                    <a t-attf-class="tpl-nav-link #{'active' if page_name == 'tpl_stock' else ''}"
+                       href="/my/3pl/stock">
+                        <i class="fa fa-cubes"/> My Stock
+                    </a>
+
+                    <div class="tpl-nav-section">Orders</div>
+                    <a t-attf-class="tpl-nav-link tpl-nav-sub #{'active' if page_name == 'tpl_inbound' else ''}"
+                       href="/my/3pl/orders/inbound">
+                        <i class="fa fa-arrow-circle-down"/> Inbound Orders
+                    </a>
+                    <a t-attf-class="tpl-nav-link tpl-nav-sub #{'active' if page_name == 'tpl_outbound' else ''}"
+                       href="/my/3pl/orders/outbound">
+                        <i class="fa fa-arrow-circle-up"/> Outbound Orders
+                    </a>
+                    <a t-attf-class="tpl-nav-link tpl-nav-sub #{'active' if page_name == 'tpl_orders' else ''}"
+                       href="/my/3pl/orders">
+                        <i class="fa fa-list-alt"/> All Orders
+                    </a>
+
+                    <div class="tpl-nav-section">New Order</div>
+                    <a t-attf-class="tpl-nav-link #{'active' if page_name == 'tpl_new_order' else ''}"
+                       href="/my/3pl/order/new?type=in">
+                        <i class="fa fa-plus-circle text-success"/> Receive Goods
+                    </a>
+                    <a class="tpl-nav-link" href="/my/3pl/order/new?type=out">
+                        <i class="fa fa-plus-circle text-warning"/> Send Goods
+                    </a>
+
+                    <div class="tpl-nav-section">Import</div>
+                    <a t-attf-class="tpl-nav-link tpl-nav-sub #{'active' if page_name == 'tpl_import' else ''}"
+                       href="/my/3pl/import/products">
+                        <i class="fa fa-upload"/> Import Products
+                    </a>
+                    <a class="tpl-nav-link tpl-nav-sub" href="/my/3pl/import/inbound">
+                        <i class="fa fa-upload text-success"/> Import Inbound
+                    </a>
+                    <a class="tpl-nav-link tpl-nav-sub" href="/my/3pl/import/outbound">
+                        <i class="fa fa-upload text-warning"/> Import Outbound
+                    </a>
+
+
+                    <div class="tpl-nav-section">Reports</div>
+                    <a t-attf-class="tpl-nav-link tpl-nav-sub #{'active' if page_name == 'tpl_report_inbound' else ''}"
+                       href="/my/3pl/reports/inbound">
+                        <i class="fa fa-arrow-circle-down text-success"/> Inbound Report
+                    </a>
+                    <a t-attf-class="tpl-nav-link tpl-nav-sub #{'active' if page_name == 'tpl_report_outbound' else ''}"
+                       href="/my/3pl/reports/outbound">
+                        <i class="fa fa-arrow-circle-up" style="color:#c87c00;"/> Outbound Report
+                    </a>
+                    <a t-attf-class="tpl-nav-link tpl-nav-sub #{'active' if page_name == 'tpl_report_delivery' else ''}"
+                       href="/my/3pl/reports/delivery">
+                        <i class="fa fa-truck"/> Delivery Report
+                    </a>
+                    <a t-attf-class="tpl-nav-link tpl-nav-sub #{'active' if page_name == 'tpl_report_stock_age' else ''}"
+                       href="/my/3pl/reports/stock_age">
+                        <i class="fa fa-clock-o"/> Stock Time Report
+                    </a>
+
+                    <div class="tpl-nav-section">Billing</div>
+                    <a t-attf-class="tpl-nav-link #{'active' if page_name == 'tpl_invoices' else ''}" href="/my/3pl/invoices">
+                        <i class="fa fa-file-text-o"/> My Invoices
+                    </a>
+
+                    <div class="tpl-nav-section">Account</div>
+                    <a t-attf-class="tpl-nav-link #{'active' if page_name == 'tpl_profile' else ''}" href="/my/3pl/profile">
+                        <i class="fa fa-user-o"/> My Profile
+                    </a>
+                    <a class="tpl-nav-link" href="/web/session/logout">
+                        <i class="fa fa-sign-out"/> Log Out
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- ── Main area ──────────────────────────────────── -->
+            <div class="tpl-main">
+                <header class="tpl-topbar">
+                    <button class="tpl-sidebar-toggle" id="tplSidebarToggle">
+                        <i class="fa fa-bars"/>
+                    </button>
+                    <span class="tpl-topbar-title"><t t-out="topbar_title or '3PL Warehouse Portal'"/></span>
+                    <div class="tpl-lang-switcher">
+                        <t t-set="_curr_lang" t-value="request.env.context.get('lang', 'en_US')"/>
+                        <t t-set="_langs" t-value="request.env['res.lang'].sudo().search([('active','=',True)])"/>
+                        <t t-foreach="_langs" t-as="_lang">
+                            <a t-attf-href="/website/lang/#{_lang.url_code}?r=#{request.httprequest.path}"
+                               t-attf-class="tpl-lang-btn#{' tpl-lang-active' if _lang.code == _curr_lang else ''}">
+                                <t t-esc="_lang.url_code.upper()"/>
+                            </a>
+                        </t>
+                    </div>
+                    <span class="tpl-topbar-user">
+                        <i class="fa fa-user-circle-o me-1"/>
+                        <t t-esc="request.env.user.name"/>
+                    </span>
+                </header>
+                <main class="tpl-content">
+                    <t t-out="0"/>
+                </main>
+            </div>
+        </div>
+        <script>
+            document.getElementById('tplSidebarToggle').addEventListener('click', function() {
+                document.querySelector('.tpl-portal-wrapper').classList.toggle('sidebar-hidden');
+            });
+        </script>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Dashboard                                                           -->
+<!-- ================================================================== -->
+<template id="portal_3pl_dashboard" name="3PL Client Dashboard">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">Dashboard</t>
+
+        <t t-if="message == 'order_submitted'">
+            <div class="tpl-alert tpl-alert-success">
+                <i class="fa fa-check-circle me-2"/>
+                Your order has been submitted. Our team will process it shortly.
+            </div>
+        </t>
+
+        <div class="tpl-welcome">
+            <h2>Welcome, <t t-esc="partner.name"/></h2>
+            <p>Your warehouse at a glance.</p>
+        </div>
+
+        <div class="tpl-kpi-row">
+            <div class="tpl-kpi-card">
+                <div class="tpl-kpi-icon" style="background:#1a3a5c;"><i class="fa fa-cubes"/></div>
+                <div class="tpl-kpi-body">
+                    <span class="tpl-kpi-value"><t t-esc="total_units"/></span>
+                    <span class="tpl-kpi-label">Units in Stock</span>
+                </div>
+            </div>
+            <div class="tpl-kpi-card">
+                <div class="tpl-kpi-icon" style="background:#1e6b3e;"><i class="fa fa-tags"/></div>
+                <div class="tpl-kpi-body">
+                    <span class="tpl-kpi-value"><t t-esc="product_count"/></span>
+                    <span class="tpl-kpi-label">Products Stored</span>
+                </div>
+            </div>
+            <div class="tpl-kpi-card">
+                <a href="/my/3pl/orders/inbound" class="tpl-kpi-link">
+                    <div class="tpl-kpi-icon" style="background:#155724;"><i class="fa fa-arrow-circle-down"/></div>
+                    <div class="tpl-kpi-body">
+                        <span class="tpl-kpi-value"><t t-esc="inbound_count"/></span>
+                        <span class="tpl-kpi-label">Open Inbound</span>
+                    </div>
+                </a>
+            </div>
+            <div class="tpl-kpi-card">
+                <a href="/my/3pl/orders/outbound" class="tpl-kpi-link">
+                    <div class="tpl-kpi-icon" style="background:#7a4400;"><i class="fa fa-arrow-circle-up"/></div>
+                    <div class="tpl-kpi-body">
+                        <span class="tpl-kpi-value"><t t-esc="outbound_count"/></span>
+                        <span class="tpl-kpi-label">Open Outbound</span>
+                    </div>
+                </a>
+            </div>
+            <div class="tpl-kpi-card">
+                <div class="tpl-kpi-icon" style="background:#6b1a1a;"><i class="fa fa-file-text-o"/></div>
+                <div class="tpl-kpi-body">
+                    <span class="tpl-kpi-value"><t t-esc="open_invoices"/></span>
+                    <span class="tpl-kpi-label">Unpaid Invoices</span>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="tpl-section-title mt-4">Quick Actions</h4>
+        <div class="tpl-tile-grid">
+            <a href="/my/3pl/stock" class="tpl-tile">
+                <i class="fa fa-cubes tpl-tile-icon"/>
+                <span class="tpl-tile-label">My Stock</span>
+                <span class="tpl-tile-sub">View inventory</span>
+            </a>
+            <a href="/my/3pl/orders/inbound" class="tpl-tile">
+                <i class="fa fa-arrow-circle-down tpl-tile-icon" style="color:#1e6b3e;"/>
+                <span class="tpl-tile-label">Inbound Orders</span>
+                <span class="tpl-tile-sub">Receiving operations</span>
+            </a>
+            <a href="/my/3pl/orders/outbound" class="tpl-tile">
+                <i class="fa fa-arrow-circle-up tpl-tile-icon" style="color:#c87c00;"/>
+                <span class="tpl-tile-label">Outbound Orders</span>
+                <span class="tpl-tile-sub">Delivery operations</span>
+            </a>
+            <a href="/my/3pl/order/new?type=in" class="tpl-tile">
+                <i class="fa fa-plus-circle tpl-tile-icon" style="color:#1e6b3e;"/>
+                <span class="tpl-tile-label">Receive Goods</span>
+                <span class="tpl-tile-sub">Create inbound order</span>
+            </a>
+            <a href="/my/3pl/order/new?type=out" class="tpl-tile">
+                <i class="fa fa-plus-circle tpl-tile-icon" style="color:#c87c00;"/>
+                <span class="tpl-tile-label">Send Goods</span>
+                <span class="tpl-tile-sub">Create outbound order</span>
+            </a>
+            <a href="/my/3pl/invoices" class="tpl-tile">
+                <i class="fa fa-file-text-o tpl-tile-icon" style="color:#6b1a1a;"/>
+                <span class="tpl-tile-label">My Invoices</span>
+                <span class="tpl-tile-sub">View billing history</span>
+            </a>
+        </div>
+
+        <h4 class="tpl-section-title mt-4">Bulk Import</h4>
+        <div class="tpl-tile-grid">
+            <a href="/my/3pl/import/products" class="tpl-tile">
+                <i class="fa fa-upload tpl-tile-icon"/>
+                <span class="tpl-tile-label">Import Products</span>
+                <span class="tpl-tile-sub">Upload product catalogue</span>
+            </a>
+            <a href="/my/3pl/import/inbound" class="tpl-tile">
+                <i class="fa fa-upload tpl-tile-icon" style="color:#1e6b3e;"/>
+                <span class="tpl-tile-label">Import Inbound</span>
+                <span class="tpl-tile-sub">Bulk receiving orders</span>
+            </a>
+            <a href="/my/3pl/import/outbound" class="tpl-tile">
+                <i class="fa fa-upload tpl-tile-icon" style="color:#c87c00;"/>
+                <span class="tpl-tile-label">Import Outbound</span>
+                <span class="tpl-tile-sub">Bulk delivery orders</span>
+            </a>
+        </div>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Stock list                                                          -->
+<!-- ================================================================== -->
+<template id="portal_my_3pl_stock" name="3PL: My Warehouse Stock">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">My Warehouse Stock</t>
+
+        <t t-if="message == 'order_submitted'">
+            <div class="tpl-alert tpl-alert-success">
+                <i class="fa fa-check-circle me-2"/>Your order has been submitted successfully.
+            </div>
+        </t>
+
+        <div class="tpl-page-header">
+            <h3>Warehouse Stock</h3>
+            <div>
+                <a href="/my/3pl/order/new?type=in" class="tpl-btn tpl-btn-success me-2">
+                    <i class="fa fa-arrow-circle-down"/> Receive Goods
+                </a>
+                <a href="/my/3pl/order/new?type=out" class="tpl-btn tpl-btn-warning">
+                    <i class="fa fa-arrow-circle-up"/> Send Goods
+                </a>
+            </div>
+        </div>
+
+        <t t-if="not quants">
+            <div class="tpl-empty">
+                <i class="fa fa-inbox fa-3x mb-3"/>
+                <p>No stock currently in the warehouse.</p>
+                <a href="/my/3pl/order/new?type=in" class="tpl-btn tpl-btn-primary">Create Inbound Order</a>
+            </div>
+        </t>
+        <t t-if="quants">
+            <div class="tpl-table-wrap">
+                <table class="tpl-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th><th>Lot / Serial</th><th>Expiry</th>
+                            <th>Location</th><th class="text-end">Available</th>
+                            <th class="text-end">Reserved</th><th>UoM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="quants" t-as="q">
+                            <tr>
+                                <td><strong><t t-esc="q.product_id.display_name"/></strong></td>
+                                <td><t t-esc="q.lot_id.name or '—'"/></td>
+                                <td>
+                                    <t t-if="q.lot_id and q.lot_id.expiration_date">
+                                        <t t-esc="q.lot_id.expiration_date" t-options="{'widget': 'date'}"/>
+                                    </t>
+                                    <t t-else="">—</t>
+                                </td>
+                                <td><t t-esc="q.location_id.display_name"/></td>
+                                <td class="text-end"><t t-esc="q.quantity"/></td>
+                                <td class="text-end"><t t-esc="q.reserved_quantity"/></td>
+                                <td><t t-esc="q.product_uom_id.name"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Orders list (inbound / outbound / all — same template, filter_type) -->
+<!-- ================================================================== -->
+<template id="portal_my_3pl_orders" name="3PL: My Orders">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">
+            <t t-if="filter_type == 'inbound'">Inbound Orders</t>
+            <t t-elif="filter_type == 'outbound'">Outbound Orders</t>
+            <t t-else="">All Orders</t>
+        </t>
+
+        <t t-if="message == 'order_submitted'">
+            <div class="tpl-alert tpl-alert-success">
+                <i class="fa fa-check-circle me-2"/>Your order has been submitted successfully.
+            </div>
+        </t>
+
+        <div class="tpl-page-header">
+            <div>
+                <h3 class="mb-1">
+                    <t t-if="filter_type == 'inbound'">
+                        <i class="fa fa-arrow-circle-down text-success me-2"/>Inbound Orders
+                    </t>
+                    <t t-elif="filter_type == 'outbound'">
+                        <i class="fa fa-arrow-circle-up me-2" style="color:#c87c00;"/>Outbound Orders
+                    </t>
+                    <t t-else="">All Warehouse Orders</t>
+                </h3>
+                <!-- Filter tabs -->
+                <div class="tpl-tabs">
+                    <a t-attf-class="tpl-tab #{'active' if filter_type == 'all' else ''}"
+                       href="/my/3pl/orders">All</a>
+                    <a t-attf-class="tpl-tab #{'active' if filter_type == 'inbound' else ''}"
+                       href="/my/3pl/orders/inbound">Inbound</a>
+                    <a t-attf-class="tpl-tab #{'active' if filter_type == 'outbound' else ''}"
+                       href="/my/3pl/orders/outbound">Outbound</a>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <t t-if="filter_type == 'inbound' or filter_type == 'all'">
+                    <a href="/my/3pl/order/new?type=in" class="tpl-btn tpl-btn-success">
+                        <i class="fa fa-plus"/> New Inbound
+                    </a>
+                </t>
+                <t t-if="filter_type == 'outbound' or filter_type == 'all'">
+                    <a href="/my/3pl/order/new?type=out" class="tpl-btn tpl-btn-warning">
+                        <i class="fa fa-plus"/> New Outbound
+                    </a>
+                </t>
+                <t t-if="filter_type == 'inbound'">
+                    <a href="/my/3pl/import/inbound" class="tpl-btn tpl-btn-outline">
+                        <i class="fa fa-upload"/> Import CSV
+                    </a>
+                </t>
+                <t t-if="filter_type == 'outbound'">
+                    <a href="/my/3pl/import/outbound" class="tpl-btn tpl-btn-outline">
+                        <i class="fa fa-upload"/> Import CSV
+                    </a>
+                </t>
+            </div>
+        </div>
+
+        <t t-if="not pickings">
+            <div class="tpl-empty">
+                <i class="fa fa-clipboard fa-3x mb-3"/>
+                <p>No orders yet.</p>
+                <t t-if="filter_type == 'inbound'">
+                    <a href="/my/3pl/order/new?type=in" class="tpl-btn tpl-btn-success">Create Inbound Order</a>
+                </t>
+                <t t-elif="filter_type == 'outbound'">
+                    <a href="/my/3pl/order/new?type=out" class="tpl-btn tpl-btn-warning">Create Outbound Order</a>
+                </t>
+                <t t-else="">
+                    <a href="/my/3pl/order/new" class="tpl-btn tpl-btn-primary">Create Order</a>
+                </t>
+            </div>
+        </t>
+        <t t-if="pickings">
+            <div class="tpl-table-wrap">
+                <table class="tpl-table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th><th>Type</th><th>Date</th>
+                            <th>Origin</th><th>Products</th><th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="pickings" t-as="p">
+                            <tr>
+                                <td><strong><a t-attf-href="/my/3pl/order/#{p.id}"><t t-esc="p.name"/></a></strong></td>
+                                <td>
+                                    <t t-if="p.picking_type_id.code == 'incoming'">
+                                        <span class="tpl-badge tpl-badge-in">
+                                            <i class="fa fa-arrow-circle-down me-1"/>Inbound
+                                        </span>
+                                    </t>
+                                    <t t-elif="p.picking_type_id.code == 'outgoing'">
+                                        <span class="tpl-badge tpl-badge-out">
+                                            <i class="fa fa-arrow-circle-up me-1"/>Outbound
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="tpl-badge"><t t-esc="p.picking_type_id.name"/></span>
+                                    </t>
+                                </td>
+                                <td><t t-esc="p.scheduled_date" t-options="{'widget': 'date'}"/></td>
+                                <td><t t-esc="p.origin or '—'"/></td>
+                                <td><t t-esc="len(p.move_ids)"/> lines</td>
+                                <td>
+                                    <span t-attf-class="tpl-badge tpl-state-#{p.state}">
+                                        <t t-esc="p.state.replace('_',' ').title()"/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Create Order form                                                   -->
+<!-- ================================================================== -->
+<template id="portal_3pl_create_order" name="3PL: Create Warehouse Order">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">New Warehouse Order</t>
+
+        <div class="tpl-page-header">
+            <h3>
+                <t t-if="order_type == 'in'">
+                    <i class="fa fa-arrow-circle-down text-success me-2"/>Receive Goods — Inbound Order
+                </t>
+                <t t-if="order_type == 'out'">
+                    <i class="fa fa-arrow-circle-up me-2" style="color:#c87c00;"/>Send Goods — Outbound Order
+                </t>
+            </h3>
+        </div>
+
+        <div class="tpl-card mb-4">
+            <div class="tpl-card-header">Client Information</div>
+            <div class="tpl-card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>Name:</strong> <t t-esc="partner.name"/></p>
+                        <p class="mb-1"><strong>Email:</strong> <t t-esc="partner.email or '—'"/></p>
+                        <p class="mb-1"><strong>Phone:</strong> <t t-esc="partner.phone or '—'"/></p>
+                    </div>
+                    <div class="col-md-6">
+                        <t t-if="partner.street">
+                            <p class="mb-1"><strong>Address:</strong></p>
+                            <p class="mb-0"><t t-esc="partner.street"/></p>
+                            <p class="mb-0"><t t-esc="(partner.zip or '') + ' ' + (partner.city or '')"/></p>
+                            <p class="mb-0"><t t-esc="partner.country_id.name or ''"/></p>
+                        </t>
+                        <t t-else=""><p class="text-muted"><em>No address on file</em></p></t>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="/my/3pl/order/submit" class="tpl-form">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <input type="hidden" name="order_type" t-att-value="order_type"/>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="tpl-label">Requested Date <span class="text-danger">*</span></label>
+                    <input type="date" name="scheduled_date" class="tpl-input" required="required"/>
+                </div>
+                <div class="col-md-6">
+                    <label class="tpl-label">Your Reference</label>
+                    <input type="text" name="partner_ref" class="tpl-input" placeholder="PO number, order ref..."/>
+                </div>
+            </div>
+
+            <t t-if="order_type == 'in'">
+                <div class="tpl-alert tpl-alert-info mb-3">
+                    <i class="fa fa-info-circle me-2"/>
+                    Goods will be received at the 3PL warehouse. Please coordinate delivery timing with our team.
+                </div>
+            </t>
+
+            <t t-if="order_type == 'out'">
+                <div class="tpl-card mb-3">
+                    <div class="tpl-card-header" style="background:#fef3cd;">Delivery Address</div>
+                    <div class="tpl-card-body">
+                        <t t-if="delivery_addresses">
+                            <label class="tpl-label">Select Saved Address</label>
+                            <select name="delivery_partner_id" class="tpl-input mb-3">
+                                <option value="">— Enter address manually below —</option>
+                                <t t-foreach="delivery_addresses" t-as="da">
+                                    <option t-att-value="da.id">
+                                        <t t-esc="da.name"/>
+                                        <t t-if="da.street"> — <t t-esc="da.street"/>, <t t-esc="da.city or ''"/></t>
+                                    </option>
+                                </t>
+                            </select>
+                        </t>
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <input type="text" name="delivery_name" class="tpl-input"
+                                       placeholder="Recipient name / company" t-att-value="partner.name"/>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <input type="text" name="delivery_street" class="tpl-input"
+                                       placeholder="Street" t-att-value="partner.street or ''"/>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <input type="text" name="delivery_zip" class="tpl-input"
+                                       placeholder="ZIP" t-att-value="partner.zip or ''"/>
+                            </div>
+                            <div class="col-md-5 mb-2">
+                                <input type="text" name="delivery_city" class="tpl-input"
+                                       placeholder="City" t-att-value="partner.city or ''"/>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <input type="text" name="delivery_country" class="tpl-input"
+                                       placeholder="Country" t-att-value="partner.country_id.name or ''"/>
+                            </div>
+                        </div>
+                        <hr class="my-2"/>
+                        <p class="tpl-label mb-1">Delivery Contact <small class="text-muted fw-normal">(person to notify at destination)</small></p>
+                        <t t-set="_contacts" t-value="delivery_addresses.filtered(lambda c: c.phone or c.mobile)"/>
+                        <t t-if="_contacts">
+                            <select name="contact_partner_id" class="tpl-input mb-2" id="delivery_contact_select">
+                                <option value="">&#8212; Enter contact manually &#8212;</option>
+                                <t t-foreach="_contacts" t-as="dc">
+                                    <option t-att-value="dc.id"
+                                            t-att-data-name="dc.name"
+                                            t-att-data-phone="dc.phone or dc.mobile or ''">
+                                        <t t-esc="dc.name"/><t t-if="dc.phone or dc.mobile"> &#8212; <t t-esc="dc.phone or dc.mobile"/></t>
+                                    </option>
+                                </t>
+                            </select>
+                        </t>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <input type="text" name="contact_name" id="contact_name_input" class="tpl-input" placeholder="Contact person name"/>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <input type="text" name="contact_phone" id="contact_phone_input" class="tpl-input" placeholder="Phone number"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+            <div class="tpl-card mb-3">
+                <div class="tpl-card-header">Products</div>
+                <div class="tpl-card-body p-0">
+                    <table class="tpl-table" id="order_lines">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th style="width:140px">Quantity</th>
+                                <th style="width:50px"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="lines_body">
+                            <tr class="order-line">
+                                <td>
+                                    <select name="product_id[]" class="tpl-input" required="required">
+                                        <option value="">— Select Product —</option>
+                                        <t t-foreach="owned_products" t-as="p">
+                                            <option t-att-value="p.id"><t t-esc="p.display_name"/></option>
+                                        </t>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="quantity[]" class="tpl-input"
+                                           min="0.01" step="0.01" required="required" placeholder="Qty"/>
+                                </td>
+                                <td>
+                                    <button type="button" class="tpl-btn-icon remove-line">
+                                        <i class="fa fa-trash"/>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tpl-card-footer">
+                    <button type="button" id="add_line" class="tpl-btn tpl-btn-outline">
+                        <i class="fa fa-plus"/> Add Product
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="tpl-label">Notes / Special Instructions</label>
+                <textarea name="note" class="tpl-input" rows="3" placeholder="Any special handling notes..."></textarea>
+            </div>
+
+            <div class="tpl-form-actions">
+                <button type="submit" class="tpl-btn tpl-btn-primary">
+                    <i class="fa fa-paper-plane me-1"/> Submit Order
+                </button>
+                <a href="/my/3pl/dashboard" class="tpl-btn tpl-btn-ghost">Cancel</a>
+            </div>
+        </form>
+        <script>
+            var contactSelect = document.getElementById('delivery_contact_select');
+            if (contactSelect) {
+                contactSelect.addEventListener('change', function() {
+                    var opt = this.options[this.selectedIndex];
+                    document.getElementById('contact_name_input').value = opt.dataset.name || '';
+                    document.getElementById('contact_phone_input').value = opt.dataset.phone || '';
+                });
+            }
+            document.getElementById('add_line').addEventListener('click', function() {
+                var tbody = document.getElementById('lines_body');
+                var first = tbody.querySelector('tr.order-line');
+                var clone = first.cloneNode(true);
+                clone.querySelectorAll('select, input').forEach(function(el) { el.value = ''; });
+                tbody.appendChild(clone);
+                bindRemove(clone);
+            });
+            function bindRemove(row) {
+                row.querySelector('.remove-line').addEventListener('click', function() {
+                    if (document.querySelectorAll('tr.order-line').length > 1) row.remove();
+                });
+            }
+            document.querySelectorAll('tr.order-line').forEach(bindRemove);
+        </script>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Import Products                                                     -->
+<!-- ================================================================== -->
+<template id="portal_import_products" name="3PL: Import Products">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">Import Products</t>
+
+        <div class="tpl-page-header">
+            <h3><i class="fa fa-upload me-2"/>Import Product Catalogue</h3>
+            <a href="/my/3pl/import/sample/products" class="tpl-btn tpl-btn-outline">
+                <i class="fa fa-download me-1"/> Download Sample CSV
+            </a>
+        </div>
+
+        <t t-if="message and message.startswith('imported_')">
+            <div class="tpl-alert tpl-alert-success">
+                <i class="fa fa-check-circle me-2"/>
+                Successfully imported <strong><t t-esc="message.split('_')[1]"/></strong> product(s).
+            </div>
+        </t>
+        <t t-if="message == 'no_file'">
+            <div class="tpl-alert tpl-alert-warning"><i class="fa fa-warning me-2"/>Please select a file to upload.</div>
+        </t>
+        <t t-if="errors">
+            <div class="tpl-alert tpl-alert-warning">
+                <strong><i class="fa fa-exclamation-triangle me-2"/>Import completed with errors:</strong>
+                <ul class="mb-0 mt-2">
+                    <t t-foreach="errors.split('|')" t-as="err">
+                        <li><t t-esc="err"/></li>
+                    </t>
+                </ul>
+            </div>
+        </t>
+
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="tpl-card mb-4">
+                    <div class="tpl-card-header">Upload CSV File</div>
+                    <div class="tpl-card-body">
+                        <form method="post" action="/my/3pl/import/products/submit"
+                              enctype="multipart/form-data" class="tpl-form">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="mb-3">
+                                <label class="tpl-label">Select CSV file <span class="text-danger">*</span></label>
+                                <input type="file" name="import_file" class="tpl-input" accept=".csv" required="required"/>
+                                <small class="text-muted">Accepted format: CSV (.csv), UTF-8 encoding</small>
+                            </div>
+
+                            <t t-if="import_type == 'outbound'">
+                                <div class="tpl-card mb-3">
+                                    <div class="tpl-card-header" style="background:#fef3cd;">Delivery Contact <small class="fw-normal text-muted">(optional)</small></div>
+                                    <div class="tpl-card-body">
+                                        <t t-if="delivery_addresses">
+                                            <t t-set="_imp_contacts" t-value="delivery_addresses.filtered(lambda c: c.phone or c.mobile)"/>
+                                            <t t-if="_imp_contacts">
+                                                <select name="contact_partner_id" class="tpl-input mb-2" id="imp_contact_select">
+                                                    <option value="">&#8212; Select saved contact &#8212;</option>
+                                                    <t t-foreach="_imp_contacts" t-as="dc">
+                                                        <option t-att-value="dc.id"
+                                                                t-att-data-name="dc.name"
+                                                                t-att-data-phone="dc.phone or dc.mobile or ''">
+                                                            <t t-esc="dc.name"/><t t-if="dc.phone or dc.mobile"> &#8212; <t t-esc="dc.phone or dc.mobile"/></t>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </t>
+                                        </t>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-1">
+                                                <input type="text" name="contact_name" id="imp_contact_name" class="tpl-input" placeholder="Contact person name"/>
+                                            </div>
+                                            <div class="col-md-6 mb-1">
+                                                <input type="text" name="contact_phone" id="imp_contact_phone" class="tpl-input" placeholder="Phone number"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    (function() {
+                                        var sel = document.getElementById('imp_contact_select');
+                                        if (sel) {
+                                            sel.addEventListener('change', function() {
+                                                var opt = this.options[this.selectedIndex];
+                                                document.getElementById('imp_contact_name').value = opt.dataset.name || '';
+                                                document.getElementById('imp_contact_phone').value = opt.dataset.phone || '';
+                                            });
+                                        }
+                                    })();
+                                </script>
+                            </t>
+
+                            <div class="tpl-form-actions">
+                                <button type="submit" class="tpl-btn tpl-btn-primary">
+                                    <i class="fa fa-upload me-1"/> Import Products
+                                </button>
+                                <a href="/my/3pl/dashboard" class="tpl-btn tpl-btn-ghost">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="tpl-card">
+                    <div class="tpl-card-header">CSV Format — Products</div>
+                    <div class="tpl-card-body">
+                        <table class="tpl-table tpl-table-sm">
+                            <thead><tr><th>Column</th><th>Required</th><th>Description</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>name</code></td><td><span class="tpl-badge tpl-badge-in">Yes</span></td><td>Product name</td></tr>
+                                <tr><td><code>internal_reference</code></td><td>No</td><td>SKU / ref code</td></tr>
+                                <tr><td><code>sales_price</code></td><td>No</td><td>Unit price (decimal)</td></tr>
+                                <tr><td><code>weight</code></td><td>No</td><td>Weight in kg</td></tr>
+                                <tr><td><code>barcode</code></td><td>No</td><td>EAN / barcode</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="mt-3">
+                            <a href="/my/3pl/import/sample/products" class="tpl-btn tpl-btn-outline w-100">
+                                <i class="fa fa-file-text-o me-1"/> Download Sample
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Import Orders (inbound or outbound — single template)               -->
+<!-- ================================================================== -->
+<template id="portal_import_orders" name="3PL: Import Orders">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">
+            <t t-if="import_type == 'inbound'">Import Inbound Orders</t>
+            <t t-else="">Import Outbound Orders</t>
+        </t>
+        <t t-set="submit_url">
+            <t t-if="import_type == 'inbound'">/my/3pl/import/inbound/submit</t>
+            <t t-else="">/my/3pl/import/outbound/submit</t>
+        </t>
+        <t t-set="sample_type"><t t-esc="import_type"/></t>
+
+        <div class="tpl-page-header">
+            <h3>
+                <t t-if="import_type == 'inbound'">
+                    <i class="fa fa-upload text-success me-2"/>Import Inbound Orders
+                </t>
+                <t t-else="">
+                    <i class="fa fa-upload me-2" style="color:#c87c00;"/>Import Outbound Orders
+                </t>
+            </h3>
+            <a t-att-href="'/my/3pl/import/sample/' + import_type" class="tpl-btn tpl-btn-outline">
+                <i class="fa fa-download me-1"/> Download Sample CSV
+            </a>
+        </div>
+
+        <t t-if="message and message.startswith('imported_')">
+            <div class="tpl-alert tpl-alert-success">
+                <i class="fa fa-check-circle me-2"/>
+                Successfully created <strong><t t-esc="message.split('_')[1]"/></strong> order(s).
+            </div>
+        </t>
+        <t t-if="message == 'no_file'">
+            <div class="tpl-alert tpl-alert-warning"><i class="fa fa-warning me-2"/>Please select a file to upload.</div>
+        </t>
+        <t t-if="errors">
+            <div class="tpl-alert tpl-alert-warning">
+                <strong><i class="fa fa-exclamation-triangle me-2"/>Import completed with errors:</strong>
+                <ul class="mb-0 mt-2">
+                    <t t-foreach="errors.split('|')" t-as="err">
+                        <li><t t-esc="err"/></li>
+                    </t>
+                </ul>
+            </div>
+        </t>
+
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="tpl-card mb-4">
+                    <div class="tpl-card-header">Upload CSV File</div>
+                    <div class="tpl-card-body">
+                        <form method="post" t-att-action="submit_url"
+                              enctype="multipart/form-data" class="tpl-form">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="mb-3">
+                                <label class="tpl-label">Select CSV file <span class="text-danger">*</span></label>
+                                <input type="file" name="import_file" class="tpl-input" accept=".csv" required="required"/>
+                                <small class="text-muted">Accepted format: CSV (.csv), UTF-8 encoding</small>
+                            </div>
+                            <div class="tpl-form-actions">
+                                <button type="submit" class="tpl-btn tpl-btn-primary">
+                                    <i class="fa fa-upload me-1"/>
+                                    <t t-if="import_type == 'inbound'">Import Inbound Orders</t>
+                                    <t t-else="">Import Outbound Orders</t>
+                                </button>
+                                <a href="/my/3pl/dashboard" class="tpl-btn tpl-btn-ghost">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="tpl-card">
+                    <div class="tpl-card-header">
+                        <t t-if="import_type == 'inbound'">CSV Format — Inbound Orders</t>
+                        <t t-else="">CSV Format — Outbound Orders</t>
+                    </div>
+                    <div class="tpl-card-body">
+                        <table class="tpl-table tpl-table-sm">
+                            <thead><tr><th>Column</th><th>Req.</th><th>Description</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>order_ref</code></td><td><span class="tpl-badge tpl-badge-in">Yes</span></td><td>Order reference. Rows with same ref become one order.</td></tr>
+                                <tr><td><code>product_ref</code></td><td>*</td><td>Product internal reference (SKU)</td></tr>
+                                <tr><td><code>product_name</code></td><td>*</td><td>Product name (used if no ref)</td></tr>
+                                <tr><td><code>quantity</code></td><td><span class="tpl-badge tpl-badge-in">Yes</span></td><td>Number of units</td></tr>
+                                <tr><td><code>scheduled_date</code></td><td>No</td><td>Date in YYYY-MM-DD format</td></tr>
+                                <t t-if="import_type == 'outbound'">
+                                    <tr><td><code>delivery_address</code></td><td>No</td><td>Full delivery address text</td></tr>
+                                </t>
+                                <tr><td><code>note</code></td><td>No</td><td>Special instructions</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="text-muted small mt-2">* Either <code>product_ref</code> or <code>product_name</code> is required per line.</p>
+                        <div class="mt-2">
+                            <a t-att-href="'/my/3pl/import/sample/' + import_type" class="tpl-btn tpl-btn-outline w-100">
+                                <i class="fa fa-file-text-o me-1"/> Download Sample
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<!-- Legacy /my home entry -->
+<template id="portal_my_home_3pl" inherit_id="portal.portal_my_home"
+          name="3PL: My Warehouse Stock Entry">
+    <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+        <t t-call="portal.portal_docs_entry">
+            <t t-set="title">My Warehouse Stock</t>
+            <t t-set="url">/my/3pl/dashboard</t>
+            <t t-set="placeholder_count" t-value="'tpl_stock_count'"/>
+        </t>
+    </xpath>
+</template>
+
+
+<!-- ================================================================== -->
+<!-- Reports: Inbound                                                    -->
+<!-- ================================================================== -->
+<template id="portal_tpl_report_inbound" name="3PL: Inbound Report">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">Inbound Report</t>
+
+        <div class="tpl-page-header">
+            <h3><i class="fa fa-arrow-circle-down text-success me-2"/>Inbound Report</h3>
+        </div>
+
+        <t t-if="not pickings">
+            <div class="tpl-empty">
+                <i class="fa fa-inbox fa-3x mb-3"/>
+                <p>No inbound orders found.</p>
+            </div>
+        </t>
+        <t t-if="pickings">
+            <div class="tpl-table-wrap">
+                <table class="tpl-table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th><th>Origin</th>
+                            <th>Scheduled Date</th><th>Completed</th>
+                            <th>Products</th><th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="pickings" t-as="p">
+                            <tr>
+                                <td><strong><t t-esc="p.name"/></strong></td>
+                                <td><t t-esc="p.origin or '&#8212;'"/></td>
+                                <td><t t-esc="p.scheduled_date" t-options="{'widget':'date'}"/></td>
+                                <td>
+                                    <t t-if="p.date_done">
+                                        <t t-esc="p.date_done" t-options="{'widget':'date'}"/>
+                                    </t>
+                                    <t t-else="">&#8212;</t>
+                                </td>
+                                <td><t t-esc="len(p.move_ids)"/> lines</td>
+                                <td>
+                                    <span t-attf-class="tpl-badge tpl-state-#{p.state}">
+                                        <t t-esc="p.state.replace('_',' ').title()"/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Reports: Outbound                                                   -->
+<!-- ================================================================== -->
+<template id="portal_tpl_report_outbound" name="3PL: Outbound Report">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">Outbound Report</t>
+
+        <div class="tpl-page-header">
+            <h3><i class="fa fa-arrow-circle-up me-2" style="color:#c87c00;"/>Outbound Report</h3>
+        </div>
+
+        <t t-if="not pickings">
+            <div class="tpl-empty">
+                <i class="fa fa-inbox fa-3x mb-3"/>
+                <p>No outbound orders found.</p>
+            </div>
+        </t>
+        <t t-if="pickings">
+            <div class="tpl-table-wrap">
+                <table class="tpl-table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th><th>Origin</th><th>Deliver To</th>
+                            <th>Scheduled Date</th><th>Completed</th>
+                            <th>Products</th><th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="pickings" t-as="p">
+                            <tr>
+                                <td><strong><t t-esc="p.name"/></strong></td>
+                                <td><t t-esc="p.origin or '&#8212;'"/></td>
+                                <td><t t-esc="p.partner_id.name or '&#8212;'"/></td>
+                                <td><t t-esc="p.scheduled_date" t-options="{'widget':'date'}"/></td>
+                                <td>
+                                    <t t-if="p.date_done">
+                                        <t t-esc="p.date_done" t-options="{'widget':'date'}"/>
+                                    </t>
+                                    <t t-else="">&#8212;</t>
+                                </td>
+                                <td><t t-esc="len(p.move_ids)"/> lines</td>
+                                <td>
+                                    <span t-attf-class="tpl-badge tpl-state-#{p.state}">
+                                        <t t-esc="p.state.replace('_',' ').title()"/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Reports: Delivery                                                   -->
+<!-- ================================================================== -->
+<template id="portal_tpl_report_delivery" name="3PL: Delivery Report">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">Delivery Report</t>
+
+        <div class="tpl-page-header">
+            <h3><i class="fa fa-truck me-2"/>Delivery Report</h3>
+        </div>
+
+        <t t-if="not pickings">
+            <div class="tpl-empty">
+                <i class="fa fa-truck fa-3x mb-3"/>
+                <p>No deliveries with carrier found.</p>
+            </div>
+        </t>
+        <t t-if="pickings">
+            <div class="tpl-table-wrap">
+                <table class="tpl-table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th><th>Date</th><th>Carrier</th>
+                            <th class="text-end">Weight (kg)</th>
+                            <th class="text-end">Delivery Cost</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="pickings" t-as="p">
+                            <tr>
+                                <td><strong><t t-esc="p.name"/></strong></td>
+                                <td>
+                                    <t t-if="p.date_done">
+                                        <t t-esc="p.date_done" t-options="{'widget':'date'}"/>
+                                    </t>
+                                    <t t-elif="p.scheduled_date">
+                                        <t t-esc="p.scheduled_date" t-options="{'widget':'date'}"/>
+                                    </t>
+                                    <t t-else="">&#8212;</t>
+                                </td>
+                                <td><t t-esc="p.carrier_id.name if p.carrier_id else '&#8212;'"/></td>
+                                <td class="text-end"><t t-esc="'%.2f' % (p.shipping_weight or 0)"/></td>
+                                <td class="text-end"><t t-esc="'%.2f' % (p.tpl_delivery_cost or 0)"/></td>
+                                <td>
+                                    <span t-attf-class="tpl-badge tpl-state-#{p.state}">
+                                        <t t-esc="p.state.replace('_',' ').title()"/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Reports: Stock Time                                                 -->
+<!-- ================================================================== -->
+<template id="portal_tpl_report_stock_age" name="3PL: Stock Time Report">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">Stock Time Report</t>
+
+        <div class="tpl-page-header">
+            <h3><i class="fa fa-clock-o me-2"/>Stock Time Report</h3>
+        </div>
+
+        <div class="tpl-alert tpl-alert-info mb-3">
+            <i class="fa fa-info-circle me-2"/>
+            Shows how long your products have been in storage. Data updates daily.
+            <span style="color:#c87c00;font-weight:bold;">Orange</span> = 30+ days;
+            <span style="color:#6b1a1a;font-weight:bold;">Red</span> = 90+ days.
+        </div>
+
+        <t t-if="not stock_ages">
+            <div class="tpl-empty">
+                <i class="fa fa-clock-o fa-3x mb-3"/>
+                <p>No stock age data available yet. Data is updated daily by the system.</p>
+            </div>
+        </t>
+        <t t-if="stock_ages">
+            <div class="tpl-table-wrap">
+                <table class="tpl-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th><th>Location</th>
+                            <th>First Received</th><th>Last Snapshot</th>
+                            <th class="text-end">Days in Storage</th>
+                            <th class="text-end">Avg Daily Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="stock_ages" t-as="sa">
+                            <tr t-attf-style="#{
+                                'background:#fff0f0;' if sa.days_in_stock >= 90 else
+                                ('background:#fff8ee;' if sa.days_in_stock >= 30 else '')
+                            }">
+                                <td><strong><t t-esc="sa.product_id.display_name"/></strong></td>
+                                <td><t t-esc="sa.location_id.display_name"/></td>
+                                <td><t t-esc="sa.first_seen" t-options="{'widget':'date'}"/></td>
+                                <td><t t-esc="sa.last_seen" t-options="{'widget':'date'}"/></td>
+                                <td class="text-end">
+                                    <strong t-attf-style="#{
+                                        'color:#6b1a1a;' if sa.days_in_stock >= 90 else
+                                        ('color:#c87c00;' if sa.days_in_stock >= 30 else '')
+                                    }"><t t-esc="sa.days_in_stock"/></strong>
+                                </td>
+                                <td class="text-end"><t t-esc="'%.1f' % (sa.avg_qty or 0)"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+<!-- ================================================================== -->
+<!-- Order Detail                                                        -->
+<!-- ================================================================== -->
+<template id="portal_3pl_order_detail" name="3PL: Order Detail">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">Order <t t-esc="picking.name"/></t>
+
+        <div class="tpl-page-header">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <h3 class="mb-0">
+                    <t t-if="picking.picking_type_id.code == 'incoming'">
+                        <i class="fa fa-arrow-circle-down text-success me-2"/>
+                    </t>
+                    <t t-elif="picking.picking_type_id.code == 'outgoing'">
+                        <i class="fa fa-arrow-circle-up me-2" style="color:#c87c00;"/>
+                    </t>
+                    <t t-esc="picking.name"/>
+                </h3>
+                <span t-attf-class="tpl-badge tpl-state-#{picking.state}" style="font-size:0.95rem;">
+                    <t t-esc="picking.state.replace('_',' ').title()"/>
+                </span>
+            </div>
+        </div>
+
+        <div class="tpl-card mb-4">
+            <div class="row g-3">
+                <div class="col-6 col-md-3">
+                    <div class="text-muted small">Type</div>
+                    <div>
+                        <t t-if="picking.picking_type_id.code == 'incoming'">
+                            <span class="tpl-badge tpl-badge-in"><i class="fa fa-arrow-circle-down me-1"/>Inbound</span>
+                        </t>
+                        <t t-elif="picking.picking_type_id.code == 'outgoing'">
+                            <span class="tpl-badge tpl-badge-out"><i class="fa fa-arrow-circle-up me-1"/>Outbound</span>
+                        </t>
+                        <t t-else="">
+                            <span class="tpl-badge"><t t-esc="picking.picking_type_id.name"/></span>
+                        </t>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-muted small">Scheduled Date</div>
+                    <div><t t-esc="picking.scheduled_date" t-options="{'widget': 'date'}"/></div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-muted small">Origin</div>
+                    <div><t t-esc="picking.origin or '—'"/></div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="text-muted small">Partner</div>
+                    <div><t t-esc="picking.partner_id.name or '—'"/></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tpl-card">
+            <h5 class="mb-3"><i class="fa fa-list me-2"/>Product Lines</h5>
+            <t t-if="picking.move_ids">
+                <div class="tpl-table-wrap">
+                    <table class="tpl-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-end">Demand</th>
+                                <th class="text-end">Done</th>
+                                <th>UoM</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="picking.move_ids" t-as="m">
+                                <tr>
+                                    <td><t t-esc="m.product_id.display_name"/></td>
+                                    <td class="text-end"><t t-esc="m.product_uom_qty"/></td>
+                                    <td class="text-end"><t t-esc="m.quantity"/></td>
+                                    <td><t t-esc="m.product_uom.name"/></td>
+                                    <td>
+                                        <span t-attf-class="tpl-badge tpl-state-#{m.state}">
+                                            <t t-esc="m.state.replace('_',' ').title()"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+            <t t-else="">
+                <p class="text-muted">No product lines found.</p>
+            </t>
+        </div>
+
+        <div class="mt-3">
+            <a t-attf-href="/my/3pl/orders/#{filter_type}" class="btn btn-secondary btn-sm">
+                <i class="fa fa-arrow-left me-1"/>Back to Orders
+            </a>
+        </div>
+    </t>
+</template>
+
+
+<!-- ================================================================== -->
+<!-- My Invoices                                                         -->
+<!-- ================================================================== -->
+<template id="portal_tpl_my_invoices" name="3PL: My Invoices">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">My Invoices</t>
+
+        <div class="tpl-page-header">
+            <h3><i class="fa fa-file-text-o me-2" style="color:#6b1a1a;"/>My Invoices</h3>
+        </div>
+
+        <t t-if="not invoices">
+            <div class="tpl-empty">
+                <i class="fa fa-file-text-o fa-3x mb-3"/>
+                <p>No invoices found.</p>
+            </div>
+        </t>
+        <t t-if="invoices">
+            <div class="tpl-table-wrap">
+                <table class="tpl-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Date</th>
+                            <th>Due Date</th>
+                            <th style="text-align:right;">Amount</th>
+                            <th>Status</th>
+                            <th style="width:70px;text-align:center;">PDF</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="invoices" t-as="inv">
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <a t-attf-href="/my/3pl/invoices/#{inv.id}" style="color:#4a8abf;">
+                                            <t t-esc="inv.name"/>
+                                        </a>
+                                    </strong>
+                                </td>
+                                <td><t t-esc="inv.invoice_date and inv.invoice_date.strftime('%d %b %Y') or '—'"/></td>
+                                <td><t t-esc="inv.invoice_date_due and inv.invoice_date_due.strftime('%d %b %Y') or '—'"/></td>
+                                <td style="text-align:right; font-weight:600;">
+                                    <t t-esc="'%.2f' % inv.amount_total"/> <t t-esc="inv.currency_id.symbol or inv.currency_id.name"/>
+                                </td>
+                                <td>
+                                    <t t-if="inv.payment_state == 'paid'">
+                                        <span class="tpl-badge tpl-badge-in">Paid</span>
+                                    </t>
+                                    <t t-elif="inv.payment_state == 'partial'">
+                                        <span class="tpl-badge" style="background:#7a4400;color:#fff;">Partial</span>
+                                    </t>
+                                    <t t-elif="inv.payment_state == 'in_payment'">
+                                        <span class="tpl-badge" style="background:#1e4a7a;color:#fff;">In Payment</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="tpl-badge tpl-badge-out">Unpaid</span>
+                                    </t>
+                                </td>
+                                <td style="text-align:center;">
+                                    <a t-attf-href="/my/invoices/#{inv.id}?report_type=pdf&amp;download=true"
+                                       target="_blank"
+                                       title="Download PDF"
+                                       style="color:#6b1a1a; font-size:18px;">
+                                        <i class="fa fa-file-pdf-o"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+
+
+<!-- ================================================================== -->
+<!-- Invoice Detail                                                      -->
+<!-- ================================================================== -->
+<template id="portal_tpl_invoice_detail" name="3PL: Invoice Detail">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">Invoice <t t-esc="invoice.name"/></t>
+
+        <div class="tpl-page-header">
+            <div>
+                <h3><i class="fa fa-file-text-o me-2" style="color:#6b1a1a;"/><t t-esc="invoice.name"/></h3>
+            </div>
+            <div class="d-flex gap-2">
+                <a t-attf-href="/my/invoices/#{invoice.id}?report_type=pdf&amp;download=true"
+                   class="tpl-btn tpl-btn-primary">
+                    <i class="fa fa-file-pdf-o me-1"/> Download PDF
+                </a>
+                <a href="/my/3pl/invoices" class="tpl-btn tpl-btn-ghost">
+                    <i class="fa fa-arrow-left me-1"/> Back to Invoices
+                </a>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="tpl-card">
+                    <div class="tpl-card-header">Invoice Info</div>
+                    <div class="tpl-card-body">
+                        <table class="tpl-table tpl-table-sm">
+                            <tbody>
+                                <tr><td><strong>Invoice #</strong></td><td><t t-esc="invoice.name"/></td></tr>
+                                <tr><td><strong>Date</strong></td><td><t t-esc="invoice.invoice_date and invoice.invoice_date.strftime('%d %b %Y') or '—'"/></td></tr>
+                                <tr><td><strong>Due Date</strong></td><td><t t-esc="invoice.invoice_date_due and invoice.invoice_date_due.strftime('%d %b %Y') or '—'"/></td></tr>
+                                <tr t-if="invoice.ref"><td><strong>Reference</strong></td><td><t t-esc="invoice.ref"/></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="tpl-card">
+                    <div class="tpl-card-header">Payment</div>
+                    <div class="tpl-card-body">
+                        <table class="tpl-table tpl-table-sm">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Status</strong></td>
+                                    <td>
+                                        <t t-if="invoice.payment_state == 'paid'"><span class="tpl-badge tpl-badge-in">Paid</span></t>
+                                        <t t-elif="invoice.payment_state == 'partial'"><span class="tpl-badge" style="background:#7a4400;color:#fff;">Partial</span></t>
+                                        <t t-elif="invoice.payment_state == 'in_payment'"><span class="tpl-badge" style="background:#1e4a7a;color:#fff;">In Payment</span></t>
+                                        <t t-else=""><span class="tpl-badge tpl-badge-out">Unpaid</span></t>
+                                    </td>
+                                </tr>
+                                <tr><td><strong>Total</strong></td><td style="font-weight:700;font-size:1.1em;"><t t-esc="'%.2f' % invoice.amount_total"/> <t t-esc="invoice.currency_id.symbol or invoice.currency_id.name"/></td></tr>
+                                <tr t-if="invoice.payment_state not in ('paid',)"><td><strong>Amount Due</strong></td><td style="font-weight:700;color:#6b1a1a;"><t t-esc="'%.2f' % invoice.amount_residual"/> <t t-esc="invoice.currency_id.symbol or invoice.currency_id.name"/></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tpl-card">
+            <div class="tpl-card-header">Lines</div>
+            <div class="tpl-card-body p-0">
+                <table class="tpl-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th style="width:90px;text-align:right;">Qty</th>
+                            <th style="width:110px;text-align:right;">Unit Price</th>
+                            <th style="width:110px;text-align:right;">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="invoice.invoice_line_ids.filtered(lambda l: l.display_type == 'product')" t-as="line">
+                            <tr>
+                                <td>
+                                    <t t-if="line.product_id"><strong><t t-esc="line.product_id.name"/></strong><br/></t>
+                                    <span class="text-muted"><t t-esc="line.name"/></span>
+                                </td>
+                                <td style="text-align:right;"><t t-esc="'%.2f' % line.quantity"/></td>
+                                <td style="text-align:right;"><t t-esc="'%.2f' % line.price_unit"/></td>
+                                <td style="text-align:right; font-weight:600;"><t t-esc="'%.2f' % line.price_subtotal"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" style="text-align:right; font-weight:600;">Total</td>
+                            <td style="text-align:right; font-weight:700; font-size:1.05em;">
+                                <t t-esc="'%.2f' % invoice.amount_total"/> <t t-esc="invoice.currency_id.symbol or invoice.currency_id.name"/>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </t>
+</template>
+
+
+<!-- ================================================================== -->
+<!-- My Profile                                                          -->
+<!-- ================================================================== -->
+<template id="portal_tpl_profile" name="3PL: My Profile">
+    <t t-call="tpl_3pl_logistic.tpl_portal_layout">
+        <t t-set="topbar_title">My Profile</t>
+
+        <div class="tpl-page-header">
+            <div>
+                <h3><i class="fa fa-user-o me-2" style="color:#6b1a1a;"/>My Profile</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="tpl-card">
+                    <div class="tpl-card-header">Contact Information</div>
+                    <div class="tpl-card-body">
+                        <table class="tpl-table tpl-table-sm">
+                            <tbody>
+                                <tr>
+                                    <td style="width:130px;"><strong>Name</strong></td>
+                                    <td><t t-esc="partner.name"/></td>
+                                </tr>
+                                <tr t-if="partner.email">
+                                    <td><strong>Email</strong></td>
+                                    <td><a t-attf-href="mailto:#{partner.email}"><t t-esc="partner.email"/></a></td>
+                                </tr>
+                                <tr t-if="partner.phone">
+                                    <td><strong>Phone</strong></td>
+                                    <td><t t-esc="partner.phone"/></td>
+                                </tr>
+                                <tr t-if="partner.mobile">
+                                    <td><strong>Mobile</strong></td>
+                                    <td><t t-esc="partner.mobile"/></td>
+                                </tr>
+                                <tr t-if="partner.company_name or partner.parent_id">
+                                    <td><strong>Company</strong></td>
+                                    <td><t t-esc="partner.company_name or partner.parent_id.name"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="tpl-card">
+                    <div class="tpl-card-header">Address</div>
+                    <div class="tpl-card-body">
+                        <table class="tpl-table tpl-table-sm">
+                            <tbody>
+                                <tr t-if="partner.street">
+                                    <td style="width:130px;"><strong>Street</strong></td>
+                                    <td><t t-esc="partner.street"/></td>
+                                </tr>
+                                <tr t-if="partner.street2">
+                                    <td><strong>Street 2</strong></td>
+                                    <td><t t-esc="partner.street2"/></td>
+                                </tr>
+                                <tr t-if="partner.city">
+                                    <td><strong>City</strong></td>
+                                    <td><t t-esc="partner.city"/></td>
+                                </tr>
+                                <tr t-if="partner.state_id">
+                                    <td><strong>State</strong></td>
+                                    <td><t t-esc="partner.state_id.name"/></td>
+                                </tr>
+                                <tr t-if="partner.zip">
+                                    <td><strong>ZIP</strong></td>
+                                    <td><t t-esc="partner.zip"/></td>
+                                </tr>
+                                <tr t-if="partner.country_id">
+                                    <td><strong>Country</strong></td>
+                                    <td><t t-esc="partner.country_id.name"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="tpl-card">
+                    <div class="tpl-card-header">Account</div>
+                    <div class="tpl-card-body">
+                        <p class="text-muted mb-3">To change your password or update your account details, contact your 3PL administrator.</p>
+                        <a href="/web/session/logout" class="tpl-btn tpl-btn-ghost">
+                            <i class="fa fa-sign-out me-1"/> Log Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="view_wf_panel_import_wizard" model="ir.ui.view">
+            <field name="name">wf.panel.import.wizard.form</field>
+            <field name="model">wf.panel.import.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import WF Panel from PDF">
+                    <group>
+                        <field name="pdf_file" filename="filename"/>
+                        <field name="force_reload"/>
+                        <!-- <div class="text-danger">
+                            Si el panel ya existe, marque 'Sobrescribir si existe' para actualizarlo con los nuevos datos.
+                        </div> -->
+                    </group>
+                    <footer>
+                        <button name="action_import_pdf" type="object" string="Import" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wf_panel_import_wizard" model="ir.actions.act_window">
+            <field name="name">Import WF Panel from PDF</field>
+            <field name="res_model">wf.panel.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

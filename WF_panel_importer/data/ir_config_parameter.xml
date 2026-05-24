@@ -1,0 +1,8 @@
+<odoo>
+<data>
+    <record model="ir.config_parameter" id="wf_panel_importer_output_dir">
+        <field name="key">wf_panel_importer.output_dir</field>
+        <field name="value">/tmp/wf_panel_output</field>
+    </record>
+</data>
+</odoo>

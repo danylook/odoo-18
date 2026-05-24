@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Service product for delivery invoicing -->
+    <record id="product_delivery_own_truck" model="product.template">
+        <field name="name">3PL Delivery - Own Truck</field>
+        <field name="type">service</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="invoice_policy">order</field>
+        <field name="list_price">0.0</field>
+    </record>
+
+    <!-- Default 3PL own-truck carrier -->
+    <record id="carrier_3pl_own_truck" model="delivery.carrier">
+        <field name="name">3PL Own Truck</field>
+        <field name="product_id" ref="product_delivery_own_truck"/>
+        <field name="tpl_is_own_truck">True</field>
+        <field name="fixed_price">0.0</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Default rate tiers for the carrier -->
+    <record id="rate_0_50kg" model="tpl.delivery.rate">
+        <field name="name">0 – 50 kg</field>
+        <field name="carrier_id" ref="carrier_3pl_own_truck"/>
+        <field name="min_weight">0.0</field>
+        <field name="max_weight">50.0</field>
+        <field name="base_price">5.0</field>
+        <field name="price_per_kg">0.10</field>
+        <field name="price_per_m3">8.0</field>
+        <field name="volumetric_factor">5000</field>
+    </record>
+    <record id="rate_50_200kg" model="tpl.delivery.rate">
+        <field name="name">50 – 200 kg</field>
+        <field name="carrier_id" ref="carrier_3pl_own_truck"/>
+        <field name="min_weight">50.0</field>
+        <field name="max_weight">200.0</field>
+        <field name="base_price">10.0</field>
+        <field name="price_per_kg">0.08</field>
+        <field name="price_per_m3">6.0</field>
+        <field name="volumetric_factor">5000</field>
+    </record>
+    <record id="rate_200_plus" model="tpl.delivery.rate">
+        <field name="name">200 kg+</field>
+        <field name="carrier_id" ref="carrier_3pl_own_truck"/>
+        <field name="min_weight">200.0</field>
+        <field name="max_weight">0.0</field>
+        <field name="base_price">20.0</field>
+        <field name="price_per_kg">0.06</field>
+        <field name="price_per_m3">5.0</field>
+        <field name="volumetric_factor">5000</field>
+    </record>
+</odoo>

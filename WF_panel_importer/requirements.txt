@@ -1,0 +1,21 @@
+# Python packages (versiones probadas y funcionales)
+pdfplumber==0.11.9
+PyPDF2==2.12.1
+numpy==2.4.4
+trimesh==4.11.5
+scipy==1.17.1
+lxml==5.2.1
+pillow==12.2.0
+pytesseract==0.3.13
+opencv-python==4.13.0.92
+svgwrite==1.4.3
+
+# Dependencias del sistema (instalar con apt):
+# - inkscape >= 1.3  (recomendado: snap install inkscape)
+# - poppler-utils >= 24.02  (Ubuntu 24.04+) o usar Inkscape snap sin --pdf-poppler
+#   NOTA: en Ubuntu 22.04 la versión máxima disponible en repos estándar es 22.02.
+#   Para reproducir detección automática de sheathing desde SVG se requiere Poppler 24+
+#   (Ubuntu 24.04) o Inkscape snap (usa su Poppler interno, uniforme en todas las máquinas).
+# - tesseract-ocr
+# - libgl1  (para opencv-python)
+

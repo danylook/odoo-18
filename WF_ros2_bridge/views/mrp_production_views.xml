@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Inject the 3D viewer into the MO form as a "Vista 3D — ROS2" page.
+        The page only appears when a panel_section_id is linked (i.e., WF panels).
+        Uses the wf_panel_3d_viewer view_widget registered in JS.
+    -->
+    <record id="view_mrp_production_wf_ros2_3d" model="ir.ui.view">
+        <field name="name">mrp.production.wf.ros2.3d</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Vista 3D — ROS2"
+                      name="wf_ros2_3d"
+                      invisible="not panel_section_id">
+                    <widget name="wf_panel_3d_viewer"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

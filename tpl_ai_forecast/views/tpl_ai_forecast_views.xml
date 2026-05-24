@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         tpl.ai.forecast  –  form
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_tpl_ai_forecast_form" model="ir.ui.view">
+        <field name="name">tpl.ai.forecast.form</field>
+        <field name="model">tpl.ai.forecast</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate_forecast" type="object"
+                            string="Generate Forecast" class="btn-primary"
+                            invisible="state not in ('draft', 'error')"/>
+                    <button name="action_run_ai_analysis" type="object"
+                            string="Run AI Analysis" class="btn-secondary"
+                            invisible="state != 'done'"/>
+                    <button name="action_create_reorder_rules" type="object"
+                            string="Create Reorder Rules"
+                            invisible="state != 'done' or reorder_count == 0"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,running,done"/>
+                </header>
+
+                <sheet>
+                    <!-- KPI stat buttons -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_lines" type="object"
+                                class="oe_stat_button" icon="fa-list"
+                                invisible="state != 'done'">
+                            <field name="line_count" widget="statinfo" string="Products"/>
+                        </button>
+                        <button name="action_view_dead_stock" type="object"
+                                class="oe_stat_button" icon="fa-times-circle"
+                                invisible="state != 'done'">
+                            <field name="dead_stock_count" widget="statinfo" string="Dead Stock"/>
+                        </button>
+                        <button name="action_view_fast_moving" type="object"
+                                class="oe_stat_button" icon="fa-bolt"
+                                invisible="state != 'done'">
+                            <field name="fast_moving_count" widget="statinfo" string="Fast Moving"/>
+                        </button>
+                        <button name="action_view_need_reorder" type="object"
+                                class="oe_stat_button" icon="fa-shopping-cart"
+                                invisible="state != 'done'">
+                            <field name="reorder_count" widget="statinfo" string="Need Reorder"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Forecast Period">
+                            <field name="data_source"/>
+                            <field name="date" readonly="1"/>
+                            <field name="history_days"/>
+                            <field name="forecast_days"/>
+                        </group>
+                        <group string="Detection Thresholds">
+                            <field name="dead_stock_days"/>
+                            <field name="fast_moving_percentile"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Scope">
+                            <field name="location_ids" widget="many2many_tags"
+                                   domain="[('usage','=','internal')]"/>
+                            <field name="partner_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="AI Engine (Ollama)">
+                            <field name="ollama_url"/>
+                            <field name="ollama_model"/>
+                            <button name="action_detect_ollama_model" type="object"
+                                    string="Auto-detect model" icon="fa-search"
+                                    class="btn-secondary"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <!-- Forecast lines tab -->
+                        <page string="Forecast Lines"
+                              invisible="state not in ('done','running')">
+                            <field name="line_ids" readonly="1">
+                                <list decoration-danger="classification == 'dead_stock'"
+                                      decoration-success="classification == 'fast_moving'"
+                                      decoration-warning="reorder_qty &gt; 0 and classification == 'normal'">
+                                    <field name="product_id"/>
+                                    <field name="product_categ_id" optional="hide"/>
+                                    <field name="location_id"/>
+                                    <field name="partner_ids" widget="many2many_tags" optional="hide"/>
+                                    <field name="classification"/>
+                                    <field name="trend"/>
+                                    <field name="current_stock"/>
+                                    <field name="avg_daily_demand"/>
+                                    <field name="forecast_qty"/>
+                                    <field name="reorder_qty"/>
+                                    <field name="coverage_days"/>
+                                    <field name="last_move_date"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- AI Analysis tab -->
+                        <page string="AI Analysis"
+                              invisible="not ai_summary">
+                            <field name="ai_summary" readonly="1" widget="text"/>
+                        </page>
+
+                        <!-- Error tab -->
+                        <page string="Error Details"
+                              invisible="not ai_error">
+                            <field name="ai_error" readonly="1" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         tpl.ai.forecast  –  list
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_tpl_ai_forecast_list" model="ir.ui.view">
+        <field name="name">tpl.ai.forecast.list</field>
+        <field name="model">tpl.ai.forecast</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'error'"
+                  decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="state"/>
+                <field name="line_count"/>
+                <field name="dead_stock_count"/>
+                <field name="fast_moving_count"/>
+                <field name="reorder_count"/>
+                <field name="forecast_days"/>
+                <field name="history_days"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         tpl.ai.forecast  –  action
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="action_tpl_ai_forecast" model="ir.actions.act_window">
+        <field name="name">AI Inventory Forecast</field>
+        <field name="res_model">tpl.ai.forecast</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'default_ollama_url': 'http://localhost:11434', 'default_ollama_model': 'llama3'}</field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         tpl.ai.forecast.line  –  list (full, filterable)
+    ════════════════════════════════════════════════════════════════════════ -->
+    <record id="view_tpl_ai_forecast_line_list" model="ir.ui.view">
+        <field name="name">tpl.ai.forecast.line.list</field>
+        <field name="model">tpl.ai.forecast.line</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="classification == 'dead_stock'"
+                  decoration-success="classification == 'fast_moving'"
+                  decoration-warning="reorder_qty &gt; 0 and classification == 'normal'">
+                <field name="forecast_id"/>
+                <field name="product_id"/>
+                <field name="product_categ_id" optional="hide"/>
+                <field name="location_id"/>
+                <field name="partner_ids" widget="many2many_tags" optional="show"/>
+                <field name="classification"/>
+                <field name="trend"/>
+                <field name="current_stock"/>
+                <field name="avg_daily_demand"/>
+                <field name="forecast_qty"/>
+                <field name="reorder_qty"/>
+                <field name="coverage_days"/>
+                <field name="last_move_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- search -->
+    <record id="view_tpl_ai_forecast_line_search" model="ir.ui.view">
+        <field name="name">tpl.ai.forecast.line.search</field>
+        <field name="model">tpl.ai.forecast.line</field>
+        <field name="arch" type="xml">
+            <search string="Forecast Lines">
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="partner_ids"/>
+                <field name="forecast_id"/>
+                <filter name="dead_stock"   string="Dead Stock"
+                        domain="[('classification','=','dead_stock')]"/>
+                <filter name="fast_moving"  string="Fast Moving"
+                        domain="[('classification','=','fast_moving')]"/>
+                <filter name="need_reorder" string="Needs Reorder"
+                        domain="[('reorder_qty','&gt;',0)]"/>
+                <filter name="trending_up"  string="Trending Up"
+                        domain="[('trend','=','up')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="by_classification" string="Classification"
+                            context="{'group_by': 'classification'}"/>
+                    <filter name="by_location" string="Location"
+                            context="{'group_by': 'location_id'}"/>
+                    <filter name="by_partner" string="3PL Client"
+                            context="{'group_by': 'partner_ids'}"/>
+                    <filter name="by_category" string="Product Category"
+                            context="{'group_by': 'product_categ_id'}"/>
+                    <filter name="by_forecast" string="Forecast Run"
+                            context="{'group_by': 'forecast_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- graph (bar) -->
+    <record id="view_tpl_ai_forecast_line_graph" model="ir.ui.view">
+        <field name="name">tpl.ai.forecast.line.graph</field>
+        <field name="model">tpl.ai.forecast.line</field>
+        <field name="arch" type="xml">
+            <graph string="Demand Forecast" type="bar" stacked="0">
+                <field name="product_id"/>
+                <field name="forecast_qty"  type="measure"/>
+                <field name="current_stock" type="measure"/>
+                <field name="reorder_qty"   type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- pivot -->
+    <record id="view_tpl_ai_forecast_line_pivot" model="ir.ui.view">
+        <field name="name">tpl.ai.forecast.line.pivot</field>
+        <field name="model">tpl.ai.forecast.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Demand Forecast">
+                <field name="classification"  type="row"/>
+                <field name="product_categ_id" type="row"/>
+                <field name="forecast_qty"       type="measure"/>
+                <field name="current_stock"      type="measure"/>
+                <field name="reorder_qty"        type="measure"/>
+                <field name="total_historical_qty" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Dashboard action (lines — all forecasts) -->
+    <record id="action_tpl_ai_forecast_dashboard" model="ir.actions.act_window">
+        <field name="name">Forecast Dashboard</field>
+        <field name="res_model">tpl.ai.forecast.line</field>
+        <field name="view_mode">list,graph,pivot</field>
+        <field name="domain">[('forecast_id.state','=','done')]</field>
+        <field name="context">{'search_default_need_reorder': 1}</field>
+    </record>
+
+</odoo>

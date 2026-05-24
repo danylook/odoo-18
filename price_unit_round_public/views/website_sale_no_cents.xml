@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Website product page: muestra el precio con dos decimales truncados (ROUND_DOWN) usando el mismo criterio que el backend -->
+    <!--
+    <template id="product_no_cents" inherit_id="website_sale.product" name="Website Product No Cents">
+        <xpath expr="//span[@itemprop='price']" position="replace">
+            <t t-set="tax_percent" t-value="0.0"/>
+            <t t-foreach="product.taxes_id" t-as="tax">
+                <t t-if="tax.amount_type == 'percent'">
+                    <t t-set="tax_percent" t-value="tax_percent + (tax.amount / 100.0)"/>
+                </t>
+            </t>
+            <t t-if="tax_percent">
+                <t t-set="price_unit_calc" t-value="'%.2f' % ((product.website_price // 0.01) / (1 + tax_percent) * 0.01)"/>
+            </t>
+            <t t-else="">
+                <t t-set="price_unit_calc" t-value="'%.2f' % (product.website_price // 0.01 * 0.01)"/>
+            </t>
+            <span t-esc="price_unit_calc" itemprop="price"/>
+        </xpath>
+    </template>
+    -->
+</odoo>

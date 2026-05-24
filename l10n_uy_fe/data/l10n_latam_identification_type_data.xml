@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<data>
+
+    <record model='l10n_latam.identification.type' id='it_uy_rut'>
+        <field name='name'>RUT</field>
+        <field name='description'>RUT</field>
+        <field name='country_id' ref='base.uy'/>
+        <field name='is_vat' eval='True'/>
+        <field name='l10n_uy_dgi_code'>2</field>
+        <field name='sequence'>10</field>
+    </record>
+
+    <record model='l10n_latam.identification.type' id='it_uy_ci'>
+        <field name='name'>CI</field>
+        <field name='description'>Cedula Identidad</field>
+        <field name='country_id' ref='base.uy'/>
+        <field name='is_vat' eval='True'/>
+        <field name='l10n_uy_dgi_code'>3</field>
+        <field name='sequence'>20</field>
+    </record>
+
+    <record model='l10n_latam.identification.type' id='it_uy_otros'>
+        <field name='name'>Otros</field>
+        <field name='description'>Otros</field>
+        <field name='country_id' ref='base.uy'/>
+        <field name='is_vat' eval='True'/>
+        <field name='l10n_uy_dgi_code'>4</field>
+        <field name='sequence'>30</field>
+    </record>
+
+    <record model='l10n_latam.identification.type' id='it_uy_pasaporte'>
+        <field name='name'>Pasaporte</field>
+        <field name='description'>Pasaporte</field>
+        <field name='country_id' ref='base.uy'/>
+        <field name='is_vat' eval='True'/>
+        <field name='l10n_uy_dgi_code'>5</field>
+        <field name='sequence'>40</field>
+    </record>
+
+    <record model='l10n_latam.identification.type' id='it_uy_dni'>
+        <field name='name'>DNI</field>
+        <field name='description'>Documento Nacional Identidad</field>
+        <field name='country_id' ref='base.uy'/>
+        <field name='is_vat' eval='True'/>
+        <field name='l10n_uy_dgi_code'>6</field>
+        <field name='sequence'>50</field>
+    </record>
+
+    <record model='l10n_latam.identification.type' id='it_uy_nife'>
+        <field name='name'>NIFE</field>
+        <field name='description'>NIFE</field>
+        <field name='country_id' ref='base.uy'/>
+        <field name='is_vat' eval='True'/>
+        <field name='l10n_uy_dgi_code'>7</field>
+        <field name='sequence'>60</field>
+    </record>
+
+
+
+
+
+</data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Client action: Truck Tracking map -->
+    <record id="action_tpl_truck_map" model="ir.actions.client">
+        <field name="name">Truck Tracking</field>
+        <field name="tag">tpl_truck_map</field>
+    </record>
+
+    <!-- Inject GPS fields into res.partner form -->
+    <record id="view_partner_form_tpl_gps" model="ir.ui.view">
+        <field name="name">res.partner.form.tpl.gps</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group name="tpl_driver_flag_group" col="2">
+                    <field name="tpl_is_driver" widget="boolean_toggle"/>
+                </group>
+                <group name="tpl_gps_group"
+                       string="GPS Position"
+                       invisible="not tpl_is_driver"
+                       col="2">
+                    <field name="tpl_gps_lat"/>
+                    <field name="tpl_gps_lng"/>
+                    <field name="tpl_gps_updated" readonly="1"/>
+                    <field name="tpl_tracking_token" invisible="1"/>
+                    <button name="action_generate_tracking_token"
+                            string="Generate Tracking Link"
+                            type="object"
+                            invisible="tpl_tracking_token"
+                            class="btn-primary"/>
+                    <field name="tpl_tracking_url"
+                           widget="url"
+                           readonly="1"
+                           invisible="not tpl_tracking_token"
+                           string="Tracking URL"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_tpl" model="ir.ui.view">
+        <field name="name">res.partner.form.tpl.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Stat buttons -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_tpl_view_products"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-cubes"
+                        invisible="tpl_product_count == 0">
+                    <field name="tpl_product_count" widget="statinfo" string="3PL Products"/>
+                </button>
+                <button name="action_tpl_view_contacts"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-users"
+                        invisible="tpl_contact_count == 0">
+                    <field name="tpl_contact_count" widget="statinfo" string="Client Contacts"/>
+                </button>
+            </xpath>
+
+            <!-- Is 3PL Client toggle — shown after the "Company" field -->
+            <xpath expr="//field[@name='company_type']" position="after">
+                <field name="tpl_is_client" widget="boolean_toggle"
+                       string="3PL Client"
+                       options="{'terminology': 'active'}"/>
+            </xpath>
+
+            <!-- 3PL Client field on non-client contacts -->
+            <xpath expr="//field[@name='lang']" position="after">
+                <field name="tpl_client_owner_id"
+                       invisible="tpl_is_client == True"
+                       placeholder="Assign to a 3PL client..."/>
+            </xpath>
+
+            <!-- Tab: Client Contacts (visible only when tpl_is_client) -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Client Contacts" invisible="not tpl_is_client">
+                    <field name="tpl_contact_ids"
+                           context="{'default_tpl_client_owner_id': id}">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="function" string="Role"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="street"/>
+                            <field name="city"/>
+                            <field name="country_id"/>
+                            <field name="type"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- List view: add 3PL Client column -->
+    <record id="view_partner_list_tpl" model="ir.ui.view">
+        <field name="name">res.partner.list.tpl.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="tpl_client_owner_id" string="3PL Client" optional="show"/>
+                <field name="tpl_is_client" string="Is Client" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action: 3PL Clients list -->
+    <record id="action_tpl_client_partners" model="ir.actions.act_window">
+        <field name="name">3PL Clients</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('tpl_is_client', '=', True)]</field>
+        <field name="context">{'default_tpl_is_client': True}</field>
+    </record>
+
+    <!-- Action: All client contacts (grouped by client) -->
+    <record id="action_tpl_client_contacts" model="ir.actions.act_window">
+        <field name="name">Client Contacts</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('tpl_client_owner_id', '!=', False)]</field>
+        <field name="context">{'group_by': 'tpl_client_owner_id'}</field>
+    </record>
+</odoo>

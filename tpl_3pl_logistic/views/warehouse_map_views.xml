@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Client action: renders the Owl WarehouseMap component -->
+    <record id="action_tpl_warehouse_map" model="ir.actions.client">
+        <field name="name">Warehouse Map</field>
+        <field name="tag">tpl_warehouse_map</field>
+    </record>
+
+    <!-- Add map position fields to the stock.location form view -->
+    <record id="view_location_form_tpl_map" model="ir.ui.view">
+        <field name="name">stock.location.form.tpl.map</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='fee_rate_id']" position="after">
+                <field name="tpl_map_active" widget="boolean_toggle"/>
+                <field name="tpl_map_x" invisible="not tpl_map_active"/>
+                <field name="tpl_map_y" invisible="not tpl_map_active"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

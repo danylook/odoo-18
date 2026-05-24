@@ -1,0 +1,129 @@
+/* ========== Warehouse Map ========== */
+.tpl-warehouse-map {
+    background: #fff;
+}
+
+.tpl-wh-toolbar {
+    background: #f8f9fa;
+}
+
+/* Grid axis labels */
+.tpl-wh-axis-cell,
+.tpl-wh-row-header,
+.tpl-wh-col-header {
+    width: 64px;
+    min-width: 64px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 11px;
+    color: #6c757d;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    flex-shrink: 0;
+}
+
+.tpl-wh-col-header {
+    width: 120px;
+    min-width: 120px;
+}
+
+.tpl-wh-row-header {
+    width: 64px;
+    height: 100px;
+}
+
+/* Individual cell */
+.tpl-wh-cell {
+    width: 120px;
+    min-width: 120px;
+    height: 100px;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    margin: 2px;
+    padding: 8px 6px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    text-align: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.tpl-wh-cell:hover:not(.tpl-wh-cell-void) {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    z-index: 1;
+}
+
+/* Empty position (no location defined) */
+.tpl-wh-cell-void {
+    background: #f3f3f3;
+    border-style: dashed;
+    border-color: #ddd;
+    cursor: default;
+    opacity: 0.5;
+}
+
+/* Location with no stock */
+.tpl-wh-cell-free {
+    background: #e9f7ef;
+    border-color: #28a745;
+}
+
+.tpl-wh-cell-free .tpl-cell-name {
+    color: #155724;
+}
+
+/* Location with stock */
+.tpl-wh-cell-occupied {
+    background: #fff8e1;
+    border-color: #ffc107;
+}
+
+.tpl-wh-cell-occupied .tpl-cell-name {
+    color: #856404;
+}
+
+/* Selected cell */
+.tpl-wh-cell-selected {
+    border-color: #0d6efd !important;
+    border-width: 2px;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.25) !important;
+}
+
+.tpl-cell-name {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.2;
+    word-break: break-word;
+    margin-bottom: 4px;
+}
+
+.tpl-cell-empty {
+    font-size: 11px;
+    color: #6c757d;
+}
+
+/* Detail panel */
+.tpl-wh-detail {
+    min-width: 380px;
+    max-width: 480px;
+    position: sticky;
+    top: 0;
+    border: 2px solid #0d6efd;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(13, 110, 253, 0.12);
+}
+
+.tpl-wh-detail .card-header {
+    background: #e8f0fe;
+    font-size: 14px;
+    padding: 10px 14px;
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Adds "Forma de Pago" (journal name) and check details to the payment receipt -->
+    <template id="report_payment_receipt_document_inherit" inherit_id="account.report_payment_receipt_document">
+        <xpath expr="//div[@name='payment_method']" position="after">
+            <div class="col-6" t-if="o.journal_id">
+                Forma de Pago: <span t-field="o.journal_id.name"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

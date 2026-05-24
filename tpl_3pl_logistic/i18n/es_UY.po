@@ -1,0 +1,754 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * tpl_3pl_logistic
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2025-05-08 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_UY\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "3PL Portal"
+msgstr "Portal 3PL"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Dashboard"
+msgstr "Panel"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "Stock"
+msgstr "Stock"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+msgid "My Stock"
+msgstr "Mi Stock"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "Orders"
+msgstr "Órdenes"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Inbound Orders"
+msgstr "Órdenes de Entrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Outbound Orders"
+msgstr "Órdenes de Salida"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "All Orders"
+msgstr "Todas las Órdenes"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "New Order"
+msgstr "Nueva Orden"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Receive Goods"
+msgstr "Recibir Mercadería"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Send Goods"
+msgstr "Enviar Mercadería"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "Import"
+msgstr "Importar"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "Import Products"
+msgstr "Importar Productos"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Import Inbound"
+msgstr "Importar Entradas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Import Outbound"
+msgstr "Importar Salidas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "Reports"
+msgstr "Reportes"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+msgid "Inbound Report"
+msgstr "Reporte de Entradas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+msgid "Outbound Report"
+msgstr "Reporte de Salidas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_delivery
+msgid "Delivery Report"
+msgstr "Reporte de Entregas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_stock_age
+msgid "Stock Time Report"
+msgstr "Reporte de Antigüedad"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "Billing"
+msgstr "Facturación"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "My Invoices"
+msgstr "Mis Facturas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "My Profile"
+msgstr "Mi Perfil"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.tpl_portal_layout
+msgid "Log Out"
+msgstr "Cerrar Sesión"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Your order has been submitted. Our team will process it shortly."
+msgstr "Su orden fue enviada. Nuestro equipo la procesará en breve."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Your warehouse at a glance."
+msgstr "Su depósito de un vistazo."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Units in Stock"
+msgstr "Unidades en Stock"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Products Stored"
+msgstr "Productos Almacenados"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Open Inbound"
+msgstr "Entradas Abiertas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Open Outbound"
+msgstr "Salidas Abiertas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Unpaid Invoices"
+msgstr "Facturas Impagas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Quick Actions"
+msgstr "Acciones Rápidas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "View inventory"
+msgstr "Ver inventario"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Receiving operations"
+msgstr "Operaciones de recepción"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Delivery operations"
+msgstr "Operaciones de entrega"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Create inbound order"
+msgstr "Crear orden de entrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Create outbound order"
+msgstr "Crear orden de salida"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "View billing history"
+msgstr "Ver historial de facturación"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Bulk Import"
+msgstr "Importación Masiva"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Upload product catalogue"
+msgstr "Subir catálogo de productos"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Bulk receiving orders"
+msgstr "Recepción masiva de órdenes"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_dashboard
+msgid "Bulk delivery orders"
+msgstr "Entrega masiva de órdenes"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_home_3pl
+msgid "My Warehouse Stock"
+msgstr "Mi Stock en Depósito"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "Your order has been submitted successfully."
+msgstr "Su orden fue enviada exitosamente."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+msgid "Warehouse Stock"
+msgstr "Stock del Depósito"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+msgid "No stock currently in the warehouse."
+msgstr "Sin stock en el depósito actualmente."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "Create Inbound Order"
+msgstr "Crear Orden de Entrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+msgid "Lot / Serial"
+msgstr "Lote / Serie"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+msgid "Expiry"
+msgstr "Vencimiento"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+msgid "Location"
+msgstr "Ubicación"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+msgid "Available"
+msgstr "Disponible"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+msgid "Reserved"
+msgstr "Reservado"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "UoM"
+msgstr "UdM"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_stock
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_stock_age
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Product"
+msgstr "Producto"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "All Warehouse Orders"
+msgstr "Todas las Órdenes del Depósito"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "All"
+msgstr "Todas"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Inbound"
+msgstr "Entrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Outbound"
+msgstr "Salida"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "New Inbound"
+msgstr "Nueva Entrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "New Outbound"
+msgstr "Nueva Salida"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "Import CSV"
+msgstr "Importar CSV"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "No orders yet."
+msgstr "Sin órdenes aún."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "Create Outbound Order"
+msgstr "Crear Orden de Salida"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+msgid "Create Order"
+msgstr "Crear Orden"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_delivery
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Type"
+msgstr "Tipo"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_delivery
+msgid "Date"
+msgstr "Fecha"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Origin"
+msgstr "Origen"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+msgid "Products"
+msgstr "Productos"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_my_3pl_orders
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_delivery
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Status"
+msgstr "Estado"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "New Warehouse Order"
+msgstr "Nueva Orden de Depósito"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Receive Goods — Inbound Order"
+msgstr "Recibir Mercadería — Orden de Entrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Send Goods — Outbound Order"
+msgstr "Enviar Mercadería — Orden de Salida"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Client Information"
+msgstr "Información del Cliente"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Name:"
+msgstr "Nombre:"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Email:"
+msgstr "Email:"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Phone:"
+msgstr "Teléfono:"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Address:"
+msgstr "Dirección:"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "No address on file"
+msgstr "Sin dirección registrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Requested Date"
+msgstr "Fecha Solicitada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Your Reference"
+msgstr "Su Referencia"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Delivery Address"
+msgstr "Dirección de Entrega"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Select Saved Address"
+msgstr "Seleccionar Dirección Guardada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Notes / Special Instructions"
+msgstr "Notas / Instrucciones Especiales"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Submit Order"
+msgstr "Enviar Orden"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_create_order
+msgid "Add Product"
+msgstr "Agregar Producto"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "Import Product Catalogue"
+msgstr "Importar Catálogo de Productos"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Download Sample CSV"
+msgstr "Descargar CSV de Muestra"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Please select a file to upload."
+msgstr "Por favor seleccione un archivo para subir."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Import completed with errors:"
+msgstr "Importación completada con errores:"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Upload CSV File"
+msgstr "Subir Archivo CSV"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Select CSV file"
+msgstr "Seleccionar archivo CSV"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Accepted format: CSV (.csv), UTF-8 encoding"
+msgstr "Formato aceptado: CSV (.csv), codificación UTF-8"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "CSV Format — Products"
+msgstr "Formato CSV — Productos"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Column"
+msgstr "Columna"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "Required"
+msgstr "Requerido"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Description"
+msgstr "Descripción"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "Product name"
+msgstr "Nombre del producto"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "SKU / ref code"
+msgstr "SKU / código de referencia"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "Unit price (decimal)"
+msgstr "Precio unitario (decimal)"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "Weight in kg"
+msgstr "Peso en kg"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+msgid "EAN / barcode"
+msgstr "EAN / código de barras"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_products
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Download Sample"
+msgstr "Descargar Muestra"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Import Inbound Orders"
+msgstr "Importar Órdenes de Entrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Import Outbound Orders"
+msgstr "Importar Órdenes de Salida"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "CSV Format — Inbound Orders"
+msgstr "Formato CSV — Órdenes de Entrada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "CSV Format — Outbound Orders"
+msgstr "Formato CSV — Órdenes de Salida"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Req."
+msgstr "Req."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Number of units"
+msgstr "Número de unidades"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Date in YYYY-MM-DD format"
+msgstr "Fecha en formato AAAA-MM-DD"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_import_orders
+msgid "Special instructions"
+msgstr "Instrucciones especiales"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+msgid "No inbound orders found."
+msgstr "No se encontraron órdenes de entrada."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Scheduled Date"
+msgstr "Fecha Programada"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_inbound
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+msgid "Completed"
+msgstr "Completado"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+msgid "No outbound orders found."
+msgstr "No se encontraron órdenes de salida."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_outbound
+msgid "Deliver To"
+msgstr "Destinatario"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_delivery
+msgid "No deliveries with carrier found."
+msgstr "No se encontraron entregas con transportista."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_delivery
+msgid "Carrier"
+msgstr "Transportista"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_delivery
+msgid "Weight (kg)"
+msgstr "Peso (kg)"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_delivery
+msgid "Delivery Cost"
+msgstr "Costo de Envío"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_stock_age
+msgid "Shows how long your products have been in storage. Data updates daily."
+msgstr "Muestra cuánto tiempo llevan sus productos en almacenamiento. Los datos se actualizan diariamente."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_stock_age
+msgid "No stock age data available yet. Data is updated daily by the system."
+msgstr "Aún no hay datos de antigüedad disponibles. Los datos se actualizan diariamente."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_stock_age
+msgid "First Received"
+msgstr "Primera Recepción"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_stock_age
+msgid "Last Snapshot"
+msgstr "Último Registro"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_stock_age
+msgid "Days in Storage"
+msgstr "Días en Almacenamiento"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_tpl_report_stock_age
+msgid "Avg Daily Qty"
+msgstr "Cant. Diaria Prom."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Product Lines"
+msgstr "Líneas de Producto"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Demand"
+msgstr "Demanda"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Done"
+msgstr "Realizado"
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "No product lines found."
+msgstr "No se encontraron líneas de producto."
+
+#. module: tpl_3pl_logistic
+#: model_terms:ir.ui.view,arch_db:tpl_3pl_logistic.portal_3pl_order_detail
+msgid "Back to Orders"
+msgstr "Volver a Órdenes"

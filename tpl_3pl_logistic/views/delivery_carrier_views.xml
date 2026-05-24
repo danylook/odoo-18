@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_carrier_tpl_form" model="ir.ui.view">
+        <field name="name">delivery.carrier.tpl.form</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="3PL Own Truck Settings">
+                    <group>
+                        <field name="tpl_is_own_truck"/>
+                        <field name="tpl_delivery_product_id"
+                               invisible="not tpl_is_own_truck"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="3PL Rate Tiers"
+                          invisible="not tpl_is_own_truck">
+                        <field name="tpl_rate_ids">
+                            <list editable="bottom">
+                                <field name="name"/>
+                                <field name="min_weight"/>
+                                <field name="max_weight"/>
+                                <field name="base_price"/>
+                                <field name="price_per_kg"/>
+                                <field name="price_per_m3"/>
+                                <field name="volumetric_factor"/>
+                                <field name="currency_id" groups="base.group_multi_currency"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>

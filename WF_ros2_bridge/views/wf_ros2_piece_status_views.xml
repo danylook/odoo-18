@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── List view ──────────────────────────────────────────────────────── -->
+    <record id="view_wf_ros2_piece_status_list" model="ir.ui.view">
+        <field name="name">wf.ros2.piece.status.list</field>
+        <field name="model">wf.ros2.piece.status</field>
+        <field name="arch" type="xml">
+            <list string="Estado ROS2 de piezas" decoration-success="state=='placed'"
+                  decoration-warning="state=='moving'" decoration-danger="state=='error'">
+                <field name="sequence" optional="hide"/>
+                <field name="data_id" string="Pieza"/>
+                <field name="section_id"/>
+                <field name="state" widget="badge"
+                       decoration-muted="state=='pending'"
+                       decoration-warning="state=='moving'"
+                       decoration-success="state=='placed'"
+                       decoration-danger="state=='error'"/>
+                <field name="robot_id"/>
+                <field name="x_target" string="X obj." optional="show"/>
+                <field name="y_target" string="Y obj." optional="show"/>
+                <field name="x_actual" string="X real" optional="show"/>
+                <field name="y_actual" string="Y real" optional="show"/>
+                <field name="z_actual" string="Z real" optional="hide"/>
+                <field name="updated_at" string="Actualizado"/>
+                <field name="production_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ── Form view ──────────────────────────────────────────────────────── -->
+    <record id="view_wf_ros2_piece_status_form" model="ir.ui.view">
+        <field name="name">wf.ros2.piece.status.form</field>
+        <field name="model">wf.ros2.piece.status</field>
+        <field name="arch" type="xml">
+            <form string="Estado ROS2">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="component_id"/>
+                            <field name="section_id" readonly="1"/>
+                            <field name="production_id"/>
+                        </group>
+                        <group>
+                            <field name="state" widget="badge"/>
+                            <field name="robot_id"/>
+                            <field name="updated_at" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Posición objetivo">
+                        <field name="x_target" readonly="1"/>
+                        <field name="y_target" readonly="1"/>
+                    </group>
+                    <group string="Posición real (ROS2)">
+                        <field name="x_actual"/>
+                        <field name="y_actual"/>
+                        <field name="z_actual"/>
+                    </group>
+                    <group>
+                        <field name="note" nolabel="1" placeholder="Notas del robot…"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── Action ─────────────────────────────────────────────────────────── -->
+    <record id="action_wf_ros2_piece_status" model="ir.actions.act_window">
+        <field name="name">Estado ROS2 de piezas</field>
+        <field name="res_model">wf.ros2.piece.status</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{"search_default_groupby_section": 1}</field>
+    </record>
+
+    <!-- ── Menu (under Manufacturing) ────────────────────────────────────── -->
+    <menuitem
+        id="menu_wf_ros2_root"
+        name="ROS2 Bridge"
+        parent="mrp.menu_mrp_root"
+        sequence="99"
+    />
+    <menuitem
+        id="menu_wf_ros2_piece_status"
+        name="Estado de piezas"
+        parent="menu_wf_ros2_root"
+        action="action_wf_ros2_piece_status"
+    />
+
+</odoo>

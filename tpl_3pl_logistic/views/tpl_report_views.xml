@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════════════
+         INBOUND REPORT  (stock.picking  –  incoming)
+    ══════════════════════════════════════════════════════════ -->
+    <record id="view_tpl_inbound_report_list" model="ir.ui.view">
+        <field name="name">tpl.inbound.report.list</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <list string="Inbound Report"
+                  decoration-success="state == 'done'"
+                  decoration-warning="state == 'assigned'"
+                  decoration-muted="state == 'cancel'">
+                <field name="date_done"    string="Completed"/>
+                <field name="scheduled_date" string="Expected"/>
+                <field name="name"         string="Reference"/>
+                <field name="origin"       string="Source Document"/>
+                <field name="tpl_owner_id" string="3PL Client"/>
+                <field name="partner_id"   string="Supplier / From"/>
+                <field name="state"        widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state == 'assigned'"
+                       decoration-danger="state == 'cancel'"/>
+                <field name="tpl_handling_invoiced" string="Handling Billed"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tpl_inbound_report_search" model="ir.ui.view">
+        <field name="name">tpl.inbound.report.search</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <search string="Inbound Report">
+                <field name="name" string="Reference"/>
+                <field name="tpl_owner_id" string="3PL Client"/>
+                <field name="origin" string="Source Document"/>
+                <separator/>
+                <filter string="Done"       name="done"
+                        domain="[('state','=','done')]"/>
+                <filter string="In Progress" name="in_progress"
+                        domain="[('state','in',['assigned','waiting','confirmed'])]"/>
+                <filter string="Not Billed"  name="not_billed"
+                        domain="[('tpl_handling_invoiced','=',False),('state','=','done')]"/>
+                <separator/>
+                <filter string="This Month" name="this_month"
+                        domain="[('date_done','&gt;=', (context_today()).strftime('%Y-%m-01'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client"  name="group_client"
+                            context="{'group_by':'tpl_owner_id'}"/>
+                    <filter string="Month"   name="group_month"
+                            context="{'group_by':'date_done:month'}"/>
+                    <filter string="State"   name="group_state"
+                            context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tpl_inbound_report" model="ir.actions.act_window">
+        <field name="name">Inbound Report</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type_id.code','=','incoming')]</field>
+        <field name="view_ids" eval="[(5,0,0),
+            (0,0,{'view_mode':'list','view_id':ref('view_tpl_inbound_report_list')}),
+            (0,0,{'view_mode':'form','view_id':ref('stock.view_picking_form')})]"/>
+        <field name="context">{'search_default_in_progress': 1}</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════
+         OUTBOUND REPORT  (stock.picking  –  outgoing)
+    ══════════════════════════════════════════════════════════ -->
+    <record id="view_tpl_outbound_report_list" model="ir.ui.view">
+        <field name="name">tpl.outbound.report.list</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <list string="Outbound Report"
+                  decoration-success="state == 'done'"
+                  decoration-warning="state == 'assigned'"
+                  decoration-muted="state == 'cancel'">
+                <field name="date_done"             string="Dispatched"/>
+                <field name="scheduled_date"        string="Expected"/>
+                <field name="name"                  string="Reference"/>
+                <field name="origin"                string="Source Document"/>
+                <field name="tpl_owner_id"          string="3PL Client"/>
+                <field name="partner_id"            string="Deliver To"/>
+                <field name="state"                 widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state == 'assigned'"
+                       decoration-danger="state == 'cancel'"/>
+                <field name="tpl_handling_invoiced" string="Handling Billed"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tpl_outbound_report_search" model="ir.ui.view">
+        <field name="name">tpl.outbound.report.search</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <search string="Outbound Report">
+                <field name="name" string="Reference"/>
+                <field name="tpl_owner_id" string="3PL Client"/>
+                <field name="origin"/>
+                <separator/>
+                <filter string="Done"        name="done"
+                        domain="[('state','=','done')]"/>
+                <filter string="In Progress" name="in_progress"
+                        domain="[('state','in',['assigned','waiting','confirmed'])]"/>
+                <filter string="Not Billed"  name="not_billed"
+                        domain="[('tpl_handling_invoiced','=',False),('state','=','done')]"/>
+                <separator/>
+                <filter string="This Month" name="this_month"
+                        domain="[('date_done','&gt;=', (context_today()).strftime('%Y-%m-01'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client" name="group_client"
+                            context="{'group_by':'tpl_owner_id'}"/>
+                    <filter string="Month"  name="group_month"
+                            context="{'group_by':'date_done:month'}"/>
+                    <filter string="State"  name="group_state"
+                            context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tpl_outbound_report" model="ir.actions.act_window">
+        <field name="name">Outbound Report</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type_id.code','=','outgoing')]</field>
+        <field name="view_ids" eval="[(5,0,0),
+            (0,0,{'view_mode':'list','view_id':ref('view_tpl_outbound_report_list')}),
+            (0,0,{'view_mode':'form','view_id':ref('stock.view_picking_form')})]"/>
+        <field name="context">{'search_default_in_progress': 1}</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════
+         DELIVERY REPORT  (stock.picking outgoing  +  carrier)
+    ══════════════════════════════════════════════════════════ -->
+    <record id="view_tpl_delivery_report_list" model="ir.ui.view">
+        <field name="name">tpl.delivery.report.list</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <list string="Delivery Report"
+                  decoration-success="state == 'done'"
+                  decoration-warning="state == 'assigned'"
+                  decoration-muted="state == 'cancel'">
+                <field name="date_done"              string="Dispatched"/>
+                <field name="scheduled_date"         string="Expected"/>
+                <field name="name"                   string="Reference"/>
+                <field name="tpl_owner_id"           string="3PL Client"/>
+                <field name="partner_id"             string="Deliver To"/>
+                <field name="carrier_id"             string="Carrier"/>
+                <field name="shipping_weight"        string="Weight (kg)"
+                       sum="Total Weight"/>
+                <field name="tpl_shipping_volume"    string="Volume (m³)"
+                       sum="Total Volume"/>
+                <field name="tpl_delivery_cost"      string="Delivery Cost"
+                       sum="Total Cost" widget="monetary"/>
+                <field name="tpl_delivery_invoiced"  string="Delivery Billed"/>
+                <field name="tpl_handling_invoiced"  string="Handling Billed"/>
+                <field name="state"                  widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state == 'assigned'"
+                       decoration-danger="state == 'cancel'"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tpl_delivery_report_search" model="ir.ui.view">
+        <field name="name">tpl.delivery.report.search</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <search string="Delivery Report">
+                <field name="name" string="Reference"/>
+                <field name="tpl_owner_id" string="3PL Client"/>
+                <field name="carrier_id" string="Carrier"/>
+                <separator/>
+                <filter string="Done"              name="done"
+                        domain="[('state','=','done')]"/>
+                <filter string="In Progress"       name="in_progress"
+                        domain="[('state','in',['assigned','waiting','confirmed'])]"/>
+                <filter string="Delivery Not Billed" name="delivery_not_billed"
+                        domain="[('tpl_delivery_invoiced','=',False),('tpl_delivery_cost','&gt;',0),('state','=','done')]"/>
+                <separator/>
+                <filter string="This Month" name="this_month"
+                        domain="[('date_done','&gt;=', (context_today()).strftime('%Y-%m-01'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client"  name="group_client"
+                            context="{'group_by':'tpl_owner_id'}"/>
+                    <filter string="Carrier" name="group_carrier"
+                            context="{'group_by':'carrier_id'}"/>
+                    <filter string="Month"   name="group_month"
+                            context="{'group_by':'date_done:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tpl_delivery_report" model="ir.actions.act_window">
+        <field name="name">Delivery Report</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type_id.code','=','outgoing'),('carrier_id','!=',False)]</field>
+        <field name="view_ids" eval="[(5,0,0),
+            (0,0,{'view_mode':'list','view_id':ref('view_tpl_delivery_report_list')}),
+            (0,0,{'view_mode':'form','view_id':ref('stock.view_picking_form')})]"/>
+        <field name="context">{'search_default_done': 1}</field>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════════════
+         STOCK TIME REPORT  (tpl.stock.age  –  SQL view)
+    ══════════════════════════════════════════════════════════ -->
+    <record id="view_tpl_stock_age_list" model="ir.ui.view">
+        <field name="name">tpl.stock.age.list</field>
+        <field name="model">tpl.stock.age</field>
+        <field name="arch" type="xml">
+            <list string="Stock Time Report"
+                  decoration-danger="days_in_stock &gt;= 90"
+                  decoration-warning="days_in_stock &gt;= 30 and days_in_stock &lt; 90">
+                <field name="owner_id"      string="Client"/>
+                <field name="product_id"    string="Product"/>
+                <field name="location_id"   string="Location"/>
+                <field name="first_seen"    string="First Received"/>
+                <field name="last_seen"     string="Last Snapshot"/>
+                <field name="days_in_stock" string="Days in Storage"
+                       decoration-danger="days_in_stock &gt;= 90"
+                       decoration-warning="days_in_stock &gt;= 30"/>
+                <field name="avg_qty"       string="Avg Daily Qty" digits="[16,2]"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tpl_stock_age_search" model="ir.ui.view">
+        <field name="name">tpl.stock.age.search</field>
+        <field name="model">tpl.stock.age</field>
+        <field name="arch" type="xml">
+            <search string="Stock Time Report">
+                <field name="owner_id"   string="Client"/>
+                <field name="product_id" string="Product"/>
+                <field name="location_id" string="Location"/>
+                <separator/>
+                <filter string="Over 30 Days"  name="over_30"
+                        domain="[('days_in_stock','&gt;=',30)]"/>
+                <filter string="Over 60 Days"  name="over_60"
+                        domain="[('days_in_stock','&gt;=',60)]"/>
+                <filter string="Over 90 Days"  name="over_90"
+                        domain="[('days_in_stock','&gt;=',90)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client"   name="group_client"
+                            context="{'group_by':'owner_id'}"/>
+                    <filter string="Product"  name="group_product"
+                            context="{'group_by':'product_id'}"/>
+                    <filter string="Location" name="group_location"
+                            context="{'group_by':'location_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tpl_stock_age_report" model="ir.actions.act_window">
+        <field name="name">Stock Time Report</field>
+        <field name="res_model">tpl.stock.age</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_over_30': 0}</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+         <record id="view_commission_make_settle_payment_form" model="ir.ui.view">
+            <field name="name">commission.make.settle.payment_form</field>
+            <field name="model">commission.make.settle</field>
+            <field name="inherit_id" ref="commission_oca.view_settled_wizard"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='settlement_type']" position="after">
+                    <field name="payment_date_type"/>
+            </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_settlement_line_tree_inherit2">
+            <field name="name">Settlement lines</field>
+            <field name="model">commission.settlement.line</field>
+            <field name="inherit_id" ref="commission_oca.view_settlement_line_tree" />
+            <field name="arch" type="xml">
+            <xpath expr="field[@name='date']" position="before">
+                <field name="payment_date" />
+            </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_settlement_form_inherit2">
+            <field name="name">Settlement</field>
+            <field name="model">commission.settlement</field>
+            <field name="inherit_id" ref="commission_oca.view_settlement_form" />
+            <field name="arch" type="xml">
+                <xpath
+                expr="//field[@name='line_ids']/list/field[@name='date']"
+                position="before"
+            >
+                    <field name="payment_date" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

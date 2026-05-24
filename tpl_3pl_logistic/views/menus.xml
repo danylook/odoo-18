@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Root ────────────────────────────────────────────────── -->
+    <menuitem id="menu_tpl_root"
+              name="3PL Logistics"
+              sequence="70"/>
+
+    <!-- ── Operations ─────────────────────────────────────────── -->
+    <menuitem id="menu_tpl_operations"
+              name="Operations"
+              parent="menu_tpl_root"
+              sequence="10"/>
+
+    <menuitem id="menu_tpl_warehouse_map"
+              name="Warehouse Map"
+              parent="menu_tpl_operations"
+              action="action_tpl_warehouse_map"
+              sequence="5"/>
+
+    <menuitem id="menu_tpl_truck_map"
+              name="Truck Tracking"
+              parent="menu_tpl_operations"
+              action="action_tpl_truck_map"
+              sequence="10"/>
+
+    <menuitem id="menu_tpl_clients"
+              name="3PL Clients"
+              parent="menu_tpl_operations"
+              action="action_tpl_client_partners"
+              sequence="20"/>
+
+    <menuitem id="menu_tpl_client_contacts"
+              name="Client Contacts"
+              parent="menu_tpl_operations"
+              action="action_tpl_client_contacts"
+              sequence="25"/>
+
+    <menuitem id="menu_tpl_stock_history"
+              name="Stock History"
+              parent="menu_tpl_operations"
+              action="action_tpl_stock_history"
+              sequence="30"/>
+
+    <!-- ── Configuration ──────────────────────────────────────── -->
+    <menuitem id="menu_tpl_config"
+              name="Configuration"
+              parent="menu_tpl_root"
+              sequence="90"/>
+
+    <!--
+        Handling Rates  = per-client fee per inbound receipt / outbound shipment
+                          auto-billed when a picking is validated
+        Storage Rates   = daily / monthly rate per unit in a warehouse location
+                          billed by the nightly and monthly cron jobs
+        Shipping Tiers  = weight / volume price tiers per carrier
+                          used for calculating transport costs
+    -->
+    <menuitem id="menu_tpl_client_rates"
+              name="Handling Rates"
+              parent="menu_tpl_config"
+              action="action_tpl_client_rate"
+              sequence="10"/>
+
+    <menuitem id="menu_tpl_fee_rates"
+              name="Storage Rates"
+              parent="menu_tpl_config"
+              action="action_tpl_fee_rate"
+              sequence="20"/>
+
+    <menuitem id="menu_tpl_delivery_rates"
+              name="Shipping Rate Tiers"
+              parent="menu_tpl_config"
+              action="action_tpl_delivery_rate"
+              sequence="30"/>
+
+
+    <menuitem id="menu_tpl_billing"
+              name="Billing"
+              parent="menu_tpl_root"
+              sequence="80"/>
+
+    <menuitem id="menu_tpl_invoices"
+              name="Invoices"
+              parent="menu_tpl_billing"
+              action="action_tpl_invoices"
+              sequence="10"/>
+
+
+    <!-- Reports -->
+    <menuitem id="menu_tpl_reports" name="Reports" parent="menu_tpl_root" sequence="75"/>
+    <menuitem id="menu_tpl_report_inbound" name="Inbound Report" parent="menu_tpl_reports" action="action_tpl_inbound_report" sequence="10"/>
+    <menuitem id="menu_tpl_report_outbound" name="Outbound Report" parent="menu_tpl_reports" action="action_tpl_outbound_report" sequence="20"/>
+    <menuitem id="menu_tpl_report_delivery" name="Delivery Report" parent="menu_tpl_reports" action="action_tpl_delivery_report" sequence="30"/>
+    <menuitem id="menu_tpl_report_stock_age" name="Stock Time Report" parent="menu_tpl_reports" action="action_tpl_stock_age_report" sequence="40"/>
+
+</odoo>

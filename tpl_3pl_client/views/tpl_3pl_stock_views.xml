@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tpl_3pl_stock_list" model="ir.ui.view">
+        <field name="name">tpl.3pl.stock.list</field>
+        <field name="model">tpl.3pl.stock</field>
+        <field name="arch" type="xml">
+            <list string="3PL Stock" create="false" edit="false" delete="false">
+                <field name="product_ref"/>
+                <field name="product_name"/>
+                <field name="qty_on_hand"/>
+                <field name="uom"/>
+                <field name="location"/>
+                <field name="last_sync"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tpl_3pl_stock" model="ir.actions.act_window">
+        <field name="name">3PL Stock</field>
+        <field name="res_model">tpl.3pl.stock</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Push to 3PL wizard -->
+    <record id="view_tpl_3pl_order_push_form" model="ir.ui.view">
+        <field name="name">tpl.3pl.order.push.form</field>
+        <field name="model">tpl.3pl.order.push</field>
+        <field name="arch" type="xml">
+            <form string="Push Order to 3PL">
+                <group>
+                    <group>
+                        <field name="order_type"/>
+                        <field name="origin"/>
+                        <field name="note"/>
+                    </group>
+                    <group>
+                        <field name="address" invisible="order_type == 'inbound'"/>
+                        <field name="contact_name" invisible="order_type == 'inbound'"/>
+                        <field name="contact_phone" invisible="order_type == 'inbound'"/>
+                    </group>
+                </group>
+                <field name="line_ids">
+                    <list editable="bottom">
+                        <field name="product_ref"/>
+                        <field name="product_name"/>
+                        <field name="qty"/>
+                    </list>
+                </field>
+                <footer>
+                    <button string="Push to 3PL" type="object"
+                            name="action_push" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tpl_3pl_order_push" model="ir.actions.act_window">
+        <field name="name">Push to 3PL</field>
+        <field name="res_model">tpl.3pl.order.push</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>

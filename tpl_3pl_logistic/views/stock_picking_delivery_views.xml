@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_picking_tpl_delivery_form" model="ir.ui.view">
+        <field name="name">stock.picking.tpl.delivery.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='extra']" position="after">
+                <page string="3PL Delivery" name="tpl_delivery"
+                      invisible="picking_type_code != 'outgoing'">
+                    <group>
+                        <group string="Carrier &amp; Weight">
+                            <field name="carrier_id"/>
+                            <field name="shipping_weight"/>
+                            <field name="tpl_shipping_volume"/>
+                        </group>
+                        <group string="Delivery Cost">
+                            <field name="tpl_delivery_cost"/>
+                            <field name="tpl_delivery_invoiced"/>
+                            <field name="tpl_handling_invoiced"/>
+                        </group>
+                    </group>
+                    <group invisible="tpl_delivery_invoiced">
+                        <button name="action_tpl_create_delivery_invoice"
+                                string="Create Delivery Invoice"
+                                type="object"
+                                class="btn-primary"
+                                invisible="tpl_delivery_cost == 0"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

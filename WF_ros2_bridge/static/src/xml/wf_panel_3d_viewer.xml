@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="WF_ros2_bridge.Panel3DViewer">
+        <div class="wf_ros2_viewer_wrap" t-ref="container">
+            <canvas t-ref="canvas"/>
+
+            <!-- Loading spinner -->
+            <div t-if="state.loading" class="wf_ros2_viewer_overlay">
+                <div class="spinner"/>
+                <span>Cargando visor 3D…</span>
+            </div>
+
+            <!-- Error -->
+            <div t-if="state.error" class="wf_ros2_viewer_overlay">
+                <span style="color:#ff6666">⚠ <t t-esc="state.error"/></span>
+            </div>
+
+            <!-- Legend HUD (bottom-left) -->
+            <div t-if="!state.loading and !state.error" class="wf_ros2_hud">
+                <div><span class="dot" style="background:#888888;"/> Pendiente: <b><t t-esc="state.counts.pending"/></b></div>
+                <div><span class="dot" style="background:#ffaa00;"/> En movimiento: <b><t t-esc="state.counts.moving"/></b></div>
+                <div><span class="dot" style="background:#22bb44;"/> Colocada: <b><t t-esc="state.counts.placed"/></b></div>
+                <div><span class="dot" style="background:#ff3333;"/> Error: <b><t t-esc="state.counts.error"/></b></div>
+                <div style="margin-top:4px; color:#aaa">Total: <b><t t-esc="state.pieceCount"/></b></div>
+            </div>
+
+            <!-- Controls hint (top-right) -->
+            <div t-if="!state.loading and !state.error" class="wf_ros2_controls_hint">
+                🖱 Arrastrar: rotar · Rueda: zoom · Clic derecho: mover
+            </div>
+
+            <!-- Tooltip -->
+            <div class="wf_ros2_tooltip" t-ref="tooltip"/>
+        </div>
+    </t>
+
+</templates>

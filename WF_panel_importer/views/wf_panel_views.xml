@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Vista tree para wf.panel -->
+        <record id="view_wf_panel_list" model="ir.ui.view">
+            <field name="name">wf.panel.list</field>
+            <field name="model">wf.panel</field>
+            <field name="arch" type="xml">
+                <list string="WF Panels">
+                    <field name="name"/>
+                    <field name="project"/>
+                    <field name="model"/>
+                    <field name="level"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista form para wf.panel -->
+        <record id="view_wf_panel_form" model="ir.ui.view">
+            <field name="name">wf.panel.form</field>
+            <field name="model">wf.panel</field>
+            <field name="arch" type="xml">
+                <form string="WF Panel">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="project"/>
+                            <field name="model"/>
+                            <field name="site_address"/>
+                            <field name="date"/>
+                            <field name="designer"/>
+                            <field name="level"/>
+                        </group>
+                        <notebook>
+                            <!-- <page string="Panel Lines">
+                                <field name="line_ids">
+                                    <tree string="Panel Lines">
+                                        <field name="label"/>
+                                        <field name="member"/>
+                                        <field name="description"/>
+                                        <field name="qty"/>
+                                        <field name="length"/>
+                                        <field name="width"/>
+                                    </list>
+                                </field>
+                            </page> -->
+                            <page string="Panels">
+                                <field name="section_ids" context="{'default_project_id': id}">
+                                    <list string="Paneles">
+                                        <field name="name"/>
+                                        <field name="component_count"/>
+                                        <!-- <field name="source_file"/> -->
+                                    </list>
+                                    <form string="Panel">
+                                        <sheet>
+                                            <group>
+                                                <field name="name"/>
+                                                <!-- <field name="source_file"/> -->
+                                            </group>
+                                            <field name="component_ids">
+                                                <list string="Componentes">
+                                                    <field name="sequence"/>
+                                                    <!-- <field name="svg_id"/> -->
+                                                    <field name="data_id"/>
+                                                    <field name="x"/>
+                                                    <field name="y"/>
+                                                    <!-- <field name="svg_width"/> -->
+                                                    <!-- <field name="svg_height"/> -->
+                                                    <field name="data_length"/>
+                                                    <field name="data_width"/>
+                                                    <field name="data_depth"/>
+                                                    <field name="data_orientation"/>
+                                                </list>
+                                            </field>
+                                            <footer>
+                                                <button name="action_show_piece_dictionary" type="object" string="Diccionario de piezas" class="btn-info"/>
+                                            </footer>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para wf.panel -->
+        <record id="action_wf_panel" model="ir.actions.act_window">
+            <field name="name">WF Panels</field>
+            <field name="res_model">wf.panel</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Menú raíz del módulo -->
+        <menuitem
+            id="menu_wf_panel_root"
+            name="WF Paneles"
+            sequence="10"
+            web_icon="WF_panel_importer,static/description/icon.PNG"
+        />
+
+        <!-- Menú para acceder a los paneles -->
+        <menuitem id="menu_wf_panel" name="Paneles" parent="menu_wf_panel_root" action="action_wf_panel" sequence="10"/>
+
+        <!-- Menú para importar paneles desde PDF (abre el wizard) -->
+        <menuitem id="menu_wf_import_pdf" name="Importar desde PDF" parent="menu_wf_panel_root" action="action_wf_panel_import_wizard" sequence="20"/>
+    </data>
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_tpl_3pl_client_root"
+              name="3PL"
+              sequence="90"
+              groups="base.group_user"/>
+    <menuitem id="menu_tpl_3pl_client_stock"
+              name="3PL Stock"
+              parent="menu_tpl_3pl_client_root"
+              action="action_tpl_3pl_stock"
+              sequence="10"/>
+</odoo>

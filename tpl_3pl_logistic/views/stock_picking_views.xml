@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_tpl" model="ir.ui.view">
+        <field name="name">stock.picking.form.tpl.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_id']" position="after">
+                <field name="tpl_owner_id" string="3PL Client" readonly="1"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_create_handling_invoice"
+                        type="object"
+                        string="Bill Handling"
+                        class="oe_stat_button"
+                        icon="fa-file-invoice"
+                        invisible="tpl_owner_id == False or tpl_handling_invoiced == True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

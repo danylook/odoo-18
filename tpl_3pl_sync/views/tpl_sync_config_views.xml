@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tpl_sync_config_form" model="ir.ui.view">
+        <field name="name">tpl.sync.config.form</field>
+        <field name="model">tpl.sync.config</field>
+        <field name="arch" type="xml">
+            <form string="3PL Sync Configuration">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Backend Connection">
+                            <field name="backend_url"/>
+                            <field name="backend_db"/>
+                            <field name="backend_user"/>
+                            <field name="backend_password" password="True"/>
+                            <field name="backend_owner_id"/>
+                        </group>
+                        <group string="Sync Steps">
+                            <field name="enabled_sale_confirm"/>
+                            <field name="enabled_pick"/>
+                            <field name="enabled_pack"/>
+                            <field name="enabled_out"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tpl_sync_config_list" model="ir.ui.view">
+        <field name="name">tpl.sync.config.list</field>
+        <field name="model">tpl.sync.config</field>
+        <field name="arch" type="xml">
+            <list string="3PL Sync Configurations">
+                <field name="name"/>
+                <field name="backend_url"/>
+                <field name="backend_db"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_tpl_sync_config" model="ir.actions.act_window">
+        <field name="name">3PL Sync Config</field>
+        <field name="res_model">tpl.sync.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_tpl_sync_root"
+              name="3PL Sync"
+              parent="stock.menu_stock_config_settings"
+              action="action_tpl_sync_config"
+              sequence="100"/>
+</odoo>

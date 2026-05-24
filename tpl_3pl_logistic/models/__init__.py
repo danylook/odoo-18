@@ -1,0 +1,17 @@
+from . import (
+    tpl_stock_age,
+    tpl_client_rate,
+    tpl_fee_rate,
+    tpl_stock_history,
+    stock_location,
+    product_template,
+    res_partner,
+    stock_move_line,
+    stock_picking,
+    account_move,
+    tpl_delivery_rate,
+    delivery_carrier,
+    tpl_delivery_picking,
+    tpl_3pl_api_key,
+    stock_picking_webhook,
+)

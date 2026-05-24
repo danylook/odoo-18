@@ -1,0 +1,53 @@
+<h2>WF Panel Importer</h2>
+<p>
+  Este módulo automatiza la captura de paneles tipo woodframe a partir de planos PDF del proveedor.
+  El pipeline combina OCR y análisis geométrico para detectar cada panel, interpretar sus capas y generar
+  en Odoo los registros maestros listos para fabricar: paneles, listas de materiales, rutas y órdenes.
+</p>
+
+<h3>Flujo principal</h3>
+<ol>
+  <li>Cargar en Odoo el PDF exportado desde la herramienta CAD compatible.</li>
+  <li>Ejecutar el asistente de importación para procesar los planos.</li>
+  <li>Revisar el informe de diagnóstico generado (paneles detectados, advertencias y descartes).</li>
+  <li>Confirmar los paneles importados y planificar la producción usando las BOM y MO creadas.</li>
+</ol>
+
+<h3>Requisitos de configuración</h3>
+<ul>
+  <li>
+    Definir el parámetro del sistema <code>wf_panel_importer.output_dir</code> en
+    <em>Ajustes &gt; Parámetros del sistema</em>. Indica la carpeta donde se guardan los PDFs procesados,
+    los archivos intermedios y los reportes de la importación. Se crea automáticamente con el valor
+    <code>/tmp/wf_panel_output</code>, pero puede apuntar a cualquier ruta accesible para el servicio Odoo.
+  </li>
+  <li>Garantizar permisos de lectura y escritura sobre dicha carpeta para el usuario que ejecuta Odoo.</li>
+</ul>
+
+<h3>Dependencias Python</h3>
+<p>Instale las siguientes librerías en el entorno de Odoo:</p>
+<ul>
+  <li>pdfplumber</li>
+  <li>PyPDF2</li>
+  <li>numpy</li>
+  <li>trimesh</li>
+  <li>lxml</li>
+  <li>pillow</li>
+  <li>pytesseract</li>
+  <li>opencv-python</li>
+  <li>svgwrite</li>
+</ul>
+
+<h3>Dependencias de sistema</h3>
+<ul>
+  <li>tesseract-ocr</li>
+  <li>inkscape (para generar SVG y realizar conversiones)</li>
+</ul>
+
+<h3>Resultados obtenidos</h3>
+<ul>
+  <li>Paneles woodframe con dimensiones, capas y referencias de materiales.</li>
+  <li>Listas de materiales y rutas de fabricación alineadas con cada panel.</li>
+  <li>Órdenes de fabricación generadas automáticamente listas para planificar.</li>
+  <li>Archivos de reportes y depuración guardados en la carpeta configurada.</li>
+</ul>

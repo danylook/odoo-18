@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="l10n_uy_fe_view_payment_form" model="ir.ui.view">
+                <field name="name">l10n_uy_fe.view.payment.form</field>
+                <field name="model">account.payment</field>
+                <field name="inherit_id" ref="account.view_account_payment_form"/>
+                <field name="arch" type="xml">
+                        <xpath expr="//sheet" position="inside">
+                                <notebook>
+                                        <page string="DGI" invisible="payment_type != 'inbound'">
+                                                <group string="Web Service">
+                                                        <field name="token" readonly="1"/>
+                                                        <field name="payload" readonly="1"/>
+                                                        <field name="biller_id" readonly="1"/>
+                                                        <field name="serie" readonly="1"/>
+                                                        <field name="numero" readonly="1"/>
+                                                        <field name="biller_hash" readonly="1"/>
+                                                </group>
+                                        </page>
+                                </notebook>
+                        </xpath>
+                        <xpath expr="//header" position="inside">
+                                <button name="post_payment_dgi" type="object"
+                                                string="Enviar a DGI"
+                                                invisible="state != 'posted' and not biller_id" />
+                        </xpath>
+                </field>
+        </record>
+
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tpl_stock_quant_list_owner_inherit" model="ir.ui.view">
+        <field name="name">tpl.stock.quant.list.owner</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='owner_id']" position="after">
+                <field name="tpl_client_owner_id"
+                       string="3PL Client Owner"
+                       readonly="1"
+                       optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

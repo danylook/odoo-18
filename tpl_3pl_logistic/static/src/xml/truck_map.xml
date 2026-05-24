@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="tpl_3pl_logistic.TruckMap">
+    <div class="tpl-truck-map-root">
+
+        <!-- Toolbar -->
+        <div class="tpl-truck-toolbar">
+            <span class="tpl-truck-title">
+                <i class="fa fa-truck me-2"/>Truck Tracking
+            </span>
+            <span class="tpl-truck-count">
+                <t t-esc="state.trucks.length"/> truck<t t-if="state.trucks.length !== 1">s</t> on map
+            </span>
+            <button class="btn btn-sm btn-outline-primary ms-3"
+                    t-on-click="refresh"
+                    t-att-disabled="state.loading">
+                <i class="fa fa-refresh me-1"/>Refresh
+            </button>
+        </div>
+
+        <!-- Loading -->
+        <t t-if="state.loading">
+            <div class="tpl-truck-loading">
+                <div class="spinner-border text-primary" role="status"/>
+                <span class="ms-3">Loading map...</span>
+            </div>
+        </t>
+
+        <!-- Error -->
+        <t t-elif="state.error">
+            <div class="alert alert-danger m-3">
+                <i class="fa fa-exclamation-triangle me-2"/>
+                <t t-esc="state.error"/>
+            </div>
+        </t>
+
+        <!-- Map -->
+        <t t-else="">
+            <t t-if="!state.loading and state.trucks.length === 0">
+                <div class="alert alert-info tpl-truck-no-trucks">
+                    <i class="fa fa-info-circle me-2"/>
+                    No active delivery trucks with GPS positions found.
+                    Set latitude and longitude on the driver contact record.
+                </div>
+            </t>
+            <div class="tpl-truck-map-container" t-ref="mapContainer"/>
+        </t>
+
+    </div>
+</t>
+
+</templates>

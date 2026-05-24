@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <!-- ── Wizard form view ──────────────────────────────────────────── -->
+    <record id="view_wf_ros_bridge_wizard_form" model="ir.ui.view">
+      <field name="name">wf.ros.bridge.wizard.form</field>
+      <field name="model">wf.ros.bridge.wizard</field>
+      <field name="arch" type="xml">
+        <form string="WF ROS Bridge">
+          <sheet>
+
+            <!-- Status banner -->
+            <div class="alert alert-success mb-3" role="status"
+                 invisible="bridge_status != 'running'">
+              <strong>Running</strong> — PID <field name="bridge_pid" readonly="1" nolabel="1"/>
+            </div>
+            <div class="alert alert-warning mb-3" role="status"
+                 invisible="bridge_status != 'stopped'">
+              <strong>Stopped</strong>
+            </div>
+
+            <group string="Panel / ROS Configuration">
+              <field name="section_name"/>
+              <field name="ros_setup_path"/>
+            </group>
+
+            <group string="Database Connection">
+              <field name="db_name"/>
+              <field name="db_host"/>
+              <field name="db_port"/>
+              <field name="db_user"/>
+              <field name="db_password" password="True"/>
+            </group>
+
+            <group string="Log (/tmp/wf_ros_bridge.log)">
+              <field name="log_tail" nolabel="1"
+                     widget="text"
+                     readonly="1"
+                     style="font-family:monospace;font-size:12px;height:180px;"/>
+            </group>
+
+          </sheet>
+          <footer>
+            <button name="action_start"
+                    type="object"
+                    string="Start Bridge"
+                    class="btn-primary"
+                    invisible="bridge_status == 'running'"/>
+            <button name="action_stop"
+                    type="object"
+                    string="Stop Bridge"
+                    class="btn-danger"
+                    invisible="bridge_status == 'stopped'"/>
+            <button name="action_refresh"
+                    type="object"
+                    string="Refresh"
+                    class="btn-secondary"/>
+            <button special="cancel" string="Close" class="btn-default"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <!-- ── Menu action ──────────────────────────────────────────────── -->
+    <record id="action_wf_ros_bridge_wizard" model="ir.actions.act_window">
+      <field name="name">ROS Bridge</field>
+      <field name="res_model">wf.ros.bridge.wizard</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_wf_ros_bridge"
+              name="ROS Bridge"
+              action="action_wf_ros_bridge_wizard"
+              parent="menu_wf_panel_root"
+              sequence="30"/>
+
+  </data>
+</odoo>

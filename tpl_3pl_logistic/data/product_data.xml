@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="product_handling_input" model="product.template">
+        <field name="name">Handling Charges - Input</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="list_price">0.0</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="description_sale">Handling charge for receiving goods into warehouse</field>
+    </record>
+
+    <record id="product_handling_output" model="product.template">
+        <field name="name">Handling Charges - Output</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="list_price">0.0</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="description_sale">Handling charge for dispatching goods from warehouse</field>
+    </record>
+
+    <record id="product_storage_ground" model="product.template">
+        <field name="name">Reserved Warehouse Space - Ground</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="list_price">0.35</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="description_sale">Daily storage fee for ground-level racking (Cat 1)</field>
+    </record>
+
+    <record id="product_storage_highbay" model="product.template">
+        <field name="name">Reserved Warehouse Space - High-Bay</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="list_price">0.55</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="description_sale">Daily storage fee for high-bay racking (Cat 2)</field>
+    </record>
+
+    <record id="product_quality_check" model="product.template">
+        <field name="name">Extra Quality Check</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="list_price">0.10</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="description_sale">Additional quality control inspection charge</field>
+    </record>
+
+    <record id="product_extras" model="product.template">
+        <field name="name">Extras / Miscellaneous</field>
+        <field name="type">service</field>
+        <field name="invoice_policy">order</field>
+        <field name="list_price">0.0</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="description_sale">Miscellaneous 3PL service charges</field>
+    </record>
+</odoo>

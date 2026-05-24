@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Vista form para wf.panel.section -->
+        <record id="view_wf_panel_section_form" model="ir.ui.view">
+            <field name="name">wf.panel.section.form</field>
+            <field name="model">wf.panel.section</field>
+            <field name="arch" type="xml">
+                <form string="Panel Sección">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="project_id"/>
+                            <field name="component_count"/>
+                        </group>
+                        <field name="component_ids">
+                            <list string="Componentes">
+                                <field name="data_id"/>
+                                <field name="data_length"/>
+                                <field name="data_width"/>
+                                <field name="data_depth"/>
+                            </list>
+                        </field>
+                    </sheet>
+                    <footer>
+                        <button name="action_show_piece_dictionary" type="object" string="Diccionario de piezas" class="btn-info"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

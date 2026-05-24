@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- ══ Cut Dictionary Wizard ══════════════════════════════════════════ -->
+        <record id="view_panel_mrp_dictionary_wizard_form" model="ir.ui.view">
+            <field name="name">panel.mrp.dictionary.wizard.form</field>
+            <field name="model">panel.mrp.dictionary.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cut Dictionary">
+                    <sheet>
+                        <group>
+                            <field name="section_id" readonly="1"/>
+                        </group>
+
+                        <!-- LENGTH-ONLY cuts ─────────────────────────── -->
+                        <separator string="Length-Only Cuts (lumber)"/>
+                        <field name="line_ids"
+                               domain="[('cut_type','=','length_only')]"
+                               context="{'default_cut_type': 'length_only'}">
+                            <list string="Length-Only Cuts" editable="bottom">
+                                <field name="base_product_exists" widget="boolean" string="✓" optional="show"/>
+                                <field name="lumber_type" readonly="1"/>
+                                <field name="length" readonly="1" string="Length (in)"/>
+                                <field name="qty" readonly="1"/>
+                                <field name="base_product_id"
+                                       string="Base Product"
+                                       options="{'no_create': true}"/>
+                                <field name="cut_product_name" readonly="1" string="→ Cut Product"/>
+                            </list>
+                        </field>
+
+                        <!-- LENGTH × WIDTH cuts ──────────────────────── -->
+                        <separator string="Length × Width Cuts (sheet goods)"/>
+                        <field name="line_ids"
+                               domain="[('cut_type','=','length_width')]"
+                               context="{'default_cut_type': 'length_width'}">
+                            <list string="Length × Width Cuts" editable="bottom">
+                                <field name="base_product_exists" widget="boolean" string="✓" optional="show"/>
+                                <field name="lumber_type" readonly="1"/>
+                                <field name="length" readonly="1" string="Length (in)"/>
+                                <field name="width"  readonly="1" string="Width (in)"/>
+                                <field name="qty" readonly="1"/>
+                                <field name="base_product_id"
+                                       string="Base Product"
+                                       options="{'no_create': true}"/>
+                                <field name="cut_product_name" readonly="1" string="→ Cut Product"/>
+                            </list>
+                        </field>
+                    </sheet>
+                    <footer>
+                        <button name="action_create_bom"
+                                type="object"
+                                string="Create BOM"
+                                class="btn-primary"/>
+                        <button special="cancel" string="Close"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

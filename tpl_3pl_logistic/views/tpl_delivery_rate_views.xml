@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List view -->
+    <record id="view_tpl_delivery_rate_list" model="ir.ui.view">
+        <field name="name">tpl.delivery.rate.list</field>
+        <field name="model">tpl.delivery.rate</field>
+        <field name="arch" type="xml">
+            <list string="Delivery Rate Tiers">
+                <field name="name"/>
+                <field name="carrier_id"/>
+                <field name="min_weight"/>
+                <field name="max_weight"/>
+                <field name="base_price"/>
+                <field name="price_per_kg"/>
+                <field name="price_per_m3"/>
+                <field name="currency_id" groups="base.group_multi_currency"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_tpl_delivery_rate_form" model="ir.ui.view">
+        <field name="name">tpl.delivery.rate.form</field>
+        <field name="model">tpl.delivery.rate</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Rate Tier">
+                <sheet>
+                    <group>
+                        <group string="Identification">
+                            <field name="name"/>
+                            <field name="carrier_id"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Weight Range (kg)">
+                            <field name="min_weight"/>
+                            <field name="max_weight"/>
+                            <field name="volumetric_factor"/>
+                        </group>
+                    </group>
+                    <group string="Pricing">
+                        <group>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                            <field name="base_price"/>
+                            <field name="price_per_kg"/>
+                            <field name="price_per_m3"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="view_tpl_delivery_rate_search" model="ir.ui.view">
+        <field name="name">tpl.delivery.rate.search</field>
+        <field name="model">tpl.delivery.rate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="carrier_id"/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_tpl_delivery_rate" model="ir.actions.act_window">
+        <field name="name">Delivery Rate Tiers</field>
+        <field name="res_model">tpl.delivery.rate</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{"search_default_active": 1}</field>
+    </record>
+</odoo>
