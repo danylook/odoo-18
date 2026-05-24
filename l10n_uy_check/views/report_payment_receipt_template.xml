@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  
+  <template id="report_payment_receipt_inherit" inherit_id="account.report_payment_receipt_document">
+    <xpath expr="//div[@class='oe_structure']" position="before">
+      <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Número de Cheque</th>
+                    <th>Fecha de Deposito</th>
+                    <th>Fecha de Emisión</th>
+                    <th>Moneda</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-set="cheques" t-value="o.check_ids"/>
+                <tr t-foreach="cheques" t-as="cheque">
+                    <td><t t-esc="cheque.check_number"/></td>
+                    <td><t t-esc="cheque.deposit_date"/></td>
+                    <td><t t-esc="cheque.payment_date"/></td>
+                    <td><t t-esc="cheque.currency_id.name"/></td>
+                    <td><t t-esc="cheque.amount"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </xpath>
+  </template>
+</odoo>

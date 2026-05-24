@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="exchange_rate_account_payment_form">
+        <field name="name">exchange.rate.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="date" position="before">
+                <field name="display_exchange_rate" invisible="1"/>
+                <field name="amount_uyu" invisible="not display_exchange_rate"/>
+                <field name="exchange_rate" invisible="not display_exchange_rate"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="reconcile_account_payment_form">
+		<field name="name">reconcile.account.payment.form</field>
+		<field name="model">account.payment</field>
+		<field name="inherit_id" ref="account.view_account_payment_form"></field>
+		<field name="arch" type="xml">
+			<field name="state" position="before">
+				<button name="btn_add_invoices" type="object"
+					string="Agregar Facturas" 
+					class="btn-primary"
+					invisible="state not in ['draft'] or payment_type not in ['inbound']" />
+			</field>
+			<xpath expr="//sheet" position="inside">
+				<notebook>
+					<page string="Facturas">
+						<group>
+							<field name="reconcile_ids">
+							<list create="0" edit="0">
+								<field name="move_id" />
+								<field name="amount" sum="Total Amount"/>
+								<field name="amount_residual" sum="Total Residual"/>
+								<field name="amount_currency" sum="Total Currency"/>
+								<field name="amount_residual_currency" sum="Total Residual Currency"/>
+								<field name="account_id" />
+								<field name="currency_id" />
+							</list>
+						</field>
+						</group>
+						<group>
+							<field name="exchange_move_id" readonly="1" />
+						</group>
+					</page>
+				</notebook>
+			</xpath>
+		</field>
+	</record>
+
+
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="exchange_rate_account_payment_form">
+        <field name="name">exchange.rate.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+		<field name="date" position="before">
+			<field name="display_exchange_rate"
+				invisible="1"/>
+                        <field name="amount_uyu"
+                                attrs="{'invisible': [('display_exchange_rate','=',False)]}"
+                                />
+			<field name="exchange_rate" 
+				attrs="{'invisible': [('display_exchange_rate','=',False)]}"
+				/>
+<!--			<field name="conversion_rate_real"-->
+<!--				attrs="{'invisible': [('display_exchange_rate','=',False)]}"-->
+<!--				/>-->
+		</field>
+	</field>
+    </record>
+
+</odoo>

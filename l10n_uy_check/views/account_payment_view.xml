@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="l10n_uy_check_account_payment_search">
+		<field name="name">l10n_uy_check.account.payment.search</field>
+		<field name="model">account.payment</field>
+		<field name="inherit_id" ref="account.view_account_payment_search"></field>
+		<field name="arch" type="xml">
+			<field name="journal_id" position="after">
+				<field name="check_number" />
+			</field>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="l10n_uy_check_account_payment_form">
+		<field name="name">l10n_uy_check.account.payment.form</field>
+		<field name="model">account.payment</field>
+		<field name="inherit_id" ref="account-payment-reconcile.reconcile_account_payment_form"></field>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook" position="inside">
+				<page string="Cheques" modifiers="{'invisible': [('is_check', '=', False)]}">
+					<field name="is_check" invisible="1" />
+					<field name="check_ids" >
+						<list editable="bottom">
+							<field name="check_number" />
+							<field name="bank_id" options="{'no_create': True, 'no_create_edit':True}"/>
+							<field name="payment_date" />
+							<field name="amount" />
+							<field name="state" readonly="1"/>
+							<field name="currency_id" readonly="1"/>
+						</list>
+					</field>
+				</page>
+			</xpath>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="account_check_form">
+		<field name="name">l10n_uy_check.account.form</field>
+		<field name="model">account.check</field>
+		<field name="arch" type="xml">
+			<form edit="1" delete="0" create="0">
+				<header>
+					<button name="btn_deposit_check"
+						string="Depositar"
+						type="object"
+						modifiers="{'invisible': [('state', '!=', 'holding')]}"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<group>
+					<field name="check_number" readonly="1"/>
+					<field name="payment_id" readonly="1"/>
+					<field name="bank_id" readonly="1"/>
+					<field 	name="deposit_journal_id" 
+						domain="[('type','=','bank')]"
+						options="{'no_create': True, 'no_create_edit':True}"/>
+					<field name="payment_date" readonly="1"/>
+					<field name="deposit_date" />
+					<field name="amount" readonly="1"/>
+					<field name="currency_id" readonly="1"/>
+					<field name="deposit_move_id" readonly="1"/>
+				</group>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="account_check_tree">
+		<field name="name">l10n_uy_check.account.tree</field>
+		<field name="model">account.check</field>
+		<field name="arch" type="xml">
+			<list string="Cheques" decoration-success="state == 'deposited'"
+				  decoration-danger="state == 'cancel'"
+				  decoration-warning="state == 'holding'">
+           		<field name="payment_id" decoration-bf="1"/>
+				<field name="check_number" />
+				<field name="bank_id" />
+				<field name="deposit_journal_id"/>
+				<field name="payment_date" />
+				<field name="deposit_date" />
+				<field name="amount" />
+				<field name="state" />
+				<field name="currency_id" />
+			</list>
+		</field>
+	</record>
+
+
+    <record model="ir.actions.act_window" id="action_account_check">
+        <field name="name">Cheques</field>
+        <field name="res_model">account.check</field>
+	<field name="view_mode">tree,form</field>
+	<field name="view_id" ref="l10n_uy_check.account_check_tree"></field>
+    </record>
+
+   <menuitem action="action_account_check" 
+		id="menu_account_payment_check" sequence="110" 
+		parent="account.menu_finance_receivables"/>
+
+</odoo>

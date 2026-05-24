@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <record model="ir.actions.act_window" id="action_res_bank">
+        <field name="name">Bancos</field>
+        <field name="res_model">res.bank</field>
+	<field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="action_res_bank" 
+		id="menu_res_bank" sequence="100" 
+		parent="account.menu_finance_receivables"/>
+
+</odoo>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_puntagorda" model="report.paperformat">
+            <field name="name">Puntagorda A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">7</field>
+            <field name="margin_bottom">7</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="report_account_invoice_puntagorda" model="ir.actions.report">
+            <field name="name">Factura Lume</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">puntagorda-invoice-report.report_invoice_puntagorda</field>
+            <field name="report_file">puntagorda-invoice-report.report_invoice_puntagorda</field>
+	    <field name="print_report_name">'Factura - %s' % (object.name)</field>
+	    <field name="paperformat_id" ref="puntagorda-invoice-report.paperformat_puntagorda"></field>
+            <field name="binding_type">report</field>
+        </record>	
+
+	<template id="report_invoice_puntagorda">
+	    <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+			<div class="article" >
+				<div class="row tope-logo">
+					<div class="col-4">
+						<img t-attf-src="data:image/*;base64,{{o.company_id.logo}}"
+							style="max-height: 150px;"/>
+					</div>
+					<div class="col-8" >
+						<table style="border: 1px solid; width: 100%;">
+							<thead>
+								<tr style="text-align: center; border: 1px solid; background-color: lightgray;">
+									<td>RUT</td>
+									<td>Tipo Comprobante</td>
+									<td>Número</td>
+								</tr>
+								<tr style="text-align: center; border: 1px solid;">
+									<td><span t-esc="o.company_id.partner_id.vat" /></td>
+									<td><span t-esc="o.l10n_latam_document_type_id.display_name" /></td>
+									<td><span t-esc="o.name" /></td>
+								</tr>
+							</thead>
+						</table>
+						<br />
+						<table style="border: 1px solid; width: 100%;">
+							<thead>
+								<tr style="text-align: center; border: 1px solid; background-color: lightgray;">
+									<th>Fecha Emision</th>
+									<th>Vencimiento</th>
+									<th>Moneda</th>
+									<th>Forma de Pago</th>
+								</tr>
+								<tr style="text-align: center; border: 1px solid;">
+									<td><span t-esc="o.invoice_date" /></td>
+									<td><span t-esc="o.invoice_date_due" /></td>
+									<td><span t-esc="o.currency_id.name" /></td>
+									<td>Crédito</td>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row tope-emisor-comprador">
+					<div class="col-4">
+						<strong><span t-esc="o.company_id.display_name" /></strong><br />
+						<span t-esc="o.company_id.partner_id.street + ', ' + o.company_id.partner_id.city" /><br />
+						e-mail: <span t-esc="o.company_id.partner_id.email" /><br />
+						tel.: <span t-esc="o.company_id.partner_id.phone" />
+					</div>
+					<div class="col-4" style="border: 1px solid; padding-top: 5px; text-align: center;">
+						<br />
+						RUT COMPRADOR<br />
+						<span t-esc="o.partner_id.vat" />
+					</div>
+					<div class="col-4" style="border: 1px solid; padding-top: 15px; text-align: center;">
+						<strong><span t-esc="o.partner_id.display_name" /></strong><br />
+						<span t-esc="o.partner_id.street" /><br />
+						<span t-esc="o.partner_id.city" /><br />
+					</div>
+				</div>
+				<br />
+				<br />
+				<br />
+				<div class="row">
+					<div class="col-12">
+						<table class="table lineas" style="font-size: 12px;">
+							<thead>
+								<tr style="font-weight: bold; background-color: lightgray;">
+									<th style="width: 60%; padding-top: 2px; padding-bottom: 2px;">Concepto</th>
+									<th style="width: 10%; padding-top: 2px; padding-bottom: 2px;" class="text-right">Precio Ud.</th>
+									<th style="width: 10%; padding-top: 2px; padding-bottom: 2px;" class="text-right">Descuento %.</th>
+									<th style="width: 10%; padding-top: 2px; padding-bottom: 2px;" class="text-right">Cantidad</th>
+									<th style="width: 10%; padding-top: 2px; padding-bottom: 2px;" class="text-right">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<t t-foreach="o.invoice_line_ids" t-as="line">
+									<tr style="height: 10px;">
+										<td style="width: 60%; padding-top: 2px; padding-bottom: 2px;"><span t-esc="line.name" /></td>
+										<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"
+											class="text-right"><span t-esc="round(line.price_unit,2)" /></td>
+										<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"
+											class="text-right"><span t-esc="round(line.discount,2)" /></td>
+										<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"
+											class="text-right"><span t-esc="round(line.quantity,2)" /></td>
+										<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"
+											class="text-right"><span t-esc="round(line.price_subtotal,2)" /></td>
+									</tr>
+								</t>
+								<tr>
+									<td style="width: 60%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;">Subtotal Neto</td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"
+										class="text-right"><span t-esc="round(o.amount_untaxed,2)"></span></td>
+								</tr>
+								<tr>
+									<td style="width: 60%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;">Monto IVA 22%</td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;" class="text-right">
+										<span t-esc="round(o.amount_total - o.amount_untaxed,2)" /></td>
+								</tr>
+								<tr>
+									<td style="width: 60%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; padding-top: 2px; padding-bottom: 2px;"></td>
+									<td style="width: 10%; font-weight: bold; background-color: lightgray; padding-top: 2px; padding-bottom: 2px;">Total</td>
+									<td style="width: 10%; font-weight: bold; background-color: lightgray; padding-top: 2px; padding-bottom: 2px;"
+										class="text-right"><span t-esc="round(o.amount_total,2)" /></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<br />
+				<div class="row narration" t-if="o.narration">
+					<div class="col-12" style="font-size: 10px;">
+						<span t-field="o.narration" />
+					</div>
+				</div>
+				<br />
+				<div class="row notas">
+					<div class="col-12" t-if="o.extra_footer_line" style="font-size: 10px;">
+						<span t-field="o.extra_footer_line" />
+					</div>
+				</div>
+				<br />
+				<div class="row pie" style="border-top: 1px gray; padding-top: 2px;">
+					<div class="col-2">
+						<img t-attf-src="data:image/*;base64,{{o.qr_code}}"
+							style="max-height: 100px;"/>
+					</div>
+					<div class="col-7" style="font-size: 8px;">
+						Fecha emisor <span t-esc="o.invoice_date" /><br />
+						Puede verificar la factura en efactura.dgi.gob.uy<br />
+						IVA al dia<br />
+						CAE <span t-esc="o.cae_nro" /><br />
+						Serie <span t-esc="o.serie" /><br />
+						Nro. <span t-esc="o.numero" /><br />
+						Rango <span t-esc="o.cae_inicio" /> - <span t-esc="o.cae_fin"/><br />
+						C.S.: 36x312<br />
+					</div>
+					<div class="col-3 text-center" style="background-color: lightgray; font-size: 12px;">
+						<br />
+						<br />
+						Fecha expiración<br />
+						<span t-esc="o.cae_fecha_expiracion" />
+					</div>
+				</div>
+			</div>
+        	</t>
+	    </t>
+	</template>
+
+    </data>
+
+</odoo>
+

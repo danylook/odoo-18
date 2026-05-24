@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_uy_check_view_account_journal_form" model="ir.ui.view">
+        <field name="name">l10n_uy_check.view.account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+	    <field name="code" position="after">
+		    <field name="is_check" 
+			    modifiers="{'readonly': [('type', '!=', 'bank')]}"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
