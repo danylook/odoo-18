@@ -1,13 +1,169 @@
 # WF ROS2 Bridge
 
-**Puente de integración entre Odoo y sistemas robóticos ROS2** para monitorización en tiempo real del estado de colocación de piezas durante la fabricación de paneles.
+**Versión:** 18.0.1.0.3  
+**Repositorio:** [github.com/danylook/WF_ros2_bridge](https://github.com/danylook/WF_ros2_bridge)
+
+Puente de integración entre **Odoo 18** y sistemas robóticos **ROS2** para monitorización en tiempo real del estado de colocación de piezas durante la fabricación de paneles woodframe.
 
 ---
 
-## 📦 Estructura del addon
+## 📁 Estructura del addon
 
 ```
 WF_ros2_bridge/
+├── __manifest__.py              → Declaración del módulo
+├── __init__.py
+├── controllers/
+│   ├── __init__.py
+│   ├── ros2_api.py              → API REST (inbound desde ROS2)
+│   ├── ping_test.py             → Healthcheck simple
+│   └── lazy_test.py             → Healthcheck alternativo
+├── models/
+│   ├── __init__.py
+│   ├── wf_ros2_piece_status.py  → Modelo de estado de piezas
+│   ├── wf_ros2_bridge_mrp.py    → Botón "Enviar a Robot"
+│   ├── wf_ros2_res_config.py    → Configuración del bridge
+│   └── wf_ros2_res_config_settings.py → Config extendida
+├── security/
+│   └── ir.model.access.csv      → Permisos
+├── static/
+│   ├── description/index.html   → Descripción del módulo
+│   └── src/
+│       ├── css/wf_panel_3d_viewer.css
+│       ├── js/wf_panel_3d_viewer.js
+│       └── xml/wf_panel_3d_viewer.xml
+└── views/
+    ├── mrp_production_views.xml
+    ├── wf_ros2_piece_status_views.xml
+    └── wf_ros2_bridge_settings.xml
+```
+
+---
+
+## 🧩 Modelos
+
+### `wf.ros2.piece.status` — `WFRos2PieceStatus`
+
+Rastrea el estado de colocación de cada pieza del panel.
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `component_id` | Many2one → `wf.panel.component` | Pieza del panel |
+| `section_id` | Related → `component_id.section_id` | Sección (store=True) |
+| `production_id` | Many2one → `mrp.production` | Orden de fabricación |
+| `state` | Selection | `pending` / `moving` / `placed` / `error` |
+| `robot_id` | Char | Identificador del robot |
+| `x_actual`, `y_actual`, `z_actual` | Float | Posición real reportada por ROS2 |
+| `x_target`, `y_target` | Related → `component_id.x/y` | Posición objetivo |
+| `updated_at` | Datetime | Última actualización |
+| `note` | Text | Nota ROS2 |
+
+**Métodos:**
+
+| Método | Descripción |
+|---|---|
+| `write(vals)` | Sobrescribe ORM: actualiza `updated_at`, dispara notificación bus + webhook si cambia `state` |
+| `_broadcast_state_change()` | Envía actualización por bus de Odoo al canal `wf_ros2_section_<id>` (visor 3D en tiempo real) |
+| `_notify_ros2_bridge(section_id, updates)` | POSTea cambios de estado al bridge ROS2 externo (webhook HTTP) |
+| `_ensure_for_production(env, production)` | **(classmethod)** Crea registros de estado faltantes para todos los componentes de una MO (idempotente) |
+
+### `mrp.production` — `MrpProductionROS2` (inherit)
+
+| Campo/Método | Descripción |
+|---|---|
+| `ros2_bridge_url` | Char (compute) — URL del bridge desde parámetros del sistema |
+| `_compute_ros2_bridge_url()` | Lee `wf.ros2.bridge_url` de `ir.config_parameter` |
+| `action_send_to_robot()` | **Botón "Enviar a Robot"** — envía MO + cutting_list al bridge via `POST /start_job` |
+
+### `res.config.settings` — Configuración
+
+| Campo | Parámetro sistema | Descripción |
+|---|---|---|
+| `wf_ros2_bridge_url` | `wf.ros2.bridge_url` | URL del bridge ROS2 |
+| `wf_ros2_odoo_url` | `wf.ros2.odoo_url` | URL de Odoo para el bridge |
+| `wf_ros2_odoo_db` | `wf.ros2.odoo_db` | Base de datos |
+| `wf_ros2_odoo_user` | `wf.ros2.odoo_user` | Usuario Odoo para robot |
+| `wf_ros2_odoo_password` | `wf.ros2.odoo_password` | Contraseña |
+| `wf_ros2_bridge_timeout` | `wf.ros2.bridge_timeout` | Timeout (segundos) |
+| `wf_ros2_bridge_port` | `wf.ros2.bridge_port` | Puerto del bridge |
+| `wf_ros2_poll_interval` | `wf.ros2.poll_interval` | Intervalo de polling (s) |
+
+---
+
+## 🌐 API REST
+
+Todas las rutas bajo `/api/wf/ros2/`. Autenticación vía **Bearer token** (API key de Odoo) o sesión web.
+
+### Endpoints
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| **GET** | `/api/wf/ros2/section/<id>/status` | Estado completo de una sección (piezas + estado ROS2) |
+| **GET** | `/api/wf/ros2/production/<id>/status` | Estado filtrado por MO |
+| **GET** | `/api/wf/ros2/productions/assembly` | Lista MOs de ensamblaje activas (descubrimiento ROS2) |
+| **POST** | `/api/wf/ros2/piece/update` | ROS2 envía cambios de estado de una o varias piezas |
+| **POST** | `/api/wf/ros2/workorder/<id>/acknowledge` | Robot confirma inicio de WO |
+| **GET** | `/api/ping` | Healthcheck simple |
+| **GET** | `/api/lazy/ping` | Healthcheck alternativo |
+
+### Helpers internos del controlador
+
+| Helper | Descripción |
+|---|---|
+| `_get_env()` | Autentica via Bearer token o sesión web |
+| `_serialize_piece(comp, status_map)` | Serializa componente con estado ROS2 |
+| `_build_status_response(env, section, production)` | Construye JSON completo de estado |
+| `_json_resp(data, status)` | Normaliza respuesta JSON |
+| `_err(msg, status)` | Normaliza respuesta de error |
+
+---
+
+## 🎮 Visor 3D en Tiempo Real
+
+Widget OWL con **Three.js** que se inyecta como pestaña **"Vista 3D — ROS2"** en el formulario de la MO.
+
+- Cubos 3D coloreados por estado: gris (pendiente), naranja (moviendo), verde (colocada), rojo (error)
+- Suelo verde semitransparente + grid helper
+- Leyenda HUD con conteos en vivo
+- Tooltip al hacer hover
+- Controles: arrastrar (rotar), rueda (zoom), click derecho (mover)
+- Actualización instantánea vía Odoo Bus + polling fallback cada 5s
+
+---
+
+## 🔄 Flujo de datos
+
+```
+ROS2 Robot                     Odoo                          Browser (Usuario)
+    │                            │                                │
+    │ POST /workorder/5/acknowledge                               │
+    │───────────────────────────▶│  button_start()                │
+    │                            │  Crea status records           │
+    │                            │                                │
+    │ POST /piece/update         │                                │
+    │ (pieza → "moving")         │                                │
+    │───────────────────────────▶│                                │
+    │                            │  write() → bus notification   │
+    │                            │──────────────────────────────▶│ 3D: naranja
+    │                            │  → webhook HTTP a ROS2 bridge │
+    │ POST /piece/update         │                                │
+    │ (pieza → "placed")         │                                │
+    │───────────────────────────▶│                                │
+    │                            │  write() → bus notification   │
+    │                            │──────────────────────────────▶│ 3D: verde
+```
+
+---
+
+## ⚙️ Parámetros del sistema
+
+| Clave | Valor | Descripción |
+|---|---|---|
+| `wf.ros2.bridge_url` | `https://ros2.ecolight.com.uy` | URL del bridge ROS2 |
+| `wf.ros2.odoo_db` | `wally` | Base de datos Odoo |
+| `wf.ros2.odoo_password` | `admin_ecolight` | Contraseña del usuario Odoo |
+| `wf.ros2.odoo_url` | `https://wally.ecolight.com.uy` | URL pública de Odoo |
+| `wf.ros2.odoo_user` | `info@ecolight.com.uy` | Email del usuario Odoo |
 ├── __manifest__.py          → Declaración del módulo
 ├── controllers/
 │   └── ros2_api.py          → API REST (inbound desde ROS2)
