@@ -1,6 +1,6 @@
 {
     "name": "WF Panel Importer",
-    "version": "18.0.2.4.0",
+    "version": "18.0.2.5.0",
     "license": "AGPL-3",
     "summary": "Import woodframe panel data from PDF and generate BOM and MO (WF version)",
     "description": """

@@ -1,0 +1,72 @@
+<h1>🧩 WF ROS2 Bridge</h1>
+<p>Puente de integración entre <b>Odoo</b> y sistemas robóticos <b>ROS2</b> para monitorización en tiempo real del estado de colocación de piezas durante la fabricación de paneles.</p>
+
+<hr/>
+
+<h2>🔧 Modelo: <code>wf.ros2.piece.status</code></h2>
+<p>Por cada pieza de un panel se crea un registro que guarda el estado ROS2:</p>
+<ul>
+    <li><b>State:</b> <code>pending</code> → <code>moving</code> → <code>placed</code> / <code>error</code></li>
+    <li><b>Posición real</b> (x, y, z) reportada por el robot</li>
+    <li><b>Posición objetivo</b> copiada del componente del panel</li>
+    <li><b>Robot ID</b> que realizó la colocación</li>
+</ul>
+<p>Al cambiar de estado: notifica por bus de Odoo (tiempo real) y dispara un webhook HTTP al bridge ROS2.</p>
+
+<hr/>
+
+<h2>🌐 API REST</h2>
+<p>Todas las rutas bajo <code>/api/wf/ros2/</code> con autenticación vía Bearer token o sesión:</p>
+<table border="1" cellpadding="4" style="border-collapse:collapse; width:100%;">
+    <tr style="background:#1a1a2e; color:white;">
+        <th>Método</th><th>Ruta</th><th>Descripción</th>
+    </tr>
+    <tr><td>GET</td><td>/api/wf/ros2/section/&lt;id&gt;/status</td><td>Estado completo de una sección</td></tr>
+    <tr><td>GET</td><td>/api/wf/ros2/production/&lt;id&gt;/status</td><td>Estado filtrado por MO</td></tr>
+    <tr><td>GET</td><td>/api/wf/ros2/productions/assembly</td><td>MOs de ensamblaje activas</td></tr>
+    <tr><td>POST</td><td>/api/wf/ros2/piece/update</td><td>ROS2 envía cambios de estado de piezas</td></tr>
+    <tr><td>POST</td><td>/api/wf/ros2/workorder/&lt;id&gt;/acknowledge</td><td>Robot inicia orden de trabajo</td></tr>
+</table>
+
+<hr/>
+
+<h2>🎮 Visor 3D en Tiempo Real</h2>
+<p>Widget OWL con <b>Three.js</b> que se inyecta como pestaña <b>"Vista 3D — ROS2"</b> en las órdenes de fabricación:</p>
+<ul>
+    <li>✅ Cubos 3D coloreados por estado: gris (pendiente), naranja (moviendo), verde (colocada), rojo (error)</li>
+    <li>✅ Suelo verde y grid helper como referencia</li>
+    <li>✅ Leyenda HUD con conteos en vivo</li>
+    <li>✅ Tooltip al hacer hover sobre cada pieza</li>
+    <li>✅ Controles: arrastrar para rotar, rueda para zoom, click derecho para mover</li>
+    <li>✅ Actualización instantánea vía Odoo Bus + polling fallback cada 5s</li>
+</ul>
+
+<hr/>
+
+<h2>⚙️ Configuración</h2>
+<ul>
+    <li><b>Dependencias:</b> WF_panel_manufacturing, model_viewer_widget</li>
+    <li><b>Autenticación:</b> API Keys de Odoo (Bearer token)</li>
+</ul>
+
+<h3>Parámetros del sistema (ir.config_parameter)</h3>
+<table border="1" cellpadding="4" style="border-collapse:collapse; width:100%;">
+    <tr style="background:#1a1a2e; color:white;">
+        <th>Clave</th><th>Valor</th><th>Descripción</th>
+    </tr>
+    <tr><td><code>wf.ros2.bridge_url</code></td><td>https://ros2.ecolight.com.uy</td><td>URL del bridge ROS2 para webhook de estado de piezas</td></tr>
+    <tr><td><code>wf.ros2.odoo_db</code></td><td>wally</td><td>Base de datos Odoo para autenticación del robot</td></tr>
+    <tr><td><code>wf.ros2.odoo_password</code></td><td>admin_ecolight</td><td>Contraseña del usuario Odoo para el robot ROS2</td></tr>
+    <tr><td><code>wf.ros2.odoo_url</code></td><td>https://wally.ecolight.com.uy</td><td>URL pública de Odoo para consultas del robot</td></tr>
+    <tr><td><code>wf.ros2.odoo_user</code></td><td>info@ecolight.com.uy</td><td>Email del usuario Odoo para autenticación ROS2</td></tr>
+    <tr><td><code>wf_panel_importer.output_dir</code></td><td>/tmp/wf_panel_output</td><td>Directorio temporal para archivos generados por el importador</td></tr>
+    <tr><td><code>wf_panel_importer.svg_temp_dir</code></td><td>/opt/odoo18/extra-addons/others-18.0/WF_panel_importer/data_importer/</td><td>Directorio de SVGs de paneles para el importador</td></tr>
+</table>
+
+<hr/>
+
+<h2>📋 Menús</h2>
+<ul>
+    <li><b>Fabricación → ROS2 Bridge → Estado de piezas</b></li>
+    <li><b>Dentro de una MO:</b> Pestaña "Vista 3D — ROS2"</li>
+</ul>

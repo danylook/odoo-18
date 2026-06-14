@@ -2,10 +2,25 @@
 <odoo>
 
     <!--
-        Inject the 3D viewer into the MO form as a "Vista 3D — ROS2" page.
-        The page only appears when a panel_section_id is linked (i.e., WF panels).
-        Uses the wf_panel_3d_viewer view_widget registered in JS.
+        Botón "Send to Robot" en el header de la MO.
     -->
+    <record id="view_mrp_production_wf_ros2_button" model="ir.ui.view">
+        <field name="name">mrp.production.wf.ros2.button</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_send_to_robot"
+                        type="object"
+                        string="Enviar a Robot"
+                        class="btn-primary"
+                        invisible="state not in ('confirmed', 'progress')"
+                        groups="mrp.group_mrp_manager"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 3D Viewer page inject -->
     <record id="view_mrp_production_wf_ros2_3d" model="ir.ui.view">
         <field name="name">mrp.production.wf.ros2.3d</field>
         <field name="model">mrp.production</field>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Action to open ROS2 Bridge settings -->
+    <record id="action_wf_ros2_bridge_settings" model="ir.actions.act_window">
+        <field name="name">ROS2 Bridge</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <!-- Menu item under Manufacturing (root) -->
+    <menuitem id="menu_wf_ros2_bridge_settings"
+              name="ROS2 Bridge"
+              parent_id="mrp.mrp_menu_root"
+              action="action_wf_ros2_bridge_settings"
+              sequence="99"/>
+
+</odoo>
